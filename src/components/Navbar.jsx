@@ -9,6 +9,7 @@ import { ShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
+import decodeJWT from '../utils/decodeJWT';
 
 const Navbar = () => {
     const [isSidebarOpen, setSidebar] = useState(false);
@@ -64,6 +65,14 @@ const Navbar = () => {
                 link.name !== "Help & Support";
         }
     });
+
+    const adminNavlinks = [
+        { name: "Create Product", link: "/admin/products/create" },
+        { name: "View Products", link: "/admin/products" },
+        { name: "View Orders", link: "/admin/orders" },
+        { name: "View Issues", link: "/admin/help" },
+        { name: "View Users", link: "/admin/users" },
+    ];
 
     return (
         <nav className="bg-white shadow-md">
@@ -151,7 +160,29 @@ const Navbar = () => {
                                     <IoMdClose className="text-2xl" />
                                 </button>
                                 <div className="mt-8 space-y-4">
-                                    {filteredNavlinks.map((link, index) => (
+                                    {isLoggedIn && decodeJWT(localStorage.getItem("jwtToken")).authorities?.includes("ROLE_ADMIN") ?
+                                        adminNavlinks.map((link, index) => (
+                                            <Link
+                                                key={index}
+                                                to={link.link}
+                                                className="block text-gray-600 hover:text-gray-900 font-medium"
+                                                onClick={() => setSidebar(false)}
+                                            >
+                                                {link.name}
+                                            </Link>
+                                        )) :
+                                        filteredNavlinks.map((link, index) => (
+                                            <Link
+                                                key={index}
+                                                to={link.link}
+                                                className="block text-gray-600 hover:text-gray-900 font-medium"
+                                                onClick={() => setSidebar(false)}
+                                            >
+                                                {link.name}
+                                            </Link>
+                                        ))}
+
+                                    {/* {filteredNavlinks.map((link, index) => (
                                         <Link
                                             key={index}
                                             to={link.link}
@@ -160,7 +191,7 @@ const Navbar = () => {
                                         >
                                             {link.name}
                                         </Link>
-                                    ))}
+                                    ))} */}
                                     {isLoggedIn && (
                                         <button
                                             onClick={handleLogOut}

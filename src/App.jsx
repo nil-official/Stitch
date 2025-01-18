@@ -20,6 +20,13 @@ import OrderAddress from './pages/OrderAddress';
 import OrderSummary from './pages/OrderSummary';
 import Cart from './pages/Cart';
 import AuthGuard from './utils/AuthGuard';
+import AdminHelpSupport from './pages/AdminHelpSupport';
+import AdminProducts from './pages/AdminProducts';
+import CreateProduct from './pages/CreateProduct';
+import EditProduct from './pages/EditProduct';
+import AdminOrders from './pages/AdminOrders';
+import AdminUsers from './pages/AdminUsers';
+import EditUser from './pages/EditUser';
 
 function Layout() {
   return (
@@ -42,6 +49,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route element={<Layout />}>
+          {/* User Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/search/:name" element={<Search />} />
           <Route path="/product/:id" element={<ProductDetails />} />
@@ -53,13 +61,19 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/order-address" element={<OrderAddress />} />
           <Route path="/help" element={<HelpAndSupport />} />
+
+          {/* Admin routes */}
+          <Route path="/admin/products/create" element={<CreateProduct />} />
+          <Route path="/admin/products/edit" element={<EditProduct />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/users/edit" element={<EditUser />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path='/admin/help' element={<AdminHelpSupport />} />
+
+          {/* Error route */}
           <Route path="*" element={<Error404 />} />
         </Route>
-
-        {/* Admin routes */}
-        {/* <Route path='/admin/dashboard' element={<AdminDashboard />} /> */}
-
-        {/* Error route */}
 
       </Routes>
     </AuthGuard>

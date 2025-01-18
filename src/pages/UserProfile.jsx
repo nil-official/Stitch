@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import BASE_URL from "../utils/baseurl";
 import { toast } from "react-toastify";
 import { ThreeDots } from "react-loader-spinner";
+import Address from "../components/Address";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -149,7 +150,7 @@ const UserProfile = () => {
         <div className="border-b border-gray-200">
           <nav className="flex space-x-4 p-4">
             <button
-              className={`px-4 py-2 text-sm font-medium ${activeTab === "profile"
+              className={`px-4 py-2 text-lg font-semibold ${activeTab === "profile"
                 ? "text-gray-900 border-b-2 border-gray-900"
                 : "text-gray-500"
                 }`}
@@ -158,7 +159,7 @@ const UserProfile = () => {
               Profile
             </button>
             <button
-              className={`px-4 py-2 text-sm font-medium ${activeTab === "addresses"
+              className={`px-4 py-2 text-lg font-semibold ${activeTab === "addresses"
                 ? "text-gray-900 border-b-2 border-gray-900"
                 : "text-gray-500"
                 }`}
@@ -314,8 +315,7 @@ const UserProfile = () => {
           {/* Addresses */}
           {activeTab === "addresses" && (
             <div>
-              <h2 className="text-lg font-semibold">Saved Addresses</h2>
-              <p className="text-2xl">{userData.totalAddresses}</p>
+              <Address />
             </div>
           )}
 
