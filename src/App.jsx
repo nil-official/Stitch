@@ -20,6 +20,7 @@ import Error404 from './pages/Error404';
 import OrderAddress from './pages/OrderAddress';
 import OrderSummary from './pages/OrderSummary';
 import Cart from './pages/Cart';
+import AuthGuard from './utils/AuthGuard';
 
 function Layout() {
   return (
@@ -33,36 +34,37 @@ function Layout() {
 
 function App() {
   return (
-    <Routes>
+    <AuthGuard>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/search/:name" element={<Search />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/order-summary" element={<OrderSummary />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrdersDetails />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/order-address" element={<OrderAddress />} />
+          {/* <Route path="/payment/:id" element={<ConfirmationPage />} /> */}
+          <Route path="/help" element={<HelpAndSupport />} />
+          <Route path="*" element={<Error404 />} />
+        </Route>
 
-      {/* Public routes */}
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/verify-email" element={<VerifyEmail />} />
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/search/:name" element={<Search />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/order-summary" element={<OrderSummary />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/orders/:id" element={<OrdersDetails />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/order-address" element={<OrderAddress />} />
-        {/* <Route path="/payment/:id" element={<ConfirmationPage />} /> */}
-        <Route path="/help" element={<HelpAndSupport />} />
-        <Route path="*" element={<Error404 />} />
-      </Route>
+        {/* Admin routes */}
+        {/* <Route path='/admin/dashboard' element={<AdminDashboard />} /> */}
 
-      {/* Admin routes */}
-      {/* <Route path='/admin/dashboard' element={<AdminDashboard />} /> */}
+        {/* Error route */}
 
-      {/* Error route */}
-
-    </Routes>
+      </Routes>
+    </AuthGuard>
   );
 }
 
