@@ -5,15 +5,12 @@ import BASE_URL from "../utils/baseurl";
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
-    const token = searchParams.get("token"); // Extract token from URL
+    const token = searchParams.get("token");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    // Use the API_BASE_URL from .env
-    const API_BASE_URL = `${BASE_URL}/auth/reset-password`;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +21,7 @@ const ResetPassword = () => {
         try {
             setLoading(true);
             setError(null);
-            const response = await axios.post(`${API_BASE_URL}/auth/reset-password`, { token, newPassword: password });
+            const response = await axios.post(`${BASE_URL}/auth/reset-password`, { token, newPassword: password });
             console.log(response);
             setSuccess(true);
         } catch (err) {

@@ -61,13 +61,12 @@ export const LoginForm = () => {
     return isValid;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!validateInputs()) {
       return;
     }
-
     setIsLoading(true);
-
     try {
       const res = await axios.post(`${BASE_URL}/auth/signin`, { email, password });
       if (res.data.error) {
@@ -78,8 +77,8 @@ export const LoginForm = () => {
         navigate('/');
       }
     } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
+      console.error("Error while login: ", error);
+      toast.error("Email or Password is invalid.");
     } finally {
       setIsLoading(false);
     }
@@ -90,33 +89,33 @@ export const LoginForm = () => {
       <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Log In</h2>
 
-        <InputField
-          label="Email-id"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email id"
-          error={errors.email}
-        />
-
-        <InputField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          error={errors.password}
-        />
-
-        <button
-          onClick={handleSubmit}
-          disabled={isLoading}
-          className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-200 flex items-center justify-center"
-        >
-          {isLoading ? (
-            <FaSpinner className="animate-spin mr-2" />
-          ) : null}
-          {isLoading ? 'Logging in...' : 'Submit'}
-        </button>
+        <form onSubmit={handleSubmit}>
+          <InputField
+            label="Email-id"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email id"
+            error={errors.email}
+          />
+          <InputField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            error={errors.password}
+          />
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-200 flex items-center justify-center"
+          >
+            {isLoading ? (
+              <FaSpinner className="animate-spin mr-2" />
+            ) : null}
+            {isLoading ? 'Logging in...' : 'Submit'}
+          </button>
+        </form>
 
         <div className="text-center mt-4">
           Not a user?

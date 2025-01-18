@@ -8,6 +8,7 @@ import { useEffect, useState, useContext } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
     const [isSidebarOpen, setSidebar] = useState(false);
@@ -31,9 +32,16 @@ const Navbar = () => {
     }
 
     const handleLogOut = () => {
-        const tokenKey = "jwtToken"
-        localStorage.removeItem(tokenKey);
-        navigate("/login")
+        try {
+            const tokenKey = "jwtToken"
+            localStorage.removeItem(tokenKey);
+            setSidebar(false);
+            navigate("/");
+            toast.warn('Logged out successfully!');
+        } catch (error) {
+            console.log("Error:", error);
+            toast.error('Error while logging out!');
+        }
     }
 
     const navlinks = [

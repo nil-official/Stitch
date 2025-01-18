@@ -11,7 +11,6 @@ import Orders from './pages/Orders';
 import Search from './pages/Search'
 import UserProfile from './pages/UserProfile'
 import OrdersDetails from './pages/OrderDetails';
-import ConfirmationPage from './pages/ConfirmationPage';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
@@ -53,7 +52,6 @@ function App() {
           <Route path="/orders/:id" element={<OrdersDetails />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/order-address" element={<OrderAddress />} />
-          {/* <Route path="/payment/:id" element={<ConfirmationPage />} /> */}
           <Route path="/help" element={<HelpAndSupport />} />
           <Route path="*" element={<Error404 />} />
         </Route>

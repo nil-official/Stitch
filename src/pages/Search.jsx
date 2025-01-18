@@ -11,8 +11,8 @@ const Search = () => {
   const { name } = useParams();
   const [products, setProducts] = useState([]);
   const [sortedProducts, setSortedProducts] = useState([]);
-  const [brand, setBrand] = useState('');
-  const [color, setColor] = useState('');
+  const [brand, setBrand] = useState([]);
+  const [color, setColor] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Pagination state
@@ -38,34 +38,49 @@ const Search = () => {
     };
 
     fetchProducts();
-  }, [name, pageNumber, pageSize]);  // Trigger re-fetching when pageNumber or pageSize changes
+  }, [name, pageNumber, pageSize]);
+
+  useEffect(() => {
+    console.log("Color: ", color);
+  }, [color])
+
 
   if (!products.length) {
     return <p className="text-center py-10">No products found...</p>;
   }
 
+  // Extracting unique categories
   const parentCategory = [...new Set(products.map(item => item.category?.parentCategory?.parentCategory?.name))];
   const colorCategory = [...new Set(products.map(item => item.color))];
   const brandCategory = [...new Set(products.map(item => item.brand))];
 
   const handleSort = (e) => {
     const value = e.target.value;
+    if (value === 'select')
+      return;
     let sorted = [...products];
     if (value === 'low-high') {
-      sorted = sorted.sort((a, b) => a.price - b.price);
+      sorted = sorted.sort((a, b) => a.discountedPrice - b.discountedPrice);
     } else if (value === 'high-low') {
-      sorted = sorted.sort((a, b) => b.price - a.price);
+      sorted = sorted.sort((a, b) => b.discountedPrice - a.discountedPrice);
     } else if (value === 'new-added') {
       sorted = sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
     setSortedProducts(sorted);
   };
 
+  const filteredProducts = sortedProducts.filter((item) => {
+    const colorMatch = color.length === 0 || color.includes(item.color);
+    const brandMatch = brand.length === 0 || brand.includes(item.brand);  // Check if the brand is in the selected array
+    return colorMatch && brandMatch;
+  });
+
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
   const handleNextPage = () => {
+    if (filteredProducts.length < pageSize) return;
     setPageNumber(prevPage => prevPage + 1);  // Increment page number to go to the next page
   };
 
@@ -97,9 +112,10 @@ const Search = () => {
               className="border-2 border-gray-300 text-sm px-4 py-2 rounded-md"
               onChange={handleSort}
             >
+              <option value="select">Sort by: Select</option>
               <option value="high-low">Sort by: High to Low</option>
               <option value="low-high">Sort by: Low to High</option>
-              <option value="new-added">Newly Added</option>
+              <option value="new-added">Sort by: Newly Added</option>
             </select>
           </div>
 
@@ -113,10 +129,16 @@ const Search = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {sortedProducts.length !== 0 &&
-              sortedProducts
+              filteredProducts
+                // sortedProducts
                 // .filter((item) => item.title.toLowerCase().includes(name.toLowerCase()))
                 // .filter((item) => !brand || item.brand === brand)
                 // .filter((item) => !color || item.color === color)
+                // .filter((item) => {
+                //   const colorMatch = color.length === 0 || color.includes(item.color);
+                //   const brandMatch = brand.length === 0 || brand.includes(item.brand);  // Check if the brand is in the selected array
+                //   return colorMatch && brandMatch;
+                // })
                 .map((item, index) => (
                   <ProductCard
                     key={index}
