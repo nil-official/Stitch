@@ -19,10 +19,10 @@ const AdminOrders = () => {
             if (authorities.includes("ROLE_ADMIN")) {
                 navigate('/admin/orders');
             } else {
-                navigate('/Log');
+                navigate('/login');
             }
         } else 
-            navigate('/Log');
+            navigate('/login');
     }, [navigate])
 
     const fetchOrders = async () => {

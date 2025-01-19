@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import axios from 'axios';
-import WishListProductCard from '../components/wishListProductCard';
+import WishListProductCard from '../components/WishListProductCard';
 import BASE_URL from '../utils/baseurl';
 
 const Wishlist = () => {
