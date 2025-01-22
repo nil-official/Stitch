@@ -1,129 +1,114 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 import decodeJWT from '../utils/decodeJWT';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-
+import ProductRow from '../components/Admin/ProductRow';
+import BASE_URL from '../utils/baseurl';
 
 const AdminProducts = () => {
-
     const navigate = useNavigate();
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    
+    // Pagination state
+    const [pageNumber, setPageNumber] = useState(0);  // Start at page 1
+    const [pageSize, setPageSize] = useState(10);  // Number of products per page
+    
+    const API_URL = `${BASE_URL}/api/admin/products/all?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
-    // check if the user is an admin
+    // Verify admin access
     useEffect(() => {
         if (localStorage.getItem("jwtToken")) {
             const authorities = decodeJWT(localStorage.getItem("jwtToken")).authorities;
-            if (authorities.includes("ROLE_ADMIN")) {
-                navigate('/admin/products');
-            } else {
-                navigate('/Log');
+            if (!authorities.includes("ROLE_ADMIN")) {
+                navigate('/login');
             }
-        } else
-            navigate('/Log');
-    }, [navigate])
-
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const API_URL = "http://localhost:5454/api/admin/products/all?pageNumber=1&pageSize=10";
+        } else {
+            navigate('/login');
+        }
+    }, [navigate]);
 
     const fetchProducts = async () => {
-        setIsLoading(true)
+        setIsLoading(true);
         try {
             const response = await axios.get(API_URL, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-                }
-            })
-
-            if (response.data) {
-                setProducts(response.data.content);
-            } else {
-                console.error('Unexpected response format:', response.data)
-                toast.error('Error fetching products. Please try again.')
-            }
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+                },
+            });
+            setProducts(response.data?.content || []);
         } catch (error) {
-            console.error('Error fetching products:', error)
-            toast.error('Error fetching products. Please try again.')
+            console.error('Error fetching products:', error);
+            toast.error('Error fetching products. Please try again.');
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
-
-    useEffect(() => {
-        fetchProducts()
-    }, [])
-
-    const editProduct = (id) => {
-        // pass the product object to the page
-        const product = products.find(product => product.id === id);
-        navigate('/admin/products/edit', {state: { product }});
-    }
-
-    const deleteProduct = (id) => {
-        setProducts(products.filter(product => product.id !== id));
-        console.log(id)
-        // send delete request to API
-        axios.delete(`http://localhost:5454/api/admin/products/${id}/delete`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-            }
-        })
-        .then(response => {
-            console.log(response)
-            toast.success('Product deleted successfully.')
-        })
-        .catch(error => {
-            console.error('Error deleting product:', error)
-            toast.error('Error deleting product. Please try again.')
-        }
-        )
     };
 
+    useEffect(() => {
+        fetchProducts();
+    }, [pageNumber, pageSize]);
+
+    const editProduct = (id) => {
+        const product = products.find((product) => product.id === id);
+        navigate('/admin/products/edit', { state: { product } });
+    };
+
+    const deleteProduct = (id) => {
+        setProducts(products.filter((product) => product.id !== id));
+        axios
+            .delete(`${BASE_URL}/api/admin/products/${id}/delete`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+                },
+            })
+            .then(() => toast.success('Product deleted successfully.'))
+            .catch((error) => {
+                console.error('Error deleting product:', error);
+                toast.error('Error deleting product. Please try again.');
+            });
+    };
+
+    const handleNextPage = () => {
+        if (products.length < pageSize) return;
+        setPageNumber(prevPage => prevPage + 1);  // Increment page number to go to the next page
+    };
+
+    const handlePrevPage = () => {
+        setPageNumber(prevPage => Math.max(prevPage - 1, 0));  // Decrement page number, but not below 1
+    };
 
     return (
-        <>
-            <div className="mx-12 sm:mx-24 md:mx-40 lg:mx-48 xl:mx-80">
-                <div className="space-y-12">
-                <div></div>
-                <div className="pb-4">
-                <h2 className="text-4xl font-semibold text-gray-900">All Products</h2>
-                <p className="mt-1 text-sm/6 text-gray-600">Edit or delete products from the buttons</p>
-                </div>
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table className="w-full text-sm text-left text-gray-500">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-100 border-b">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3">Product Title</th>
-                                    {/* <th scope="col" className="px-6 py-3">Color</th> */}
-                                    <th scope="col" className="px-6 py-3">Brand</th>
-                                    <th scope="col" className="px-6 py-3">Price</th>
-                                    <th scope="col" className="px-6 py-3">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {products.map(product => (
-                                    <tr key={product.id} className="odd:bg-white even:bg-gray-50 border-b">
-                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{product.title}</th>
-                                        {/* <td className="px-6 py-4">{product.color}</td> */}
-                                        <td className="px-6 py-4">{product.brand}</td>
-                                        <td className="px-6 py-4">₹{product.price}</td>
-                                        <td className="px-6 py-4 flex space-x-2">
-                                            <button onClick={() => editProduct(product.id)} className="font-medium text-blue-600 hover:underline">Edit</button>
-                                            <button onClick={() => deleteProduct(product.id)} className="font-medium text-red-600 hover:underline">Delete</button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div className="container mx-auto p-6">
+            <div className="mb-6">
+                <h1 className="text-3xl font-bold text-gray-900">All Products</h1>
+                <p className="text-gray-600 mt-1">Showing {pageSize} results. Page: {pageNumber + 1}</p>
             </div>
+            <div className="space-y-4">
+                {isLoading ? (
+                    <p className="text-gray-500 text-center">Loading products...</p>
+                ) : products.length > 0 ? (
+                    products.map((product) => (
+                        <ProductRow
+                            key={product.id}
+                            product={product}
+                            onEdit={() => editProduct(product.id)}
+                            onDelete={() => deleteProduct(product.id)}
+                        />
+                    ))
+                ) : (
+                    <p className="text-gray-500 text-center">No products found.</p>
+                )}
+            </div>
+            <div className="flex justify-between mt-6">
+                <button onClick={handlePrevPage} disabled={pageNumber === 0} className='px-4 py-2 bg-gray-50 text-sm font-semibold shadow rounded-lg text-black-600 hover:text-black-800 hover:shadow-lg hover:bg-gray-800 hover:text-white disabled:opacity-50 disabled:text-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed transition'>
+                    Previous</button>
+                <button onClick={handleNextPage} disabled={products.length < pageSize} className='px-4 py-2 bg-gray-50 text-sm font-semibold shadow rounded-lg text-black-600 hover:text-black-800 hover:shadow-lg hover:bg-gray-800 hover:text-white disabled:opacity-50 disabled:text-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed transition'>
+                    Next</button>
+            </div>
+        </div>
+    );
+};
 
-
-        </>
-    )
-}
-
-export default AdminProducts
+export default AdminProducts;
