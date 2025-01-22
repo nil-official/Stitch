@@ -10,7 +10,12 @@ const AdminProducts = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const API_URL = `${BASE_URL}/api/admin/products/all?pageNumber=1&pageSize=10`;
+    
+    // Pagination state
+    const [pageNumber, setPageNumber] = useState(0);  // Start at page 1
+    const [pageSize, setPageSize] = useState(10);  // Number of products per page
+    
+    const API_URL = `${BASE_URL}/api/admin/products/all?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
     // Verify admin access
     useEffect(() => {
@@ -43,7 +48,7 @@ const AdminProducts = () => {
 
     useEffect(() => {
         fetchProducts();
-    }, []);
+    }, [pageNumber, pageSize]);
 
     const editProduct = (id) => {
         const product = products.find((product) => product.id === id);
@@ -65,11 +70,20 @@ const AdminProducts = () => {
             });
     };
 
+    const handleNextPage = () => {
+        if (products.length < pageSize) return;
+        setPageNumber(prevPage => prevPage + 1);  // Increment page number to go to the next page
+    };
+
+    const handlePrevPage = () => {
+        setPageNumber(prevPage => Math.max(prevPage - 1, 0));  // Decrement page number, but not below 1
+    };
+
     return (
         <div className="container mx-auto p-6">
             <div className="mb-6">
                 <h1 className="text-3xl font-bold text-gray-900">All Products</h1>
-                <p className="text-gray-600 mt-1">Manage products by editing or deleting them below.</p>
+                <p className="text-gray-600 mt-1">Showing {pageSize} results. Page: {pageNumber + 1}</p>
             </div>
             <div className="space-y-4">
                 {isLoading ? (
@@ -86,6 +100,12 @@ const AdminProducts = () => {
                 ) : (
                     <p className="text-gray-500 text-center">No products found.</p>
                 )}
+            </div>
+            <div className="flex justify-between mt-6">
+                <button onClick={handlePrevPage} disabled={pageNumber === 0} className='px-4 py-2 bg-gray-50 text-sm font-semibold shadow rounded-lg text-black-600 hover:text-black-800 hover:shadow-lg hover:bg-gray-800 hover:text-white disabled:opacity-50 disabled:text-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed transition'>
+                    Previous</button>
+                <button onClick={handleNextPage} disabled={products.length < pageSize} className='px-4 py-2 bg-gray-50 text-sm font-semibold shadow rounded-lg text-black-600 hover:text-black-800 hover:shadow-lg hover:bg-gray-800 hover:text-white disabled:opacity-50 disabled:text-gray-400 disabled:bg-gray-50 disabled:cursor-not-allowed transition'>
+                    Next</button>
             </div>
         </div>
     );
