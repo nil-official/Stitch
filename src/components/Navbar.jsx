@@ -67,6 +67,7 @@ const Navbar = () => {
     });
 
     const adminNavlinks = [
+        { name: "Home", link: "/" },
         { name: "Create Product", link: "/admin/products/create" },
         { name: "View Products", link: "/admin/products" },
         { name: "View Orders", link: "/admin/orders" },

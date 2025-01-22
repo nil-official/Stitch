@@ -3,12 +3,13 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import decodeJWT from '../utils/decodeJWT';
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../utils/baseurl';
 
 const AdminUsers = () => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const API_URL = "http://localhost:5454/api/admin/users/all";
+    const API_URL = `${BASE_URL}/api/admin/users/all`;
 
     useEffect(() => {
         if (localStorage.getItem("jwtToken")) {
@@ -54,7 +55,7 @@ const AdminUsers = () => {
         const currentRole = user.roles[0].name;
 
         if (currentRole === "ROLE_USER") {
-            axios.patch(`http://localhost:5454/api/admin/promote/${user.id}`, {}, {
+            axios.patch(`${BASE_URL}/api/admin/promote/${user.id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }
@@ -68,7 +69,7 @@ const AdminUsers = () => {
                 toast.error('Error promoting user.');
             });
         } else if (currentRole === "ROLE_ADMIN") {
-            axios.patch(`http://localhost:5454/api/admin/demote/${user.id}`, {}, {
+            axios.patch(`${BASE_URL}/api/admin/demote/${user.id}`, {}, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }
@@ -92,7 +93,7 @@ const AdminUsers = () => {
     const deleteUser = async (id) => {
         setUsers(users.filter(user => user.id !== id));
         try {
-            await axios.delete(`http://localhost:5454/api/admin/users/${id}`, {
+            await axios.delete(`${BASE_URL}/api/admin/users/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }

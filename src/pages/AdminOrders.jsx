@@ -4,12 +4,13 @@ import { toast } from 'react-toastify';
 import decodeJWT from '../utils/decodeJWT';
 import { useNavigate } from 'react-router-dom';
 import OrderCard from '../components/Admin/OrderCard';
+import BASE_URL from '../utils/baseurl';
 
 const AdminOrders = () => {
     const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const API_URL = "http://localhost:5454/api/admin/orders/";
+    const API_URL = `${BASE_URL}/api/admin/orders/`;
 
     useEffect(() => {
         if (localStorage.getItem("jwtToken")) {
