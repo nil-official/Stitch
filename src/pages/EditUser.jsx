@@ -102,12 +102,12 @@ const EditUser = () => {
                 </div>
 
                 <div className="mt-6 flex items-center justify-end gap-x-6 mb-4">
-                    <button type="button" className="text-sm/6 font-semibold text-gray-900" onClick={() => navigate(-1)}>
+                    <button type="button" className="px-4 py-2 bg-gray-50 text-sm font-semibold shadow rounded-lg text-black-600 hover:text-black-800 hover:shadow-lg hover:bg-gray-800 hover:text-white transition" onClick={() => navigate(-1)}>
                         Cancel
                     </button>
                     <button
                         type="submit"
-                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="px-4 py-2 bg-gray-800 text-sm font-semibold shadow rounded-lg text-white hover:shadow-lg hover:bg-gray-600 hover:text-white transition"
                     >
                         Save
                     </button>

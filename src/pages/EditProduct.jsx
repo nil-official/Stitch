@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import InputField2 from '../components/InputField2';
+import BASE_URL from '../utils/baseurl';
 
 const EditProduct = () => {
     const navigate = useNavigate();
@@ -30,7 +31,14 @@ const EditProduct = () => {
         { name: "M", quantity: 0 },
         { name: "L", quantity: 0 },
         { name: "XL", quantity: 0 },
-        { name: "XXL", quantity: 0 }
+        { name: "XXL", quantity: 0 },
+        { name: "T28", quantity: 0 },
+        { name: "T30", quantity: 0 },
+        { name: "T32", quantity: 0 },
+        { name: "T34", quantity: 0 },
+        { name: "T36", quantity: 0 },
+        { name: "T38", quantity: 0 },
+        { name: "T40", quantity: 0 }
     ]);
 
     // function to handle the size input fields
@@ -42,7 +50,7 @@ const EditProduct = () => {
 
     // function to validate the form fields
     const validateInputs = () => {
-        if (imageUrl === "" || brand === "" || title === "" || color === "" || price === 0 || discountedPrice === 0 || topLevelCategory === "" || secondLevelCategory === "" || thirdLevelCategory === "" || description ==="") {
+        if (imageUrl === "" || brand === "" || title === "" || color === "" || price === 0 || discountedPrice === 0 || topLevelCategory === "" || secondLevelCategory === "" || thirdLevelCategory === "" || description === "") {
             toast.error("Please fill all the fields");
             return false;
         }
@@ -75,7 +83,7 @@ const EditProduct = () => {
 
         // send the product object to the server
         try {
-            const res = await axios.put(`http://localhost:5454/api/admin/products/${id}/update`, productObj, {
+            const res = await axios.put(`${BASE_URL}/api/admin/products/${id}/update`, productObj, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }
@@ -141,8 +149,20 @@ const EditProduct = () => {
                     <div></div>
                     {/* border-b border-gray-900/10 */}
                     <div className="pb-4">
-                        <h2 className="text-4xl font-semibold text-gray-900">Edit Product Details</h2>
+                        <h2 className="text-3xl font-semibold text-gray-900">Edit Product Details</h2>
                         <p className="mt-1 text-sm/6 text-gray-600">Fill up the fields below to create a product.</p>
+
+                        {imageUrl && (
+                            <div className="flex justify-center mb-6">
+                                <div className="w-60 h-60 shadow-lg rounded-md overflow-hidden bg-gray-50 flex items-center justify-center">
+                                    <img
+                                        src={imageUrl}
+                                        alt="Product Preview"
+                                        className="object-contain max-h-full max-w-full"
+                                    />
+                                </div>
+                            </div>
+                        )}
 
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div className={`sm:col-span-6`}>
@@ -255,7 +275,7 @@ const EditProduct = () => {
                                         value={s.quantity}
                                         onChange={(e) => handleSizeInputChange(index, 'quantity', e.target.value)}
                                         name={`quantity-${index}`}
-                                        label={`${s.name}`}
+                                        label={`${s.name[0] === 'T' ? s.name.split('T')[1] : s.name}`}
                                     />
                                 </div>
                             ))}
@@ -264,12 +284,12 @@ const EditProduct = () => {
                 </div>
 
                 <div className="mt-6 flex items-center justify-end gap-x-6 mb-4">
-                    <button type="button" className="text-sm/6 font-semibold text-gray-900" onClick={() => navigate(-1)}>
+                    <button type="button" className="px-4 py-2 bg-gray-50 text-sm font-semibold shadow rounded-lg text-black-600 hover:text-black-800 hover:shadow-lg hover:bg-gray-800 hover:text-white transition" onClick={() => navigate(-1)}>
                         Cancel
                     </button>
                     <button
                         type="submit"
-                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="px-4 py-2 bg-gray-800 text-sm font-semibold shadow rounded-lg text-white hover:shadow-lg hover:bg-gray-600 hover:text-white transition"
                     >
                         Save
                     </button>
