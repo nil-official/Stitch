@@ -4,6 +4,7 @@ import decodeJWT from "../utils/decodeJWT";
 import { toast } from "react-toastify";
 import axios from "axios";
 import InputField2 from "../components/InputField2";
+import BASE_URL from "../utils/baseurl";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -83,7 +84,7 @@ const CreateProduct = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5454/api/admin/products/",
+        `${BASE_URL}/api/admin/products/`,
         product,
         {
           headers: {

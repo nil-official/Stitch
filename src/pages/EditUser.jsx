@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import InputField2 from '../components/InputField2';
+import BASE_URL from '../utils/baseurl';
 
 const EditUser = () => {
 	const navigate = useNavigate();
@@ -38,7 +39,7 @@ const EditUser = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await axios.patch(`http://localhost:5454/api/admin/users/${user.id}`, formData, {
+			await axios.patch(`${BASE_URL}/api/admin/users/${user.id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }
