@@ -29,7 +29,7 @@ const Wishlist = () => {
   }, [render]);
 
   return (
-    <div className='flex justify-center min-h-[60vh]'>
+    <div className='min-h-[70vh] flex justify-center'>
       <div className="w-[1400px] p-6">
         <h2 className="text-2xl font-bold mb-4">
           My Wishlist <span className="text-gray-500">({wishListItems.length} items)</span>

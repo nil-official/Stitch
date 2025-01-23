@@ -42,7 +42,7 @@ const AdminHelpSupport = () => {
 	}
 
 	return (
-		<div className="min-h-[60vh] flex justify-center">
+		<div className="min-h-[70vh] flex justify-center">
 			<div className="w-[1400px] p-6">
 				<h1 className="text-2xl font-bold mb-6">All Issues</h1>
 				<div className="mb-4">

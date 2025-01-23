@@ -4,23 +4,21 @@ import { IoMdClose } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { CiUser } from "react-icons/ci";
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import decodeJWT from '../utils/decodeJWT';
 
-const Navbar = () => {
+const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
     const [isSidebarOpen, setSidebar] = useState(false);
     const { cartItemCount, fetchCartData, rerender } = useContext(ShopContext);
     const [input, setInput] = useState('');
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchCartData();
-        // console.log(cartItemCount)
     }, [rerender]);
 
     const handleSearch = (e) => {
@@ -90,7 +88,14 @@ const Navbar = () => {
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <button
+                            onClick={() => {
+                                setIsSearchOpen(!isSearchOpen);
+                                if (!isSearchOpen) {
+                                    setTimeout(() => searchInputRef.current?.focus(), 0);
+                                }
+                            }}
+                            className="text-gray-600 hover:text-gray-900 focus:outline-none">
                             <BsSearch className="text-xl" />
                         </button>
                         {isLoggedIn && (
@@ -127,6 +132,7 @@ const Navbar = () => {
                                     placeholder="Search..."
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
+                                    ref={searchInputRef}
                                     className="w-full p-2 pl-10 pr-4 text-gray-900 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                                 <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2">

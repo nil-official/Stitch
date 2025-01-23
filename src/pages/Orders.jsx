@@ -71,7 +71,7 @@ const Orders = () => {
     // }
 
     return (
-        <div className='min-h-[60vh] flex justify-center'>
+        <div className='min-h-[80vh] flex justify-center'>
             <div className='w-[1400px] p-6'>
                 <p className='text-2xl font-bold mb-4'>My Orders</p>
                 {/* details of cartItems */}

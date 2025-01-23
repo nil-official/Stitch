@@ -27,11 +27,17 @@ import EditProduct from './pages/EditProduct';
 import AdminOrders from './pages/AdminOrders';
 import AdminUsers from './pages/AdminUsers';
 import EditUser from './pages/EditUser';
+import { useRef, useState } from 'react';
 
-function Layout() {
+
+function Layout({ isSearchOpen, setIsSearchOpen, searchInputRef }) {
   return (
     <>
-      <Navbar />
+      <Navbar
+        isSearchOpen={isSearchOpen}
+        setIsSearchOpen={setIsSearchOpen}
+        searchInputRef={searchInputRef}
+      />
       <Outlet />
       <Footer />
     </>
@@ -39,6 +45,10 @@ function Layout() {
 }
 
 function App() {
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef(null);
+
   return (
     <AuthGuard>
       <Routes>
@@ -48,9 +58,21 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route element={<Layout />}>
+        <Route element={
+          <Layout
+            isSearchOpen={isSearchOpen}
+            setIsSearchOpen={setIsSearchOpen}
+            searchInputRef={searchInputRef}
+          />
+        }>
           {/* User Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={
+            <Home
+              isSearchOpen={isSearchOpen}
+              setIsSearchOpen={setIsSearchOpen}
+              searchInputRef={searchInputRef}
+            />
+          } />
           <Route path="/search/:name" element={<Search />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
@@ -61,7 +83,6 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/order-address" element={<OrderAddress />} />
           <Route path="/help" element={<HelpAndSupport />} />
-
           {/* Admin routes */}
           <Route path="/admin/products/create" element={<CreateProduct />} />
           <Route path="/admin/products/edit" element={<EditProduct />} />
@@ -70,11 +91,9 @@ function App() {
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path='/admin/help' element={<AdminHelpSupport />} />
-
           {/* Error route */}
           <Route path="*" element={<Error404 />} />
         </Route>
-
       </Routes>
     </AuthGuard>
   );

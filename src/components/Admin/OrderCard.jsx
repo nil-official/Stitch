@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import format from 'date-fns/format';
 import BASE_URL from '../../utils/baseurl';
+import { ShopContext } from '../../context/ShopContext';
 
 const OrderCard = ({ order, deleteOrder }) => {
+    const { currency } = useContext(ShopContext);
     const initialStatus = order.orderStatus;
     const [tempStatus, setTempStatus] = useState(initialStatus);
     const [isSaveEnabled, setIsSaveEnabled] = useState(false);
@@ -73,8 +75,8 @@ const OrderCard = ({ order, deleteOrder }) => {
             </ul>
             <div className="mt-4 text-sm text-gray-700">
                 <p>Total Items: {order.totalItem}</p>
-                <p>Total Price: ${order.totalPrice.toFixed(2)}</p>
-                <p>Total Discounted Price: ${order.totalDiscountedPrice.toFixed(2)}</p>
+                <p>Total Price: {currency}&nbsp;{order.totalPrice.toFixed(2)}</p>
+                <p>Total Discounted Price: {currency}&nbsp;{order.totalDiscountedPrice.toFixed(2)}</p>
                 <p>Delivery Date: {format(new Date(order.deliveryDate), 'dd/MM/yyyy HH:mm')}</p>
             </div>
             <div className="mt-4 flex justify-end items-center space-x-2">

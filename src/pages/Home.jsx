@@ -13,7 +13,7 @@ const API_ENDPOINTS = [
   { title: 'Best Sellers', url: `${BASE_URL}/public/best-seller`, style: 'seller' }
 ]
 
-export default function Home() {
+export default function Home({ isSearchOpen, setIsSearchOpen, searchInputRef }) {
   const [productSections, setProductSections] = useState([])
 
   useEffect(() => {
@@ -38,7 +38,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
-      <Hero />
+      <Hero
+        isSearchOpen={isSearchOpen}
+        setIsSearchOpen={setIsSearchOpen}
+        searchInputRef={searchInputRef}
+      />
       {productSections.map((section, index) => (
         <ProductSection key={index} title={section.title} products={section.products} style={section.style} />
       ))}
@@ -46,7 +50,15 @@ export default function Home() {
   )
 }
 
-function Hero() {
+function Hero({ isSearchOpen, setIsSearchOpen, searchInputRef }) {
+
+  const handleShopNow = () => {
+    setIsSearchOpen(true);
+    if (!isSearchOpen) {
+      setTimeout(() => searchInputRef.current?.focus(), 0);
+    }
+  }
+
   return (
     <section className="py-32 px-6 overflow-hidden">
       <div className="container mx-auto text-center relative">
@@ -67,6 +79,7 @@ function Hero() {
           Explore the latest trends and exclusive discounts
         </motion.p>
         <motion.button
+          onClick={handleShopNow}
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
