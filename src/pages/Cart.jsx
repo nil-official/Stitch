@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BASE_URL from '../utils/baseurl';
-import CartTotalValue from '../components/CartTotalValue';
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -150,7 +149,7 @@ const Cart = () => {
                 ) : (
                     <div className="flex flex-col items-center justify-center w-full min-h-[60vh] text-center rounded-lg p-6">
                         <img
-                            src="/empty-trolley.jpg" // Replace with an empty cart image or icon
+                            src="empty-trolley.jpg"
                             alt="Empty Cart"
                             className="w-52 h-52 object-contain"
                         />
