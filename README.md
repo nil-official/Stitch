@@ -4,7 +4,7 @@ Welcome to the Stitch E-Commerce Frontend project! This is the frontend applicat
 
 ## Preview
 
-![Stitch E-Commerce Frontend Preview](./public/preview.png)
+![Stitch E-Commerce Frontend Preview](./client/public/preview.png)
 
 ## Live Demo
 
