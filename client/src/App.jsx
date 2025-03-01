@@ -28,7 +28,8 @@ import AdminOrders from './pages/AdminOrders';
 import AdminUsers from './pages/AdminUsers';
 import EditUser from './pages/EditUser';
 import { useRef, useState } from 'react';
-
+// import SearchPage from './pages/SearchPage';
+import MaintenancePage from './pages/MaintenancePage';
 
 function Layout({ isSearchOpen, setIsSearchOpen, searchInputRef }) {
   return (
@@ -53,27 +54,17 @@ function App() {
     <AuthGuard>
       <Routes>
         {/* Public routes */}
+        <Route path="/maintainance" element={<MaintenancePage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route element={
-          <Layout
-            isSearchOpen={isSearchOpen}
-            setIsSearchOpen={setIsSearchOpen}
-            searchInputRef={searchInputRef}
-          />
-        }>
+        <Route element={<Layout isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />}>
           {/* User Routes */}
-          <Route path="/" element={
-            <Home
-              isSearchOpen={isSearchOpen}
-              setIsSearchOpen={setIsSearchOpen}
-              searchInputRef={searchInputRef}
-            />
-          } />
+          <Route path="/" element={<Home isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
           <Route path="/search/:name" element={<Search />} />
+          {/* <Route path="/product/search" element={<SearchPage />} /> */}
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />

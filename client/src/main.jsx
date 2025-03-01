@@ -7,12 +7,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import ShopContextProvider from './context/ShopContext.jsx';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import HealthCheckWrapper from './components/HealthCheckWrapper.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <ShopContextProvider>
       <Provider store={store}>
-        <App />
+        <HealthCheckWrapper>
+          <App />
+        </HealthCheckWrapper>
       </Provider>
       <ToastContainer
         position="bottom-right"
