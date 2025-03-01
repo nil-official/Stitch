@@ -3,8 +3,8 @@ import Title from './Title';
 import { FaStar } from "react-icons/fa";
 
 const SimilarProductsSlider = ({ similarProducts, currency }) => {
+    
     const sliderRef = useRef(null);
-    console.log(similarProducts);
     const scrollSlider = (direction) => {
         if (sliderRef.current) {
             const scrollAmount = direction === 'left' ? -280 : 280;
@@ -88,4 +88,3 @@ const SimilarProductsSlider = ({ similarProducts, currency }) => {
 };
 
 export default SimilarProductsSlider;
-

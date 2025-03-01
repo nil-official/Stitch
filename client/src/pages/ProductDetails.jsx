@@ -3,23 +3,30 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import Reviews from '../components/Reviews';
 import SimilarProducts from '../components/SimilarProducts';
 import BASE_URL from '../utils/baseurl';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCart, addToCart } from '../redux/customer/cart/cartActions';
 
 const API = `${BASE_URL}/api/products/search/category`;
 
 const ProductDetails = () => {
     const { id } = useParams();
-    const { currency, addToCart } = useContext(ShopContext);
+    const [currency, setCurrency] = useState('INR');
     const [singleProduct, setSingleProduct] = useState({});
     const [size, setSize] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [rating, setRating] = useState(0);
     const [similarProducts, setSimilarProducts] = useState([]);
+
+    const dispatch = useDispatch();
+    const { cart, loading, error } = useSelector((state) => state.cartState);
+
+    const handleAddToCart = (productId, size, quantity) => {
+        dispatch(addToCart(productId, size, quantity));
+    };
 
     const compareTitles = (title1, title2) => {
         const words1 = title1.toLowerCase().split(/\s+/);
@@ -47,7 +54,7 @@ const ProductDetails = () => {
                 if (productRes.data && ratingRes.data) {
                     setSingleProduct(productRes.data);
                     setRating(ratingRes.data.averageRating);
-                    console.log(productRes.data);
+                    // console.log(productRes.data);
                     fetchSimilarProducts(productRes.data.category.name, productRes.data.title);
                 }
             } catch (err) {
@@ -205,7 +212,7 @@ const ProductDetails = () => {
 
                             <button
                                 type="button"
-                                onClick={() => addToCart(singleProduct.id, size, quantity)}
+                                onClick={() => handleAddToCart(singleProduct.id, size, quantity)}
                                 disabled={isOutOfStock}
                                 className={`flex-1 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white shadow-lg transition-transform transform ${isOutOfStock
                                     ? 'bg-gray-400 cursor-not-allowed'
@@ -246,4 +253,3 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
-

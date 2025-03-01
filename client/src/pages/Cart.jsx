@@ -1,68 +1,41 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ShopContext } from '../context/ShopContext';
-import { RiDeleteBin6Line } from "react-icons/ri";
-import axios from 'axios';
+import { X } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import BASE_URL from '../utils/baseurl';
+import { useDispatch, useSelector } from "react-redux";
+import { getCart, removeFromCart, updateCart } from '../redux/customer/cart/cartActions';
+import { ShopContext } from '../context/ShopContext';
 
 const Cart = () => {
+
     const navigate = useNavigate();
-    const { currency, setRerender, rerender, orderData, setOrderData } = useContext(ShopContext);
-    const [data, setData] = useState(null);
-    const [cartData, setCartData] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [totalDiscountedrice, setTotalDiscountedrice] = useState(0);
-    const [discount, setDiscount] = useState(0);
-    const [totalItems, setTotalItems] = useState(0);
-    const [render, setRender] = useState(1);
+    const [currency, setCurrency] = useState('INR');
+
+    const dispatch = useDispatch();
+    const { cart, loading, error } = useSelector((state) => state.cartState);
+    const [isCartFetched, setIsCartFetched] = useState(false);
+
+    const { setRerender, rerender, orderData, setOrderData } = useContext(ShopContext);
 
     useEffect(() => {
-        const fetchCartData = async () => {
-            try {
-                const res = await axios.get(`${BASE_URL}/api/cart/`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` }
-                });
-                setCartData(res.data.cartItems);
-                setTotalPrice(res.data.totalPrice);
-                setTotalDiscountedrice(res.data.totalDiscountedPrice);
-                setDiscount(res.data.discount);
-                setTotalItems(res.data.totalItem);
-            } catch (err) {
-                console.error("Error fetching cart data", err);
-            }
-        };
-        fetchCartData();
-    }, [render]);
+        dispatch(getCart()).then(() => {
+            setIsCartFetched(true);
+        });
+    }, [dispatch]);
 
-    const deleteCartItem = async (id) => {
-        try {
-            const res = await axios.delete(`${BASE_URL}/api/cart_items/${id}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` }
-            });
-            toast.success(res.data.message);
-            setRender(!render);
-            setRerender(!rerender);
-        } catch (err) {
-            console.error("Error deleting cart item", err);
-        }
+    const handleUpdateCart = (productId, quantity) => {
+        dispatch(updateCart(productId, quantity));
     };
 
-    const updateCartItem = async (id, quantity) => {
-        try {
-            const res = await axios.put(`${BASE_URL}/api/cart_items/${id}`, { quantity }, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` }
-            });
-            setRender(!render);
-        } catch (err) {
-            console.error("Error updating cart item", err);
-        }
+    const handleRemoveFromCart = (productId) => {
+        dispatch(removeFromCart(productId));
     };
 
     const handleNavigate = () => {
         setOrderData({
-            totalPrice, totalDiscountedrice, discount, totalItems
+            totalPrice: cart.totalPrice,
+            totalDiscountedrice: cart.totalDiscountedPrice,
+            discount: cart.discount,
+            totalItems: cart.totalItem
         })
         navigate('/order-address', { state: { access: true } });
     };
@@ -70,12 +43,34 @@ const Cart = () => {
     return (
         <div className="min-h-[60vh] flex justify-center">
             <div className="w-[1400px]">
-
-                {cartData.length > 0 ? (
-                    // {/* Cart Items */}
+                {loading || !isCartFetched ? (
+                    <div className="flex justify-center items-center min-h-[60vh]">
+                        <div className="loader border-4 border-gray-300 border-t-gray-800 rounded-full w-12 h-12 animate-spin"></div>
+                    </div>
+                ) : !cart?.cartItems?.length ? (
+                    <div className="flex flex-col items-center justify-center w-full min-h-[60vh] text-center rounded-lg p-6">
+                        <img
+                            src="empty-trolley.jpg"
+                            alt="Empty Cart"
+                            className="w-52 h-52 object-contain"
+                        />
+                        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                            Your Cart is Empty!
+                        </h2>
+                        <p className="text-gray-500 mb-10">
+                            Looks like you haven’t added anything to your cart yet. Explore our collection and add your favorite items!
+                        </p>
+                        <button
+                            onClick={() => navigate('/')}
+                            className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700 mb-20"
+                        >
+                            Shop Now
+                        </button>
+                    </div>
+                ) : (
                     <div className='flex flex-col sm:flex-row'>
                         <div className="w-full sm:w-3/4 p-6 space-y-4">
-                            {cartData
+                            {cart?.cartItems
                                 .sort((a, b) => a.product.title.localeCompare(b.product.title))
                                 .map((item, index) => (
                                     <div key={index} className="flex items-center justify-between bg-white p-4 shadow-md rounded-md">
@@ -98,35 +93,49 @@ const Cart = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-4">
-                                            <input
-                                                type="number"
-                                                min="1"
-                                                defaultValue={item.quantity}
-                                                onChange={(e) => updateCartItem(item.id, e.target.value)}
-                                                className="w-12 border rounded-md text-center"
-                                            />
-                                            <button onClick={() => deleteCartItem(item.id)} >
-                                                <RiDeleteBin6Line size={20} />
+                                        <div className="flex items-center gap-4 p-2 rounded-lg">
+                                            <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
+                                                <button
+                                                    onClick={() => handleUpdateCart(item.id, Math.max(1, item.quantity - 1))}
+                                                    className="px-2 py-1 text-lg font-semibold border-r border-gray-300 hover:bg-gray-200"
+                                                >
+                                                    −
+                                                </button>
+                                                <input
+                                                    type="text"
+                                                    value={item.quantity}
+                                                    readOnly
+                                                    className="w-8 text-center border-none outline-none pointer-events-none"
+                                                />
+                                                <button
+                                                    onClick={() => handleUpdateCart(item.id, item.quantity + 1)}
+                                                    className="px-2 py-1 text-lg font-semibold border-l border-gray-300 hover:bg-gray-200"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                            <button
+                                                onClick={() => handleRemoveFromCart(item.id)}
+                                                className="text-white bg-gray-600 hover:bg-gray-700 rounded-full w-6 h-6 flex items-center justify-center transition duration-200"
+                                            >
+                                                <X size={12} />
                                             </button>
                                         </div>
                                     </div>
                                 ))}
                         </div>
-
-                        {/* Price Summary */}
                         <div className="w-full sm:w-1/4 p-6">
                             <div className="p-4 shadow-md rounded-md">
                                 <h2 className="text-xl font-bold mb-2">Price Details</h2>
                                 <hr className="mb-6" />
                                 <div className="text-sm text-gray-600 space-y-6">
                                     <div className="flex justify-between">
-                                        <span>Price ({totalItems} items)</span>
-                                        <span>{currency}&nbsp;{totalPrice}.00</span>
+                                        <span>Price ({cart?.totalItem} {cart?.totalItem === 1 ? "item" : "items"})</span>
+                                        <span>{currency}&nbsp;{cart?.totalPrice}.00</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Discount</span>
-                                        <span className="text-green-500">-&nbsp;{currency}&nbsp;{discount}.00</span>
+                                        <span className="text-green-500">-&nbsp;{currency}&nbsp;{cart?.discount}.00</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span>Delivery Charges</span>
@@ -135,7 +144,7 @@ const Cart = () => {
                                     <hr className="my-4" />
                                     <div className="flex justify-between text-lg font-bold">
                                         <span>Total Amount</span>
-                                        <span>{currency}&nbsp;{totalDiscountedrice}.00</span>
+                                        <span>{currency}&nbsp;{cart?.totalDiscountedPrice}.00</span>
                                     </div>
                                 </div>
                                 <button
@@ -146,30 +155,10 @@ const Cart = () => {
                             </div>
                         </div>
                     </div>
-                ) : (
-                    <div className="flex flex-col items-center justify-center w-full min-h-[60vh] text-center rounded-lg p-6">
-                        <img
-                            src="empty-trolley.jpg"
-                            alt="Empty Cart"
-                            className="w-52 h-52 object-contain"
-                        />
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                            Your Cart is Empty!
-                        </h2>
-                        <p className="text-gray-500 mb-10">
-                            Looks like you haven’t added anything to your cart yet. Explore our collection and add your favorite items!
-                        </p>
-                        <button
-                            onClick={() => navigate('/')} // Ensure the route to your home page is correct
-                            className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700 mb-20"
-                        >
-                            Shop Now
-                        </button>
-                    </div>
                 )}
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
-export default Cart
+export default Cart;

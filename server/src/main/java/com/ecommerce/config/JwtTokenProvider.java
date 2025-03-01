@@ -18,33 +18,33 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtTokenProvider {
-	
-	private final SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 
-	public String generateToken(Authentication auth) {
+    private final SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 
-		String authorities = auth.getAuthorities().stream()
-				.map(GrantedAuthority::getAuthority)
-				.collect(Collectors.joining(","));
+    public String generateToken(Authentication auth) {
 
-		String jwt = Jwts.builder()
-				.setIssuedAt(new Date())
-				.setExpiration(new Date(new Date().getTime() + 86400000))
-				.claim("email", auth.getName())
-				.claim("authorities", authorities)  // Add authorities to the token
-				.signWith(key)
-				.compact();
+        String authorities = auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
 
-		return jwt;
-	}
-	
-	public String getEmailFromJwtToken(String jwt) {
-		jwt=jwt.substring(7);
-		
-		Claims claims=Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
-		String email=String.valueOf(claims.get("email"));
-		
-		return email;
-	}
+        String jwt = Jwts.builder()
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + 7 * 86400000))
+                .claim("email", auth.getName())
+                .claim("authorities", authorities)  // Add authorities to the token
+                .signWith(key)
+                .compact();
+
+        return jwt;
+    }
+
+    public String getEmailFromJwtToken(String jwt) {
+        jwt = jwt.substring(7);
+
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+        String email = String.valueOf(claims.get("email"));
+
+        return email;
+    }
 
 }

@@ -1,16 +1,19 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import { ToastContainer, Bounce } from 'react-toastify'; // Make sure to import Bounce if you want to use it as a transition
+import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ShopContextProvider from './context/ShopContext.jsx';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <ShopContextProvider>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -22,7 +25,7 @@ createRoot(document.getElementById('root')).render(
         draggable
         pauseOnHover
         theme="light"
-        transition={Bounce} // Corrected syntax
+        transition={Bounce}
       />
     </ShopContextProvider>
   </BrowserRouter>

@@ -4,22 +4,26 @@ import { IoMdClose } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { CiUser } from "react-icons/ci";
-import { useEffect, useState, useContext, useRef } from 'react';
-import { ShopContext } from '../context/ShopContext';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import decodeJWT from '../utils/decodeJWT';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCart } from '../redux/customer/cart/cartActions';
 
 const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
+
+    const dispatch = useDispatch();
+    const { cart, loading, error } = useSelector((state) => state.cartState);
+
     const [isSidebarOpen, setSidebar] = useState(false);
-    const { cartItemCount, fetchCartData, rerender } = useContext(ShopContext);
     const [input, setInput] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchCartData();
-    }, [rerender]);
+        dispatch(getCart());
+    }, []);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -106,9 +110,9 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                         {isLoggedIn && (
                             <Link to="/cart" className="text-gray-600 hover:text-gray-900 relative">
                                 <PiShoppingCartSimpleLight className="text-2xl" />
-                                {cartItemCount > 0 && (
+                                {cart.totalItem > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-gray-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                                        {cartItemCount}
+                                        {cart.totalItem}
                                     </span>
                                 )}
                             </Link>
