@@ -2,6 +2,7 @@ package com.ecommerce.service.impl;
 
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,13 +10,12 @@ import java.util.stream.Collectors;
 
 import com.ecommerce.service.ProductService;
 import com.ecommerce.utility.DtoValidatorUtil;
+import com.ecommerce.utility.Pagination1BasedUtil;
 import com.ecommerce.utility.PaginationUtil;
 import com.ecommerce.utility.QuantityCalculatorUtil;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ProductException;
@@ -26,6 +26,7 @@ import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.request.ProductRequest;
 import com.ecommerce.model.Size;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class ProductServiceImplementation implements ProductService {
@@ -35,6 +36,8 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public Product createProduct(ProductRequest req) throws ProductException {
+
+        System.out.println("createProduct method triggered");
 
         // Validate the request
         DtoValidatorUtil.validate(req);
@@ -99,6 +102,8 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Product fullUpdate(Long productId, ProductRequest req) throws ProductException {
 
+        System.out.println("fullUpdate method triggered");
+
         // Validate the incoming Product object
         DtoValidatorUtil.validate(req);
 
@@ -110,12 +115,16 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Product partialUpdate(Long productId, ProductRequest req) throws ProductException {
 
+        System.out.println("partialUpdate method triggered");
+
         // Delegate to the existing update logic (reuse updateProduct logic)
         return updateProduct(productId, req);
 
     }
 
     public Product updateProduct(Long productId, ProductRequest req) throws ProductException {
+
+        System.out.println("updateProduct method triggered");
 
         // Find the existing product
         Product product = findProductById(productId);
@@ -209,6 +218,8 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public String deleteProduct(Long productId) throws ProductException {
 
+        System.out.println("deleteProduct method triggered");
+
         Product product = findProductById(productId);
         product.getSizes().clear();
         productRepository.delete(product);
@@ -219,6 +230,8 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Page<Product> getAllProducts(Integer pageNumber, Integer pageSize) {
 
+        System.out.println("getAllProducts method triggered");
+
         // Find all products
         List<Product> products = productRepository.findAll();
         return PaginationUtil.paginateList(products, pageNumber, pageSize);
@@ -227,6 +240,9 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public Product findProductById(Long id) throws ProductException {
+
+        System.out.println("findProductById method triggered");
+
         Optional<Product> opt = productRepository.findById(id);
         if (opt.isPresent()) {
             return opt.get();
@@ -237,6 +253,8 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize) {
 
+        System.out.println("searchProduct method triggered");
+
         // Search for products using the query
         List<Product> products = productRepository.searchProduct(query);
         return PaginationUtil.paginateList(products, pageNumber, pageSize);
@@ -245,6 +263,8 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public Page<Product> searchProductByCategory(String category, Integer pageNumber, Integer pageSize) {
+
+        System.out.println("searchProductByCategory method triggered");
 
         // Search for products using the query
         List<Product> products = productRepository.findProductsByCategoryName(category);
@@ -256,6 +276,8 @@ public class ProductServiceImplementation implements ProductService {
     public Page<Product> getAllProduct(String query, List<String> colors,
                                        Integer minPrice, Integer maxPrice,
                                        Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize) {
+
+        System.out.println("getAllProduct method triggered");
 
         // Filter products based on the provided parameters
         List<Product> products = productRepository.filterProducts(query, minPrice, maxPrice, minDiscount, sort);
@@ -279,7 +301,6 @@ public class ProductServiceImplementation implements ProductService {
         // Paginate the filtered products
         return PaginationUtil.paginateList(products, pageNumber, pageSize);
     }
-
 
 //    @Override
 //    public Page<Product> getAllProduct(String category, List<String> colors,
@@ -306,5 +327,126 @@ public class ProductServiceImplementation implements ProductService {
 //        return PaginationUtil.paginateList(products, pageNumber, pageSize);
 //
 //    }
+
+    @Override
+    public Page<Product> searchProducts(String query, String category, String brand, String size,
+                                        String color, Double minRating, Integer minPrice, Integer maxPrice,
+                                        Integer discount, String sort, Integer pageNumber, Integer pageSize) throws ProductException {
+
+        List<Product> products = productRepository.findAll();
+
+        // Apply search query
+        if (query != null && !query.isEmpty()) {
+            String[] searchTerms = query.split(" ");
+            log.info("Search terms: {}", Arrays.toString(searchTerms));
+
+            products = products.stream()
+                    .filter(product -> {
+                        // Check if the product matches ALL of the search terms
+                        for (String term : searchTerms) {
+                            term = term.trim().toLowerCase(); // Normalize the term
+                            log.info("Checking term: {}", term);
+
+                            // Check if the term exists in title, description, brand, or color
+                            boolean matchesProductFields =
+                                    product.getTitle().toLowerCase().contains(term) ||
+                                            product.getDescription().toLowerCase().contains(term) ||
+                                            product.getBrand().toLowerCase().contains(term) ||
+                                            product.getColor().toLowerCase().contains(term);
+
+                            // Check if the term exists in the category hierarchy
+                            boolean matchesCategoryHierarchy = false;
+                            Category cat = product.getCategory();
+                            while (cat != null) {
+                                if (cat.getName().toLowerCase().contains(term)) {
+                                    matchesCategoryHierarchy = true;
+                                    break;
+                                }
+                                cat = cat.getParentCategory();
+                            }
+
+                            // If the term is not found in any field or category hierarchy, exclude the product
+                            if (!matchesProductFields && !matchesCategoryHierarchy) {
+                                return false; // Product does not match this term
+                            }
+                        }
+                        return true; // Product matches ALL terms
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        // Apply filters
+        if (category != null && !category.isEmpty()) {
+            products = products.stream()
+                    .filter(product -> product.getCategory().getName().equalsIgnoreCase(category))
+                    .collect(Collectors.toList());
+        }
+
+        if (brand != null && !brand.isEmpty()) {
+            products = products.stream()
+                    .filter(product -> product.getBrand().equalsIgnoreCase(brand))
+                    .collect(Collectors.toList());
+        }
+
+        if (size != null && !size.isEmpty()) {
+            products = products.stream()
+                    .filter(product -> product.getSizes().stream().anyMatch(s -> s.getName().toString().equalsIgnoreCase(size)))
+                    .collect(Collectors.toList());
+        }
+
+        if (color != null && !color.isEmpty()) {
+            products = products.stream()
+                    .filter(product -> product.getColor().equalsIgnoreCase(color))
+                    .collect(Collectors.toList());
+        }
+
+        if (minRating != null) {
+            products = products.stream()
+                    .filter(product -> product.getAverageRating() >= minRating)
+                    .collect(Collectors.toList());
+        }
+
+        if (minPrice != null) {
+            products = products.stream()
+                    .filter(product -> product.getPrice() >= minPrice)
+                    .collect(Collectors.toList());
+        }
+
+        if (maxPrice != null) {
+            products = products.stream()
+                    .filter(product -> product.getPrice() <= maxPrice)
+                    .collect(Collectors.toList());
+        }
+
+        if (discount != null) {
+            products = products.stream()
+                    .filter(product -> product.getDiscountPercent() >= discount)
+                    .collect(Collectors.toList());
+        }
+
+        // Apply sorting
+        if (sort != null && !sort.isEmpty()) {
+            switch (sort.toLowerCase()) {
+                case "price_asc":
+                    products.sort((p1, p2) -> Integer.compare(p1.getPrice(), p2.getPrice()));
+                    break;
+                case "price_desc":
+                    products.sort((p1, p2) -> Integer.compare(p2.getPrice(), p1.getPrice()));
+                    break;
+                case "rating":
+                    products.sort((p1, p2) -> Double.compare(p2.getAverageRating(), p1.getAverageRating()));
+                    break;
+                case "discount":
+                    products.sort((p1, p2) -> Integer.compare(p2.getDiscountPercent(), p1.getDiscountPercent()));
+                    break;
+                default:
+                    // No sorting or default sorting
+                    break;
+            }
+        }
+
+        return Pagination1BasedUtil.paginateList(products, pageNumber, pageSize);
+
+    }
 
 }

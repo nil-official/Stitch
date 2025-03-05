@@ -30,28 +30,25 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public User findUserById(Long userId) throws UserException {
-        Optional<User> user = userRepository.findById(userId);
 
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             return user.get();
         }
         throw new UserException("user not found with id " + userId);
+
     }
 
     @Override
     public User findUserProfileByJwt(String jwt) throws UserException {
-        System.out.println("user service");
+
         String email = jwtTokenProvider.getEmailFromJwtToken(jwt);
-
-        System.out.println("email" + email);
-
         User user = userRepository.findByEmail(email);
-
         if (user == null) {
-            throw new UserException("user not exist with email " + email);
+            throw new UserException("User not found with email: " + email);
         }
-        System.out.println("email user" + user.getEmail());
         return user;
+
     }
 
     @Override
@@ -62,27 +59,20 @@ public class UserServiceImplementation implements UserService {
     @Override
     public User updateUserById(Long userId, UserDto userDto) throws UserException {
 
-//        if (userDto.getFirstName().isEmpty() ||
-//                userDto.getLastName().isEmpty() ||
-//                userDto.getEmail().isEmpty()) {
-//            throw new UserException("Cannot update user with empty fields");
-//        }
-
         DtoValidatorUtil.validate(userDto);
-        // find existing user
         Optional<User> user = userRepository.findById(userId);
-        // update user if exists and return
         if (user.isPresent()) {
             UserMapper.updateUser(user.get(), userDto);
             return userRepository.save(user.get());
         }
-        // otherwise throw exception
         throw new UserException("user not found with id " + userId);
+
     }
 
     @Override
     @Transactional
     public String deleteUserById(Long userId) {
+
         Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isPresent()) {
             existingUser.get().getRoles().clear();
@@ -98,10 +88,12 @@ public class UserServiceImplementation implements UserService {
             return "User deleted successfully!";
         }
         return "No user found with the given id: " + userId;
+
     }
 
     @Override
     public User updateUserRoleById(Long userId, boolean promote) throws UserException {
+
         Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isPresent()) {
             User user = existingUser.get();
@@ -117,6 +109,7 @@ public class UserServiceImplementation implements UserService {
             return userRepository.save(user);
         }
         throw new UserException("user not found with id " + userId);
+        
     }
 
 }

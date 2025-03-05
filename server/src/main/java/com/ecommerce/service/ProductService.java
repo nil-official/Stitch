@@ -18,9 +18,9 @@ public interface ProductService {
 
     Product partialUpdate(Long productId, ProductRequest req) throws ProductException;
 
-    Page<Product> getAllProducts(Integer pageNumber, Integer pageSize);
-
     Product findProductById(Long id) throws ProductException;
+
+    Page<Product> getAllProducts(Integer pageNumber, Integer pageSize);
 
     Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize);
 
@@ -33,5 +33,9 @@ public interface ProductService {
 //    Page<Product> getAllProduct(String category, List<String> colors, List<String> sizes,
 //                                Integer minPrice, Integer maxPrice, Integer minDiscount,
 //                                String sort, String stock, Integer pageNumber, Integer pageSize);
+
+    Page<Product> searchProducts(String query, String category, String brand, String size,
+                                 String color, Double minRating, Integer minPrice, Integer maxPrice,
+                                 Integer discount, String sort, Integer pageNumber, Integer pageSize) throws ProductException;
 
 }

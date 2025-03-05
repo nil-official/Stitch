@@ -28,7 +28,7 @@ import AdminOrders from './pages/AdminOrders';
 import AdminUsers from './pages/AdminUsers';
 import EditUser from './pages/EditUser';
 import { useRef, useState } from 'react';
-// import SearchPage from './pages/SearchPage';
+import SearchPage from './pages/SearchPage';
 import MaintenancePage from './pages/MaintenancePage';
 
 function Layout({ isSearchOpen, setIsSearchOpen, searchInputRef }) {
@@ -64,7 +64,7 @@ function App() {
           {/* User Routes */}
           <Route path="/" element={<Home isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
           <Route path="/search/:name" element={<Search />} />
-          {/* <Route path="/product/search" element={<SearchPage />} /> */}
+          <Route path="/product/search" element={<SearchPage />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />

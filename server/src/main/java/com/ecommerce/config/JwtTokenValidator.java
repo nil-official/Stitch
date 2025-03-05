@@ -7,6 +7,7 @@ import java.util.List;
 import javax.crypto.SecretKey;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Slf4j
 @Component
 public class JwtTokenValidator extends OncePerRequestFilter {
 
@@ -33,10 +35,13 @@ public class JwtTokenValidator extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
             throws ServletException, IOException {
 
+        // Logging the incoming request
+        log.info("Incoming Request: {} {}", request.getMethod(), request.getRequestURI());
+
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
         if (jwt != null && jwt.startsWith("Bearer ")) {
             jwt = jwt.substring(7);
-            System.out.println("jwt ------ " + jwt);
+            log.info("JWT Detected: {}", jwt);
             try {
 
                 SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
