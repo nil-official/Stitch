@@ -63,8 +63,7 @@ function App() {
         <Route element={<Layout isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />}>
           {/* User Routes */}
           <Route path="/" element={<Home isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
-          <Route path="/search/:name" element={<Search />} />
-          <Route path="/product/search" element={<SearchPage />} />
+          <Route path="/products/search" element={<SearchPage />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />

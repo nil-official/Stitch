@@ -66,20 +66,20 @@ public class UserProductController {
     @GetMapping("/search")
     public ResponseEntity<Page<Product>> searchProducts(
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String size,
-            @RequestParam(required = false) String color,
-            @RequestParam(required = false) Double minRating,
+            @RequestParam(required = false) List<String> category,
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false) List<String> brand,
+            @RequestParam(required = false) List<String> size,
+            @RequestParam(required = false) List<String> color,
             @RequestParam(required = false) Integer discount,
+            @RequestParam(required = false) Double rating,
             @RequestParam(required = false) String sort,
             @RequestParam(defaultValue = "1") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize) throws ProductException {
 
-        Page<Product> products = productService.searchProducts(query, category, brand, size, color, minRating,
-                minPrice, maxPrice, discount, sort, pageNumber, pageSize);
+        Page<Product> products = productService.searchProducts(query, category, minPrice,
+                maxPrice, brand, size, color, discount, rating, sort, pageNumber, pageSize);
         return new ResponseEntity<>(products, HttpStatus.OK);
 
     }

@@ -28,11 +28,12 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
     const handleSearch = (e) => {
         e.preventDefault();
         if (input.trim()) {
-            navigate(`/search/${input}`);
+            const formattedInput = input.trim().replace(/\s+/g, '+');
+            navigate(`/products/search?q=${formattedInput}`);
             setInput('');
             setIsSearchOpen(false);
         }
-    }
+    };
 
     const handleLogOut = () => {
         try {

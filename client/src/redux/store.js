@@ -2,11 +2,13 @@ import { combineReducers, legacy_createStore, applyMiddleware } from 'redux';
 import { thunk } from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import cartReducers from './customer/cart/cartReducers';
-import searchReducers from './customer/search/searchReducers';
+import searchProductsReducers from './customer/search/searchProductsReducers';
+import searchFiltersReducers from './customer/search/searchFiltersReducers';
 
 const rootReducers = combineReducers({
     cartState: cartReducers,
-    searchState: searchReducers,
+    searchProductsState: searchProductsReducers,
+    searchFiltersState: searchFiltersReducers,
 });
 
 const middlewares = [thunk];

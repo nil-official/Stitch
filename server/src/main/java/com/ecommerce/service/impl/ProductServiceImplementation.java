@@ -2,10 +2,7 @@ package com.ecommerce.service.impl;
 
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.ecommerce.service.ProductService;
@@ -329,9 +326,9 @@ public class ProductServiceImplementation implements ProductService {
 //    }
 
     @Override
-    public Page<Product> searchProducts(String query, String category, String brand, String size,
-                                        String color, Double minRating, Integer minPrice, Integer maxPrice,
-                                        Integer discount, String sort, Integer pageNumber, Integer pageSize) throws ProductException {
+    public Page<Product> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
+                                        List<String> brand, List<String> size, List<String> color, Integer discount,
+                                        Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException {
 
         List<Product> products = productRepository.findAll();
 
@@ -375,72 +372,101 @@ public class ProductServiceImplementation implements ProductService {
                     .collect(Collectors.toList());
         }
 
-        // Apply filters
+        // Apply category filter
         if (category != null && !category.isEmpty()) {
+            Set<String> categorySet = category.stream()
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toSet());
+
             products = products.stream()
-                    .filter(product -> product.getCategory().getName().equalsIgnoreCase(category))
+                    .filter(product -> categorySet.contains(product.getCategory().getName().toLowerCase()))
                     .collect(Collectors.toList());
         }
 
-        if (brand != null && !brand.isEmpty()) {
-            products = products.stream()
-                    .filter(product -> product.getBrand().equalsIgnoreCase(brand))
-                    .collect(Collectors.toList());
-        }
-
-        if (size != null && !size.isEmpty()) {
-            products = products.stream()
-                    .filter(product -> product.getSizes().stream().anyMatch(s -> s.getName().toString().equalsIgnoreCase(size)))
-                    .collect(Collectors.toList());
-        }
-
-        if (color != null && !color.isEmpty()) {
-            products = products.stream()
-                    .filter(product -> product.getColor().equalsIgnoreCase(color))
-                    .collect(Collectors.toList());
-        }
-
-        if (minRating != null) {
-            products = products.stream()
-                    .filter(product -> product.getAverageRating() >= minRating)
-                    .collect(Collectors.toList());
-        }
-
+        // Apply minPrice filter
         if (minPrice != null) {
             products = products.stream()
                     .filter(product -> product.getPrice() >= minPrice)
                     .collect(Collectors.toList());
         }
 
+        // Apply maxPrice filter
         if (maxPrice != null) {
             products = products.stream()
                     .filter(product -> product.getPrice() <= maxPrice)
                     .collect(Collectors.toList());
         }
 
+        // Apply brand filter
+        if (brand != null && !brand.isEmpty()) {
+            Set<String> brandSet = brand.stream()
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toSet());
+
+            products = products.stream()
+                    .filter(product -> brandSet.contains(product.getBrand().toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        // Apply size filter
+        if (size != null && !size.isEmpty()) {
+            Set<String> sizeSet = size.stream()
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toSet());
+
+            products = products.stream()
+                    .filter(product -> product.getSizes().stream()
+                            .anyMatch(s -> sizeSet.contains(s.getName().toString().toLowerCase())))
+                    .collect(Collectors.toList());
+        }
+
+        // Apply color filter
+        if (color != null && !color.isEmpty()) {
+            Set<String> colorSet = color.stream()
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toSet());
+
+            products = products.stream()
+                    .filter(product -> colorSet.contains(product.getColor().toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        // Apply discount filter
         if (discount != null) {
             products = products.stream()
                     .filter(product -> product.getDiscountPercent() >= discount)
                     .collect(Collectors.toList());
         }
 
+        // Apply minRating filter
+        if (rating != null) {
+            products = products.stream()
+                    .filter(product -> product.getAverageRating() >= rating)
+                    .collect(Collectors.toList());
+        }
+
         // Apply sorting
         if (sort != null && !sort.isEmpty()) {
             switch (sort.toLowerCase()) {
-                case "price_asc":
-                    products.sort((p1, p2) -> Integer.compare(p1.getPrice(), p2.getPrice()));
+                case "name_asc":
+                    products.sort(Comparator.comparing(Product::getTitle, String.CASE_INSENSITIVE_ORDER));
                     break;
-                case "price_desc":
-                    products.sort((p1, p2) -> Integer.compare(p2.getPrice(), p1.getPrice()));
+                case "name_desc":
+                    products.sort((p1, p2) -> p2.getTitle().compareToIgnoreCase(p1.getTitle()));
                     break;
-                case "rating":
+                case "price_low":
+                    products.sort(Comparator.comparingInt(Product::getDiscountedPrice));
+                    break;
+                case "price_high":
+                    products.sort((p1, p2) -> Integer.compare(p2.getDiscountedPrice(), p1.getDiscountedPrice()));
+                    break;
+                case "rating_high":
                     products.sort((p1, p2) -> Double.compare(p2.getAverageRating(), p1.getAverageRating()));
                     break;
-                case "discount":
-                    products.sort((p1, p2) -> Integer.compare(p2.getDiscountPercent(), p1.getDiscountPercent()));
+                case "rating_low":
+                    products.sort(Comparator.comparingDouble(Product::getAverageRating));
                     break;
                 default:
-                    // No sorting or default sorting
                     break;
             }
         }

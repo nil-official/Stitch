@@ -34,8 +34,8 @@ public interface ProductService {
 //                                Integer minPrice, Integer maxPrice, Integer minDiscount,
 //                                String sort, String stock, Integer pageNumber, Integer pageSize);
 
-    Page<Product> searchProducts(String query, String category, String brand, String size,
-                                 String color, Double minRating, Integer minPrice, Integer maxPrice,
-                                 Integer discount, String sort, Integer pageNumber, Integer pageSize) throws ProductException;
+    public Page<Product> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
+                                        List<String> brand, List<String> size, List<String> color, Integer discount,
+                                        Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException;
 
 }

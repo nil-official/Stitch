@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSearchParams } from "react-router-dom";
 
 const SortDropdown = () => {
-    const [sort, setSort] = useState("default");
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const sort = searchParams.get("sort") || "default";
 
     const options = [
         { value: "default", label: "Default" },
@@ -13,14 +16,24 @@ const SortDropdown = () => {
         { value: "rating_low", label: "Rating: Lowest" },
     ];
 
+    const handleSortChange = (e) => {
+        const newSort = e.target.value;
+        if (newSort === "default") {
+            searchParams.delete("sort");
+        } else {
+            searchParams.set("sort", newSort);
+        }
+        setSearchParams(searchParams);
+    };
+
     return (
         <div className="flex items-center gap-2">
             <span className="text-gray-700 font-medium">Sort By</span>
             <div className="relative">
                 <select
-                    className="px-4 py-[10px] border rounded-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                    className="px-4 py-[10px] border rounded-md text-gray-700 focus:ring-2 focus:ring-gray-500 cursor-pointer"
                     value={sort}
-                    onChange={(e) => setSort(e.target.value)}
+                    onChange={handleSortChange}
                 >
                     {options.map((option) => (
                         <option key={option.value} value={option.value}>
