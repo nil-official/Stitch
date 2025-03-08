@@ -10,6 +10,9 @@ export default {
         '3xl': '1800px',
         '4xl': '2200px',
       },
+      fontSize: {
+        md: ["16px", "24px"],
+      },
     },
   },
   plugins: [],

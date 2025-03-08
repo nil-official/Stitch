@@ -8,7 +8,6 @@ import ProductDetails from './pages/ProductDetails'
 import Footer from './components/Footer'
 import Wishlist from './pages/Wishlist'
 import Orders from './pages/Orders';
-import Search from './pages/Search'
 import UserProfile from './pages/UserProfile'
 import OrdersDetails from './pages/OrderDetails';
 import ForgotPassword from './pages/ForgotPassword';

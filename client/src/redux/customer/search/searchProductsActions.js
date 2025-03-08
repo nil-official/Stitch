@@ -38,7 +38,11 @@ export const getProducts = (query, filters, sort, pageNumber, pageSize) => async
         });
 
         const response = await axios.get(`/api/search?${params.toString()}`);
-        dispatch(getProductsFulfilled(response.data));
+
+        setTimeout(() => {
+            dispatch(getProductsFulfilled(response.data));
+        }, 3000);
+
         console.log("URL fired: ", response.config.url);
 
     } catch (error) {
