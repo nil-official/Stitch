@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.ecommerce.dto.SearchDto;
+import com.ecommerce.mapper.ProductMapper;
 import com.ecommerce.service.ProductService;
 import com.ecommerce.utility.DtoValidatorUtil;
 import com.ecommerce.utility.Pagination1BasedUtil;
@@ -33,8 +35,6 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public Product createProduct(ProductRequest req) throws ProductException {
-
-        System.out.println("createProduct method triggered");
 
         // Validate the request
         DtoValidatorUtil.validate(req);
@@ -99,8 +99,6 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Product fullUpdate(Long productId, ProductRequest req) throws ProductException {
 
-        System.out.println("fullUpdate method triggered");
-
         // Validate the incoming Product object
         DtoValidatorUtil.validate(req);
 
@@ -112,16 +110,12 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Product partialUpdate(Long productId, ProductRequest req) throws ProductException {
 
-        System.out.println("partialUpdate method triggered");
-
         // Delegate to the existing update logic (reuse updateProduct logic)
         return updateProduct(productId, req);
 
     }
 
     public Product updateProduct(Long productId, ProductRequest req) throws ProductException {
-
-        System.out.println("updateProduct method triggered");
 
         // Find the existing product
         Product product = findProductById(productId);
@@ -215,8 +209,6 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public String deleteProduct(Long productId) throws ProductException {
 
-        System.out.println("deleteProduct method triggered");
-
         Product product = findProductById(productId);
         product.getSizes().clear();
         productRepository.delete(product);
@@ -227,8 +219,6 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Page<Product> getAllProducts(Integer pageNumber, Integer pageSize) {
 
-        System.out.println("getAllProducts method triggered");
-
         // Find all products
         List<Product> products = productRepository.findAll();
         return PaginationUtil.paginateList(products, pageNumber, pageSize);
@@ -238,19 +228,16 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Product findProductById(Long id) throws ProductException {
 
-        System.out.println("findProductById method triggered");
-
         Optional<Product> opt = productRepository.findById(id);
         if (opt.isPresent()) {
             return opt.get();
         }
         throw new ProductException("product not found with id " + id);
+
     }
 
     @Override
     public Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize) {
-
-        System.out.println("searchProduct method triggered");
 
         // Search for products using the query
         List<Product> products = productRepository.searchProduct(query);
@@ -261,8 +248,6 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public Page<Product> searchProductByCategory(String category, Integer pageNumber, Integer pageSize) {
 
-        System.out.println("searchProductByCategory method triggered");
-
         // Search for products using the query
         List<Product> products = productRepository.findProductsByCategoryName(category);
         return PaginationUtil.paginateList(products, pageNumber, pageSize);
@@ -270,79 +255,23 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public Page<Product> getAllProduct(String query, List<String> colors,
-                                       Integer minPrice, Integer maxPrice,
-                                       Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize) {
-
-        System.out.println("getAllProduct method triggered");
-
-        // Filter products based on the provided parameters
-        List<Product> products = productRepository.filterProducts(query, minPrice, maxPrice, minDiscount, sort);
-
-        // Filter products based on colors
-        if (!colors.isEmpty()) {
-            products = products.stream()
-                    .filter(p -> colors.stream().anyMatch(c -> c.equalsIgnoreCase(p.getColor())))
-                    .collect(Collectors.toList());
-        }
-
-        // Filter products based on stock availability
-        if (stock != null) {
-            if (stock.equals("in_stock")) {
-                products = products.stream().filter(p -> p.getQuantity() > 0).collect(Collectors.toList());
-            } else if (stock.equals("out_of_stock")) {
-                products = products.stream().filter(p -> p.getQuantity() < 1).collect(Collectors.toList());
-            }
-        }
-
-        // Paginate the filtered products
-        return PaginationUtil.paginateList(products, pageNumber, pageSize);
-    }
-
-//    @Override
-//    public Page<Product> getAllProduct(String category, List<String> colors,
-//                                       List<String> sizes, Integer minPrice, Integer maxPrice,
-//                                       Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize) {
-//
-//        // Filter products based on the provided parameters
-//        List<Product> products = productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort);
-//
-//        // Filter products based on sizes
-//        if (!colors.isEmpty()) {
-//            products = products.stream()
-//                    .filter(p -> colors.stream().anyMatch(c -> c.equalsIgnoreCase(p.getColor())))
-//                    .collect(Collectors.toList());
-//        }
-//        if (stock != null) {
-//            if (stock.equals("in_stock")) {
-//                products = products.stream().filter(p -> p.getQuantity() > 0).collect(Collectors.toList());
-//            } else if (stock.equals("out_of_stock")) {
-//                products = products.stream().filter(p -> p.getQuantity() < 1).collect(Collectors.toList());
-//            }
-//        }
-//
-//        return PaginationUtil.paginateList(products, pageNumber, pageSize);
-//
-//    }
-
-    @Override
-    public Page<Product> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
-                                        List<String> brand, List<String> size, List<String> color, Integer discount,
-                                        Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException {
+    public Page<SearchDto> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
+                                          List<String> brand, List<String> size, List<String> color, Integer discount,
+                                          Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException {
 
         List<Product> products = productRepository.findAll();
 
         // Apply search query
         if (query != null && !query.isEmpty()) {
             String[] searchTerms = query.split(" ");
-            log.info("Search terms: {}", Arrays.toString(searchTerms));
+//            log.info("Search terms: {}", Arrays.toString(searchTerms));
 
             products = products.stream()
                     .filter(product -> {
                         // Check if the product matches ALL of the search terms
                         for (String term : searchTerms) {
                             term = term.trim().toLowerCase(); // Normalize the term
-                            log.info("Checking term: {}", term);
+//                            log.info("Checking term: {}", term);
 
                             // Check if the term exists in title, description, brand, or color
                             boolean matchesProductFields =
@@ -471,7 +400,8 @@ public class ProductServiceImplementation implements ProductService {
             }
         }
 
-        return Pagination1BasedUtil.paginateList(products, pageNumber, pageSize);
+        List<SearchDto> searchedProducts = ProductMapper.toSearchDtoList(products);
+        return Pagination1BasedUtil.paginateList(searchedProducts, pageNumber, pageSize);
 
     }
 

@@ -1,6 +1,7 @@
 package com.ecommerce.mapper;
 
 import com.ecommerce.dto.ProductDto;
+import com.ecommerce.dto.SearchDto;
 import com.ecommerce.model.Product;
 
 import java.util.List;
@@ -30,6 +31,24 @@ public class ProductMapper {
     public static List<ProductDto> toDtoList(List<Product> products) {
         return products.stream()
                 .map(ProductMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public static List<SearchDto> toSearchDtoList(List<Product> products) {
+        return products.stream()
+                .map(product -> {
+                    SearchDto dto = new SearchDto();
+                    dto.setId(product.getId());
+                    dto.setTitle(product.getTitle());
+                    dto.setPrice(product.getPrice());
+                    dto.setDiscountedPrice(product.getDiscountedPrice());
+                    dto.setDiscountPercent(product.getDiscountPercent());
+                    dto.setQuantity(product.getQuantity());
+                    dto.setBrand(product.getBrand());
+                    dto.setImageUrl(product.getImageUrl());
+                    dto.setAverageRating(product.getAverageRating());
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 

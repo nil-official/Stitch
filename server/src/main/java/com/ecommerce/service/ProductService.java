@@ -2,6 +2,7 @@ package com.ecommerce.service;
 
 import java.util.List;
 
+import com.ecommerce.dto.SearchDto;
 import org.springframework.data.domain.Page;
 
 import com.ecommerce.exception.ProductException;
@@ -26,16 +27,8 @@ public interface ProductService {
 
     Page<Product> searchProductByCategory(String category, Integer pageNumber, Integer pageSize);
 
-    Page<Product> getAllProduct(String query, List<String> colors,
-                                Integer minPrice, Integer maxPrice, Integer minDiscount,
-                                String sort, String stock, Integer pageNumber, Integer pageSize);
-
-//    Page<Product> getAllProduct(String category, List<String> colors, List<String> sizes,
-//                                Integer minPrice, Integer maxPrice, Integer minDiscount,
-//                                String sort, String stock, Integer pageNumber, Integer pageSize);
-
-    public Page<Product> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
-                                        List<String> brand, List<String> size, List<String> color, Integer discount,
-                                        Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException;
+    Page<SearchDto> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
+                                   List<String> brand, List<String> size, List<String> color, Integer discount,
+                                   Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException;
 
 }

@@ -3,6 +3,7 @@ package com.ecommerce.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.ecommerce.dto.SearchDto;
 import com.ecommerce.utility.PaginationUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,18 +25,6 @@ import com.ecommerce.service.ProductService;
 public class UserProductController {
 
     private ProductService productService;
-
-    @GetMapping("/products")
-    public ResponseEntity<Page<Product>> findProductByCategoryHandler(@RequestParam String query, @RequestParam List<String> color,
-                                                                      @RequestParam Integer minPrice,
-                                                                      @RequestParam Integer maxPrice, @RequestParam Integer minDiscount,
-                                                                      @RequestParam String sort, @RequestParam String stock,
-                                                                      @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
-
-        Page<Product> res = productService.getAllProduct(query, color, minPrice, maxPrice, minDiscount, sort, stock, pageNumber, pageSize);
-        return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
-
-    }
 
     @GetMapping("/products/id/{productId}")
     public ResponseEntity<Product> findProductByIdHandler(@PathVariable Long productId) throws ProductException {
@@ -64,7 +53,7 @@ public class UserProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Product>> searchProducts(
+    public ResponseEntity<Page<SearchDto>> searchProducts(
             @RequestParam(required = false) String query,
             @RequestParam(required = false) List<String> category,
             @RequestParam(required = false) Integer minPrice,
@@ -78,7 +67,7 @@ public class UserProductController {
             @RequestParam(defaultValue = "1") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize) throws ProductException {
 
-        Page<Product> products = productService.searchProducts(query, category, minPrice,
+        Page<SearchDto> products = productService.searchProducts(query, category, minPrice,
                 maxPrice, brand, size, color, discount, rating, sort, pageNumber, pageSize);
         return new ResponseEntity<>(products, HttpStatus.OK);
 
