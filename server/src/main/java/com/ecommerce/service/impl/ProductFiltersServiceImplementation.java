@@ -42,8 +42,8 @@ public class ProductFiltersServiceImplementation implements ProductFiltersServic
         int maxPrice = products.stream().mapToInt(Product::getDiscountedPrice).max().orElse(0);
 
         // Filters response
+        filters.put("price", Map.of("minPrice", minPrice, "maxPrice", maxPrice));
         filters.put("category", getCategoryCounts(products));
-        filters.put("price", Map.of("min", minPrice, "max", maxPrice));
         filters.put("brand", getCounts(products, Product::getBrand));
         filters.put("size", getSizeCounts(products));
         filters.put("color", getCounts(products, Product::getColor));

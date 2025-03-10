@@ -20,15 +20,17 @@ const getProductsRejected = (error) => ({
     error: error,
 });
 
-export const getProducts = (query, filters, sort, pageNumber, pageSize) => async (dispatch) => {
+export const getProducts = (query, minPrice, maxPrice, filters, sort, pageNumber, pageSize) => async (dispatch) => {
     dispatch(getProductsPending());
     try {
         // Convert filters object into query params
         const params = new URLSearchParams();
-        if (query) params.append("query", query);
-        if (sort) params.append("sort", sort);
-        if (pageNumber) params.append("pageNumber", pageNumber);
-        if (pageSize) params.append("pageSize", pageSize);
+        if (query) params.append('query', query);
+        if (minPrice) params.append('minPrice', minPrice);
+        if (maxPrice) params.append('maxPrice', maxPrice);
+        if (sort && sort !== 'default') params.append('sort', sort);
+        if (pageNumber) params.append('pageNumber', pageNumber);
+        if (pageSize) params.append('pageSize', pageSize);
 
         // Loop through filters and append multiple values
         Object.keys(filters).forEach((key) => {
@@ -38,11 +40,7 @@ export const getProducts = (query, filters, sort, pageNumber, pageSize) => async
         });
 
         const response = await axios.get(`/api/search?${params.toString()}`);
-
-        setTimeout(() => {
-            dispatch(getProductsFulfilled(response.data));
-        }, 3000);
-
+        dispatch(getProductsFulfilled(response.data));
         console.log("URL fired: ", response.config.url);
 
     } catch (error) {

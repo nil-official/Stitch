@@ -24,9 +24,7 @@ export const getFilters = (query) => async (dispatch) => {
     dispatch(getFiltersPending());
     try {
         const response = await axios.get(`/api/filters?query=${query}`);
-        setTimeout(() => {
-            dispatch(getFiltersFulfilled(response.data));
-        }, 3000);
+        dispatch(getFiltersFulfilled(response.data));
     } catch (error) {
         dispatch(getFiltersRejected(error));
         console.log('Failed to fetch filters', error);

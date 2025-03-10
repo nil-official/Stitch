@@ -6,9 +6,9 @@ import FilterSection from '../components/Search/FilterSection';
 import SortDropdown from '../components/Search/SortDropdown';
 import ProductCard from '../components/Search/ProductCard';
 import Pagination from '../components/Search/Pagination';
+import ErrorEncountered from '../components/ErrorEncountered';
 import { getProducts } from '../redux/customer/search/searchProductsActions';
 import { getFilters } from '../redux/customer/search/searchFiltersActions';
-import ErrorEncountered from '../components/ErrorEncountered';
 
 const SearchPage = () => {
     // Hooks
@@ -21,16 +21,18 @@ const SearchPage = () => {
 
     // URL Search Params
     const [searchParams, setSearchParams] = useSearchParams();
-    const query = searchParams.get('q') || "";
-    const sort = searchParams.get("sort") || "default";
+    const query = searchParams.get('q') || '';
+    const minPrice = searchParams.get('minPrice') || '';
+    const maxPrice = searchParams.get('maxPrice') || '';
+    const sort = searchParams.get('sort') || 'default';
     const currentPage = parseInt(searchParams.get('page')) || 1;
     const [pageSize] = useState(12);
 
     // Extract filters from URL
     const initialFilters = {};
     searchParams.forEach((value, key) => {
-        if (!["q", "page", "sort"].includes(key)) {
-            initialFilters[key] = value.split(",");
+        if (!['q', 'minPrice', 'maxPrice', 'page', 'sort'].includes(key)) {
+            initialFilters[key] = value.split(',');
         }
     });
 
@@ -41,11 +43,13 @@ const SearchPage = () => {
     // Method to update URL search params
     const updateSearchParams = (filters) => {
         const newParams = new URLSearchParams();
-        if (query) newParams.set("q", query);
-        if (sort !== "default") newParams.set("sort", sort);
+        if (query) newParams.set('q', query);
+        if (sort !== 'default') newParams.set('sort', sort);
+        if (minPrice) newParams.set('minPrice', minPrice);
+        if (maxPrice) newParams.set('maxPrice', maxPrice);
         Object.entries(filters).forEach(([key, values]) => {
             if (values.length > 0) {
-                newParams.set(key, values.join(","));
+                newParams.set(key, values.join(','));
             }
         });
         setSearchParams(newParams);
@@ -88,7 +92,7 @@ const SearchPage = () => {
         if (newPage >= 0 && newPage < products.totalPages && newPage !== products.number) {
             setSearchParams(prev => {
                 const params = new URLSearchParams(prev);
-                params.set("page", newPage + 1);
+                params.set('page', newPage + 1);
                 return params;
             });
         }
@@ -101,20 +105,18 @@ const SearchPage = () => {
 
     // Fetching products from redux
     useEffect(() => {
-        dispatch(getProducts(query, selectedFilters, sort, currentPage, pageSize));
-    }, [dispatch, query, selectedFilters, sort, currentPage, searchParams]);
+        dispatch(getProducts(query, minPrice, maxPrice, selectedFilters, sort, currentPage, pageSize));
+    }, [dispatch, query, minPrice, maxPrice, selectedFilters, sort, currentPage, searchParams]);
 
     return (
         <div className="min-h-[60vh] flex justify-center">
             <div className="w-full flex justify-center">
-
                 {/* Error Section */}
                 {(productsError || filtersError) ? (
                     <ErrorEncountered message={productsError.response.data.error || filtersError.response.data.error} />
                 ) : (
-
                     <div className='w-full 2xl:w-11/12 3xl:w-3/4 flex justify-center pb-4'>
-
+                        
                         {/* ------------- Left Section (Filters) ------------- */}
                         <div className="w-1/4 p-6">
                             {/* Filter Search Heading */}
@@ -167,15 +169,24 @@ const SearchPage = () => {
                                                     <button onClick={handleClearFilters} className="p-2 flex items-center gap-1 border rounded-xl">
                                                         <X size={20} />Clear filters
                                                     </button>
-                                                    {Object.entries(selectedFilters).map(([key, values]) => values.map((value) => (
-                                                        <button
-                                                            key={`${key}-${value}`}
-                                                            onClick={() => handleFilterChange(key, value)}
-                                                            className="p-2 flex items-center gap-1 border rounded-xl"
-                                                        >
-                                                            <X size={20} />{value}
-                                                        </button>
-                                                    )))}
+                                                    {Object.entries(selectedFilters)
+                                                        .filter(([key]) => key !== "minPrice" && key !== "maxPrice")
+                                                        .map(([key, values]) => values.map((value) => {
+                                                            const formattedValue = key === "discount"
+                                                                ? `${value}% and above`
+                                                                : key === "rating"
+                                                                    ? `${value} star and above`
+                                                                    : value;
+                                                            return (
+                                                                <button
+                                                                    key={`${key}-${value}`}
+                                                                    onClick={() => handleFilterChange(key, value)}
+                                                                    className="p-2 flex items-center gap-1 border rounded-xl"
+                                                                >
+                                                                    <X size={20} />{formattedValue}
+                                                                </button>
+                                                            );
+                                                        }))}
                                                 </div>
                                             )}
                                             <div className="ml-auto pl-4 flex items-center gap-4">
@@ -219,7 +230,7 @@ const SearchPage = () => {
                                         </p>
                                         <button
                                             className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700"
-                                            onClick={() => navigate('/')}
+                                            onClick={() => navigate('/products/search')}
                                         >
                                             Search Now
                                         </button>

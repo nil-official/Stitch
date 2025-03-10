@@ -386,14 +386,14 @@ public class ProductServiceImplementation implements ProductService {
         // Apply minPrice filter
         if (minPrice != null) {
             products = products.stream()
-                    .filter(product -> product.getPrice() >= minPrice)
+                    .filter(product -> product.getDiscountedPrice() >= minPrice)
                     .collect(Collectors.toList());
         }
 
         // Apply maxPrice filter
         if (maxPrice != null) {
             products = products.stream()
-                    .filter(product -> product.getPrice() <= maxPrice)
+                    .filter(product -> product.getDiscountedPrice() <= maxPrice)
                     .collect(Collectors.toList());
         }
 

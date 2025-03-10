@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.9",
     "axios": "^1.7.5",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -22,6 +23,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.26.1",
     "react-slick": "^0.30.2",
+    "react-slider": "^2.0.6",
     "react-toastify": "^10.0.6",
     "redux": "^5.0.1",
     "redux-logger": "^3.0.6",
