@@ -3,6 +3,7 @@ package com.ecommerce.mapper;
 import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.SearchDto;
 import com.ecommerce.model.Product;
+import com.ecommerce.model.ProductES;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +51,17 @@ public class ProductMapper {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public static ProductES toProductES(Product product) {
+        ProductES productES = new ProductES();
+        productES.setId(product.getId());
+        productES.setTitle(product.getTitle());
+        productES.setDescription(product.getDescription());
+        productES.setPrice(product.getDiscountedPrice());
+        productES.setBrand(product.getBrand());
+        productES.setColor(product.getColor());
+        return productES;
     }
 
 }

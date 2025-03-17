@@ -43,6 +43,11 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Elasticsearch for search functionality-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
         <!-- Spring Boot Starter Test for testing support -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
