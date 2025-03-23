@@ -42,6 +42,12 @@ public class ProductESController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @DeleteMapping("/products/deleteAll")
+    public ResponseEntity<String> deleteAllProducts() throws ProductException {
+        String response = productESService.deleteAllProducts();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/products/autocomplete")
     public ResponseEntity<List<String>> autocompleteSearch(@RequestParam String query) throws IOException {
         List<String> suggestions = productESService.autocompleteSearch(query);

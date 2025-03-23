@@ -24,7 +24,7 @@ public class SearchDto {
     private int discountPercent;
     private int quantity;
     private String brand;
-    private String imageUrl;
+    private String preview;
     private double averageRating;
 
 }

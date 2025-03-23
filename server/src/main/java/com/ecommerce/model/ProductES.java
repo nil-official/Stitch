@@ -13,9 +13,5 @@ public class ProductES {
 
     private Long id;
     private String title;
-    private String description;
-    private int price;
-    private String brand;
-    private String color;
 
 }

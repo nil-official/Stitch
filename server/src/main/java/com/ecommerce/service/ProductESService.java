@@ -16,6 +16,8 @@ public interface ProductESService {
 
     String deleteProduct(Long productId) throws ProductException;
 
+    String deleteAllProducts() throws ProductException;
+
     List<String> autocompleteSearch(String query) throws IOException;
 
 }

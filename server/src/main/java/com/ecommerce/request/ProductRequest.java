@@ -1,5 +1,6 @@
 package com.ecommerce.request;
 
+import java.util.List;
 import java.util.Set;
 
 import com.ecommerce.model.Size;
@@ -35,8 +36,11 @@ public class ProductRequest {
     @NotEmpty(message = "Sizes cannot be empty")
     private Set<Size> sizes;
 
-    @NotBlank(message = "Image URL is mandatory")
-    private String imageUrl;
+    @NotBlank(message = "Preview is mandatory")
+    private String preview;
+
+    @NotEmpty(message = "Images are mandatory")
+    private List<String> images;
 
     @NotBlank(message = "Top-level category is mandatory")
     private String topLevelCategory;

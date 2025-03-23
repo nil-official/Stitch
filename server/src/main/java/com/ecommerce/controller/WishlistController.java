@@ -40,13 +40,24 @@ public class WishlistController {
 
     }
 
-    @DeleteMapping("/remove/{wishlistItemId}")
+    @DeleteMapping("/remove/id/{wishlistItemId}")
     public ResponseEntity<ApiResponse> removeItemFromWishlist(@RequestHeader("Authorization") String jwt,
                                                               @PathVariable Long wishlistItemId) throws UserException, ProductException {
 
         User user = userService.findUserProfileByJwt(jwt);
         wishlistService.removeFromWishlist(user.getId(), wishlistItemId);
         ApiResponse res = new ApiResponse("Item Removed from Wishlist Successfully", true);
+        return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+
+    }
+
+    @DeleteMapping("/remove/{productId}")
+    public ResponseEntity<ApiResponse> removeProductFromWishlist(@RequestHeader("Authorization") String jwt,
+                                                                 @PathVariable Long productId) throws UserException, ProductException {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        wishlistService.removeProductFromWishlist(user.getId(), productId);
+        ApiResponse res = new ApiResponse("Product Removed from Wishlist Successfully", true);
         return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
 
     }

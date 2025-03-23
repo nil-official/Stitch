@@ -9,8 +9,6 @@ import com.ecommerce.service.ProductService;
 import com.ecommerce.service.RatingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ProductException;
@@ -26,14 +24,13 @@ import com.ecommerce.request.RatingRequest;
 public class RatingServiceImplementation implements RatingService {
 
     private RatingRepository ratingRepository;
-    private ProductService productService;
     private ProductRepository productRepository;
-    private static final Logger logger = LoggerFactory.getLogger(RatingServiceImplementation.class);
 
     @Override
     public Rating createRating(RatingRequest req, User user) throws ProductException {
 
-        Product product = productService.findProductById(req.getProductId());
+        Product product = productRepository.findById(req.getProductId())
+                .orElseThrow(() -> new ProductException("Product not found"));
 
         // Declare rating variable
         Rating rating;
@@ -56,16 +53,16 @@ public class RatingServiceImplementation implements RatingService {
             ratingRepository.save(rating);
 
             // Increment totalRatings as this is a new rating from a new user
-            product.setTotalRatings(product.getTotalRatings() + 1);
+//            product.setTotalRatings(product.getTotalRatings() + 1);
         }
 
         // Calculate and update the averageRating
-        List<Rating> ratingsList = product.getRatings();
-        double totalRatingSum = ratingsList.stream().mapToDouble(Rating::getRating).sum();
-        double averageRating = totalRatingSum / product.getTotalRatings();
+//        List<Rating> ratingsList = product.getRatings();
+//        double totalRatingSum = ratingsList.stream().mapToDouble(Rating::getRating).sum();
+//        double averageRating = totalRatingSum / product.getTotalRatings();
 
         // Round to 1 decimal place
-        product.setAverageRating(Math.round(averageRating * 10) / 10.0);
+//        product.setAverageRating(Math.round(averageRating * 10) / 10.0);
 
         // Save the updated product with new averageRating and totalRatings
         productRepository.save(product);

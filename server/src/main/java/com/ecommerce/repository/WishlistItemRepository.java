@@ -7,10 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface WishlistItemRepository extends JpaRepository<WishlistItem, Long> {
 
-    @Query("SELECT wi From WishlistItem wi Where wi.wishlist=:wishlist And wi.product=:product And wi.size=:size And wi.userId=:userId")
+    @Query("SELECT wi From WishlistItem wi Where wi.wishlist=:wishlist And wi.product=:product And wi.userId=:userId")
     public WishlistItem isWishlistItemExist(@Param("wishlist") Wishlist wishlist,
                                             @Param("product") Product product,
-                                            @Param("size") String size,
                                             @Param("userId") Long userId);
 
 }

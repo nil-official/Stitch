@@ -1,10 +1,9 @@
 package com.ecommerce.controller;
 
 import java.util.List;
-import java.util.Map;
 
+import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.SearchDto;
-import com.ecommerce.utility.PaginationUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,9 +26,9 @@ public class UserProductController {
     private ProductService productService;
 
     @GetMapping("/products/id/{productId}")
-    public ResponseEntity<Product> findProductByIdHandler(@PathVariable Long productId) throws ProductException {
+    public ResponseEntity<ProductDto> findProductByIdHandler(@PathVariable Long productId) throws ProductException {
 
-        Product product = productService.findProductById(productId);
+        ProductDto product = productService.findProductById(productId);
         return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
 
     }
@@ -48,6 +47,28 @@ public class UserProductController {
                                                                         @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
 
         Page<Product> products = productService.searchProductByCategory(category, pageNumber, pageSize);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/products/similar/{productId}")
+    public ResponseEntity<Page<SearchDto>> findSimilarProductsHandler(
+            @PathVariable Long productId,
+            @RequestParam(defaultValue = "1") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize) throws ProductException {
+
+        Page<SearchDto> products = productService.findSimilarProducts(productId, pageNumber, pageSize);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/products/like/{productId}")
+    public ResponseEntity<Page<SearchDto>> findLikeProductsHandler(
+            @PathVariable Long productId,
+            @RequestParam(defaultValue = "1") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize) throws ProductException {
+
+        Page<SearchDto> products = productService.findLikeProducts(productId, pageNumber, pageSize);
         return new ResponseEntity<>(products, HttpStatus.OK);
 
     }

@@ -12,6 +12,6 @@ import lombok.Setter;
 public class AddToWishlistRequest {
 
     private Long productId;
-    private String size;
+//    private String size;
 
 }

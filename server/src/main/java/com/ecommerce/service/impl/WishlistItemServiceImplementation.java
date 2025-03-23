@@ -18,8 +18,8 @@ public class WishlistItemServiceImplementation implements WishlistItemService {
     private WishlistItemRepository wishlistItemRepository;
 
     @Override
-    public WishlistItem isWishlistItemExist(Wishlist wishlist, Product product, String size, Long userId) {
-        return wishlistItemRepository.isWishlistItemExist(wishlist, product, size, userId);
+    public WishlistItem isWishlistItemExist(Wishlist wishlist, Product product, Long userId) {
+        return wishlistItemRepository.isWishlistItemExist(wishlist, product, userId);
     }
 
     @Override

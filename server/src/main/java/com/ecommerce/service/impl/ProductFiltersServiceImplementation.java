@@ -2,6 +2,7 @@ package com.ecommerce.service.impl;
 
 import com.ecommerce.model.Category;
 import com.ecommerce.model.Product;
+import com.ecommerce.model.Size;
 import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.service.ProductFiltersService;
 import lombok.AllArgsConstructor;
@@ -116,12 +117,12 @@ public class ProductFiltersServiceImplementation implements ProductFiltersServic
     private List<Map<String, Object>> getSizeCounts(List<Product> products) {
         List<String> sizeOrder = List.of(
                 "XS", "S", "M", "L", "XL", "XXL",
-                "T28", "T30", "T32", "T34", "T36", "T38", "T40"
+                "28", "30", "32", "34", "36", "38", "40"
         );
 
         return products.stream()
                 .flatMap(product -> product.getSizes().stream()) // Flatten sizes
-                .collect(Collectors.groupingBy(size -> size.getName().name(), Collectors.counting())) // Get ProductSize name
+                .collect(Collectors.groupingBy(Size::getName, Collectors.counting())) // Get ProductSize name
                 .entrySet().stream()
                 .map(entry -> Map.of("name", entry.getKey(), "count", (Object) entry.getValue()))
                 .sorted(Comparator.comparingInt(map -> sizeOrder.indexOf(map.get("name")))) // Sort by predefined order

@@ -2,6 +2,7 @@ package com.ecommerce.service;
 
 import java.util.List;
 
+import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.SearchDto;
 import org.springframework.data.domain.Page;
 
@@ -19,13 +20,17 @@ public interface ProductService {
 
     Product partialUpdate(Long productId, ProductRequest req) throws ProductException;
 
-    Product findProductById(Long id) throws ProductException;
+    ProductDto findProductById(Long id) throws ProductException;
 
     Page<Product> getAllProducts(Integer pageNumber, Integer pageSize);
 
     Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize);
 
     Page<Product> searchProductByCategory(String category, Integer pageNumber, Integer pageSize);
+
+    Page<SearchDto> findSimilarProducts(Long productId, Integer pageNumber, Integer pageSize) throws ProductException;
+
+    Page<SearchDto> findLikeProducts(Long productId, Integer pageNumber, Integer pageSize) throws ProductException;
 
     Page<SearchDto> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
                                    List<String> brand, List<String> size, List<String> color, Integer discount,

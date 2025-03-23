@@ -4,6 +4,7 @@ import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.SearchDto;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.ProductES;
+import com.ecommerce.utility.SizeSortingUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,14 +19,15 @@ public class ProductMapper {
         dto.setPrice(product.getPrice());
         dto.setDiscountedPrice(product.getDiscountedPrice());
         dto.setDiscountPercent(product.getDiscountPercent());
+        dto.setQuantity(product.getQuantity());
         dto.setBrand(product.getBrand());
         dto.setColor(product.getColor());
-        dto.setImageUrl(product.getImageUrl());
-        dto.setSizes(product.getSizes());
-        dto.setReviews(product.getReviews());
-        dto.setRatings(product.getRatings());
-        dto.setTotalRatings(product.getTotalRatings());
+        dto.setPreview(product.getPreview());
+        dto.setImages(product.getImages());
+        dto.setSizes(SizeSortingUtil.sortSizes(product.getSizes()));
         dto.setAverageRating(product.getAverageRating());
+        dto.setTotalReviews(product.getReviews() != null ? product.getReviews().size() : 0);
+        dto.setCategory(product.getCategory());
         return dto;
     }
 
@@ -46,7 +48,7 @@ public class ProductMapper {
                     dto.setDiscountPercent(product.getDiscountPercent());
                     dto.setQuantity(product.getQuantity());
                     dto.setBrand(product.getBrand());
-                    dto.setImageUrl(product.getImageUrl());
+                    dto.setPreview(product.getPreview());
                     dto.setAverageRating(product.getAverageRating());
                     return dto;
                 })
@@ -57,10 +59,6 @@ public class ProductMapper {
         ProductES productES = new ProductES();
         productES.setId(product.getId());
         productES.setTitle(product.getTitle());
-        productES.setDescription(product.getDescription());
-        productES.setPrice(product.getDiscountedPrice());
-        productES.setBrand(product.getBrand());
-        productES.setColor(product.getColor());
         return productES;
     }
 

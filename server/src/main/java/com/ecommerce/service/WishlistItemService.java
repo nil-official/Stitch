@@ -5,10 +5,10 @@ import com.ecommerce.model.*;
 
 public interface WishlistItemService {
 
-    public WishlistItem isWishlistItemExist(Wishlist wishlist, Product product, String size, Long userId);
+    WishlistItem isWishlistItemExist(Wishlist wishlist, Product product, Long userId);
 
-    public WishlistItem createWishlistItem(WishlistItem wishlistItem);
+    WishlistItem createWishlistItem(WishlistItem wishlistItem);
 
-    public void deleteWishlistItem(Long wishlistId) throws WishlistException;
+    void deleteWishlistItem(Long wishlistId) throws WishlistException;
 
 }

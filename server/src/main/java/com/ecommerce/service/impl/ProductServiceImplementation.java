@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.SearchDto;
 import com.ecommerce.mapper.ProductMapper;
 import com.ecommerce.repository.ProductESRepository;
@@ -46,10 +47,16 @@ public class ProductServiceImplementation implements ProductService {
             throw new ProductException("Discounted price must be less than or equal to the actual price");
         }
 
-        // Validate sizes to be not negative
+        // Define allowed size names
+        Set<String> allowedSizes = Set.of("XS", "S", "M", "L", "XL", "XXL", "28", "30", "32", "34", "36", "38", "40");
+
+        // Validate sizes
         for (Size size : req.getSizes()) {
             if (size.getQuantity() < 0) {
                 throw new ProductException("Size quantity cannot be negative");
+            }
+            if (!allowedSizes.contains(size.getName())) {
+                throw new ProductException("Invalid size name: " + size.getName() + ". Allowed sizes are: " + allowedSizes);
             }
         }
 
@@ -88,7 +95,8 @@ public class ProductServiceImplementation implements ProductService {
         product.setColor(req.getColor());
         product.setSizes(req.getSizes());
         product.setQuantity(totalQuantity);
-        product.setImageUrl(req.getImageUrl());
+        product.setPreview(req.getPreview());
+        product.setImages(req.getImages());
         product.setFeatured(req.isFeatured());
         product.setCategory(thirdLevel);
         product.setCreatedAt(LocalDateTime.now());
@@ -127,7 +135,8 @@ public class ProductServiceImplementation implements ProductService {
     public Product updateProduct(Long productId, ProductRequest req) throws ProductException {
 
         // Find the existing product
-        Product product = findProductById(productId);
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductException("Product not found"));
 
         boolean priceUpdated = false;
         boolean discountedPriceUpdated = false;
@@ -137,7 +146,7 @@ public class ProductServiceImplementation implements ProductService {
         Map<Runnable, Boolean> updateActions = Map.of(
                 () -> product.setDescription(req.getDescription()), req.getDescription() != null,
                 () -> product.setFeatured(req.isFeatured()), req.isFeatured(),
-                () -> product.setImageUrl(req.getImageUrl()), req.getImageUrl() != null && !req.getImageUrl().isEmpty(),
+                () -> product.setPreview(req.getPreview()), req.getPreview() != null && !req.getPreview().isEmpty(),
                 () -> product.setBrand(req.getBrand()), req.getBrand() != null && !req.getBrand().isEmpty(),
                 () -> product.setColor(req.getColor()), req.getColor() != null && !req.getColor().isEmpty(),
                 () -> product.setTitle(req.getTitle()), req.getTitle() != null && !req.getTitle().isEmpty()
@@ -166,6 +175,11 @@ public class ProductServiceImplementation implements ProductService {
             // Update the total quantity using QuantityCalculatorUtil
             int updatedQuantity = QuantityCalculatorUtil.getTotalQuantity(product.getSizes());
             product.setQuantity(updatedQuantity);
+        }
+
+        // Update images if provided
+        if (req.getImages() != null && !req.getImages().isEmpty()) {
+            product.setImages(new ArrayList<>(req.getImages()));
         }
 
         // Recalculate discountPercent if price or discountedPrice was updated
@@ -218,7 +232,8 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public String deleteProduct(Long productId) throws ProductException {
 
-        Product product = findProductById(productId);
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductException("Product not found"));
         product.getSizes().clear();
         productRepository.delete(product);
         return "Product deleted Successfully";
@@ -235,11 +250,11 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public Product findProductById(Long id) throws ProductException {
+    public ProductDto findProductById(Long id) throws ProductException {
 
         Optional<Product> opt = productRepository.findById(id);
         if (opt.isPresent()) {
-            return opt.get();
+            return ProductMapper.toDto(opt.get());
         }
         throw new ProductException("product not found with id " + id);
 
@@ -264,6 +279,71 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
+    public Page<SearchDto> findSimilarProducts(Long productId, Integer pageNumber, Integer pageSize) throws ProductException {
+        // Find all products
+        List<Product> products = productRepository.findAll();
+
+        // Find the product by ID
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductException("Product with id " + productId + " not found"));
+
+        // Extract the color keywords (splitting by spaces)
+        Set<String> productColorKeywords = Arrays.stream(product.getColor().split("\\s+"))
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
+
+        // Find products with the same category and at least one matching color keyword
+        products = products.stream()
+                .sorted(Comparator.comparing(Product::getAverageRating).reversed())
+                .filter(p -> p.getCategory().equals(product.getCategory()) &&
+                        p.getQuantity() > 0 &&
+                        hasMatchingColor(p.getColor(), productColorKeywords)) // Check if colors match
+                .collect(Collectors.toList());
+
+        // Remove the original product from the list
+        products.remove(product);
+
+        // Convert to DTO
+        List<SearchDto> similarProducts = ProductMapper.toSearchDtoList(products);
+        return Pagination1BasedUtil.paginateList(similarProducts, pageNumber, pageSize);
+    }
+
+    private boolean hasMatchingColor(String productColor, Set<String> targetColorKeywords) {
+        if (productColor == null || productColor.isEmpty()) return false;
+
+        Set<String> productColorKeywords = Arrays.stream(productColor.split("\\s+"))
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
+
+        // Check if any keyword from the target color matches this product's color
+        return productColorKeywords.stream().anyMatch(targetColorKeywords::contains);
+    }
+
+    @Override
+    public Page<SearchDto> findLikeProducts(Long productId, Integer pageNumber, Integer pageSize) throws ProductException {
+
+        // Find all products
+        List<Product> products = productRepository.findAll();
+
+        // Find the product by ID
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductException("Product with id " + productId + " not found"));
+
+        // Find products with the same category and sort by average rating
+        products = products.stream()
+                .sorted(Comparator.comparing(Product::getAverageRating).reversed())
+                .filter(p -> p.getCategory().equals(product.getCategory()) && p.getQuantity() > 0)
+                .collect(Collectors.toList());
+
+        // Remove the product itself from the list
+        products.remove(product);
+
+        List<SearchDto> similarProducts = ProductMapper.toSearchDtoList(products);
+        return Pagination1BasedUtil.paginateList(similarProducts, pageNumber, pageSize);
+
+    }
+
+    @Override
     public Page<SearchDto> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
                                           List<String> brand, List<String> size, List<String> color, Integer discount,
                                           Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException {
@@ -273,14 +353,12 @@ public class ProductServiceImplementation implements ProductService {
         // Apply search query
         if (query != null && !query.isEmpty()) {
             String[] searchTerms = query.split(" ");
-//            log.info("Search terms: {}", Arrays.toString(searchTerms));
 
             products = products.stream()
                     .filter(product -> {
                         // Check if the product matches ALL of the search terms
                         for (String term : searchTerms) {
                             term = term.trim().toLowerCase(); // Normalize the term
-//                            log.info("Checking term: {}", term);
 
                             // Check if the term exists in title, description, brand, or color
                             boolean matchesProductFields =

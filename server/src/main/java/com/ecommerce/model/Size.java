@@ -1,9 +1,6 @@
 package com.ecommerce.model;
 
-import com.ecommerce.user.domain.ProductSize;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @Getter
@@ -13,9 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class Size {
 
-    @Enumerated(EnumType.STRING) // Ensures the enum is stored as a string
-    private ProductSize name;
-
+    private String name;
     private int quantity;
 
 }

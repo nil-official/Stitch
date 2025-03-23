@@ -7,16 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.*;
 
 @Getter
@@ -32,6 +24,7 @@ public class Product {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private int price;
@@ -51,28 +44,30 @@ public class Product {
     @ElementCollection
     private Set<Size> sizes = new HashSet<>();
 
-    private String imageUrl;
+    @Column(columnDefinition = "TEXT")
+    private String preview;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Rating> ratings = new ArrayList<>();
-
-    private int totalRatings = 0;
-
-    private double averageRating = 0;
+    @ElementCollection
+    @Column(columnDefinition = "TEXT")
+    private List<String> images;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    private double averageRating = 0.0;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
 
+    private double sort_score = 0.0;
+
     private LocalDateTime createdAt;
 
     @Override
     public int hashCode() {
-        return Objects.hash(brand, category, color, description, discountPercent, discountedPrice, id, imageUrl,
-                totalRatings, averageRating, price, quantity, ratings, reviews, sizes, title, isFeatured);
+        return Objects.hash(brand, category, color, description, discountPercent, discountedPrice, id, preview,
+                images, averageRating, price, quantity, reviews, sizes, title, isFeatured);
     }
 
     @Override
@@ -87,12 +82,11 @@ public class Product {
         return Objects.equals(brand, other.brand) && Objects.equals(category, other.category)
                 && Objects.equals(color, other.color) && Objects.equals(description, other.description)
                 && discountPercent == other.discountPercent && discountedPrice == other.discountedPrice
-                && Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
-                && totalRatings == other.totalRatings && averageRating == other.averageRating
-                && price == other.price && quantity == other.quantity
-                && Objects.equals(ratings, other.ratings) && Objects.equals(reviews, other.reviews)
+                && Objects.equals(id, other.id) && Objects.equals(preview, other.preview)
+                && averageRating == other.averageRating && price == other.price
+                && quantity == other.quantity && Objects.equals(reviews, other.reviews)
                 && Objects.equals(sizes, other.sizes) && Objects.equals(title, other.title)
-                && isFeatured == other.isFeatured;
+                && isFeatured == other.isFeatured && Objects.equals(images, other.images);
     }
 
 }

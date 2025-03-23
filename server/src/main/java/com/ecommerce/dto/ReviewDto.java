@@ -1,10 +1,6 @@
 package com.ecommerce.dto;
 
-import com.ecommerce.model.Review;
 import lombok.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -12,8 +8,18 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewDto {
 
-    private int totalReviews;
-    private List<Review> reviews;
-    private LocalDateTime createdAt;
+    private Long id;
+    private double rating;
+    private String review;
+    private int likes;
+    private int dislikes;
+    private Long productId;
+    private Long userId;
+    private String firstName;
+    private String lastName;
+    private boolean isLiked;
+    private boolean isDisliked;
+    private String createdAt;
+    private String updatedAt;
 
 }

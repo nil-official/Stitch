@@ -23,7 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findDiscountedProducts();
 
     // Getting all top-rated products
-    @Query("SELECT p FROM Product p WHERE p.totalRatings > 0 ORDER BY p.averageRating DESC")
+    @Query("SELECT p FROM Product p WHERE p.averageRating > 0 ORDER BY p.averageRating DESC")
     List<Product> findTopRatedProducts();
 
     @Query(value = """
@@ -46,6 +46,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             FROM Product p
             JOIN p.category c
             WHERE LOWER(c.name) = LOWER(:categoryName)
+            AND p.quantity > 0
             """)
     List<Product> findProductsByCategoryName(@Param("categoryName") String categoryName);
 

@@ -74,6 +74,16 @@ public class ProductESServiceImplementation implements ProductESService {
     }
 
     @Override
+    public String deleteAllProducts() throws ProductException {
+        try {
+            productESRepository.deleteAll();
+            return "All products deleted successfully.";
+        } catch (Exception e) {
+            throw new ProductException("Failed to delete all products from Elasticsearch: " + e.getMessage());
+        }
+    }
+
+    @Override
     public List<String> autocompleteSearch(String query) throws IOException {
 
         Supplier<Query> supplier = ESUtil.createSupplierAutoSuggest(query);

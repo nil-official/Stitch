@@ -1,14 +1,15 @@
 package com.ecommerce.service.impl;
 
-import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.time.LocalDateTime;
 
 import com.ecommerce.dto.ReviewDto;
+import com.ecommerce.dto.ReviewsDto;
+import com.ecommerce.mapper.ReviewMapper;
 import com.ecommerce.service.ProductService;
 import com.ecommerce.service.ReviewService;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ProductException;
@@ -23,52 +24,125 @@ import com.ecommerce.request.ReviewRequest;
 @AllArgsConstructor
 public class ReviewServiceImplementation implements ReviewService {
 
-    private ReviewRepository reviewRepository;
     private ProductService productService;
+    private ReviewRepository reviewRepository;
     private ProductRepository productRepository;
-    private static final Logger logger = LoggerFactory.getLogger(ReviewServiceImplementation.class);
 
     @Override
     public Review createReview(ReviewRequest req, User user) throws ProductException {
-
         // Getting the product
-        Product product = productService.findProductById(req.getProductId());
+        Product product = productRepository.findById(req.getProductId())
+                .orElseThrow(() -> new ProductException("Product not found"));
         // Getting the review by user
         Review reviewByUser = reviewRepository.getReviewByUserAndProduct(user.getId(), product.getId());
 
-        // If review by user is not null then update the review
+        Review review;
+
+        // If review by user exists, update it
         if (reviewByUser != null) {
+            reviewByUser.setRating(req.getRating());
             reviewByUser.setReview(req.getReview());
-            reviewByUser.setCreatedAt(LocalDateTime.now());
-            return reviewRepository.save(reviewByUser);
+            review = reviewRepository.save(reviewByUser);
+        } else {
+            // Otherwise, add a new review
+            review = new Review();
+            review.setUser(user);
+            review.setProduct(product);
+            review.setRating(req.getRating());
+            review.setReview(req.getReview());
+            review.setUpdatedAt(LocalDateTime.now());
+            review = reviewRepository.save(review);
         }
 
-        // Otherwise add new review
-        Review review = new Review();
-        review.setUser(user);
-        review.setProduct(product);
-        review.setReview(req.getReview());
-        review.setCreatedAt(LocalDateTime.now());
+        // Recalculate and update the average rating
+        updateProductAverageRating(product);
+        return review;
+    }
+
+    private void updateProductAverageRating(Product product) {
+        // Fetch all reviews of the product
+        List<Review> reviews = reviewRepository.findByProductId(product.getId());
+
+        // Calculate the new average rating
+        double avgRating = reviews.stream()
+                .mapToDouble(Review::getRating)
+                .average()
+                .orElse(0.0);
+
+        // Update the product's average rating
+        product.setAverageRating(avgRating);
         productRepository.save(product);
-
-        return reviewRepository.save(review);
-
     }
 
     @Override
-    public ReviewDto getAllReview(Long productId) {
+    public ReviewsDto getAllReview(Long productId, User user) {
+        // Get all the reviews of the product
+        List<Review> reviews = reviewRepository.findByProductId(productId);
 
-        // Get all the ratings of the product
-        List<Review> reviews = reviewRepository.getAllProductsReview(productId);
-        int totalReviews = reviewRepository.countReviewByProductId(productId);
+        // Sort by Date & Map Review entities to ReviewDto using ReviewMapper
+        List<ReviewDto> reviewDtos = reviews.stream()
+                .sorted(Comparator.comparing(Review::getCreatedAt).reversed())
+                .map(review -> ReviewMapper.mapToDto(review, user))
+                .toList();
 
-        // create the dto, set fields and send
-        ReviewDto reviewDto = new ReviewDto();
-        reviewDto.setTotalReviews(totalReviews);
-        reviewDto.setReviews(reviews);
-        reviewDto.setCreatedAt(LocalDateTime.now());
-        return reviewDto;
+        // Create and return the ReviewsDto
+        return new ReviewsDto(reviewDtos, reviews.size());
+    }
 
+    @Override
+    public ReviewDto toggleLike(Long reviewId, User user) throws ProductException {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ProductException("Review not found"));
+
+        if (review.getLikedUsers().contains(user)) {
+            // User already liked it, so remove like
+            review.getLikedUsers().remove(user);
+            review.setLikes(review.getLikes() - 1);
+        } else {
+            // Add like
+            review.getLikedUsers().add(user);
+            review.setLikes(review.getLikes() + 1);
+
+            // If user had disliked before, remove the dislike
+            if (review.getDislikedUsers().contains(user)) {
+                review.getDislikedUsers().remove(user);
+                review.setDislikes(review.getDislikes() - 1);
+            }
+        }
+
+        // Save updated review
+        Review updatedReview = reviewRepository.save(review);
+
+        // Convert to DTO
+        return ReviewMapper.mapToDto(updatedReview, user);
+    }
+
+    @Override
+    public ReviewDto toggleDislike(Long reviewId, User user) throws ProductException {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ProductException("Review not found"));
+
+        if (review.getDislikedUsers().contains(user)) {
+            // User already disliked it, so remove dislike
+            review.getDislikedUsers().remove(user);
+            review.setDislikes(review.getDislikes() - 1);
+        } else {
+            // Add dislike
+            review.getDislikedUsers().add(user);
+            review.setDislikes(review.getDislikes() + 1);
+
+            // If user had liked before, remove the like
+            if (review.getLikedUsers().contains(user)) {
+                review.getLikedUsers().remove(user);
+                review.setLikes(review.getLikes() - 1);
+            }
+        }
+
+        // Save updated review
+        Review updatedReview = reviewRepository.save(review);
+
+        // Convert to DTO
+        return ReviewMapper.mapToDto(updatedReview, user);
     }
 
 }

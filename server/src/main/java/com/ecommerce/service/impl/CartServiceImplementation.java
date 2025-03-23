@@ -3,6 +3,7 @@ package com.ecommerce.service.impl;
 import com.ecommerce.exception.CartException;
 import com.ecommerce.exception.CartItemException;
 import com.ecommerce.exception.UserException;
+import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.service.CartItemService;
 import com.ecommerce.service.CartService;
 import com.ecommerce.service.ProductService;
@@ -30,6 +31,7 @@ public class CartServiceImplementation implements CartService {
     private CartRepository cartRepository;
     private CartItemService cartItemService;
     private ProductService productService;
+    private ProductRepository productRepository;
 
     @Override
     public void createCart(User user) throws CartException {
@@ -84,7 +86,8 @@ public class CartServiceImplementation implements CartService {
 
             // Retrieve the user's cart and the product to be added
             Cart cart = cartRepository.findByUserId(userId);
-            Product product = productService.findProductById(req.getProductId());
+            Product product = productRepository.findById(req.getProductId())
+                    .orElseThrow(() -> new ProductException("Product not found."));
 
             // Handle quantities
             int quantities = req.getQuantity();

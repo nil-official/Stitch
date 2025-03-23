@@ -1,7 +1,6 @@
 package com.ecommerce.dto;
 
 import com.ecommerce.model.Category;
-import com.ecommerce.model.Rating;
 import com.ecommerce.model.Review;
 import com.ecommerce.model.Size;
 import lombok.AllArgsConstructor;
@@ -24,13 +23,14 @@ public class ProductDto {
     private int price;
     private int discountedPrice;
     private int discountPercent;
+    private int quantity;
     private String brand;
     private String color;
-    private String imageUrl;
+    private String preview;
+    private List<String> images;
     private Set<Size> sizes;
-    private List<Review> reviews;
-    private List<Rating> ratings;
-    private int totalRatings;
     private double averageRating;
+    private int totalReviews;
+    private Category category;
 
 }
