@@ -16,9 +16,9 @@ const Wishlist = () => {
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
         });
-        console.log(res);
+        // console.log(res);
         setWishListItems(res.data.wishlistItems || []);
-        console.log("wishlist fetched:", res.data.wishlistItems);
+        // console.log("wishlist fetched:", res.data.wishlistItems);
       } catch (err) {
         console.error("Something went wrong", err);
         setWishListItems([]);
@@ -43,7 +43,7 @@ const Wishlist = () => {
                   key={index}
                   id={item.id}
                   productId={item.product.id}
-                  image={item.product.imageUrl}
+                  image={item.product.preview}
                   name={item.product.title}
                   size={item.size}
                   price={item.product.price}

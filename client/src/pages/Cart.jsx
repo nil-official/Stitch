@@ -76,7 +76,7 @@ const Cart = () => {
                                     <div key={index} className="flex items-center justify-between bg-white p-4 shadow-md rounded-md">
                                         <div className="flex items-center gap-4">
                                             <img
-                                                src={item.product.imageUrl}
+                                                src={item.product.preview}
                                                 alt={item.product.title}
                                                 className="w-36 object-cover cursor-pointer"
                                                 onClick={() => navigate(`/product/${item.product.id}`)}

@@ -155,7 +155,7 @@ function ProductCard({ product, index, style }) {
       <div className="relative w-full overflow-hidden bg-gray-200">
         <Link to={`/product/${product.id}`}>
           <img
-            src={product.imageUrl}
+            src={product.preview}
             alt={product.title}
             className="w-full h-[350px] object-cover object-top hover:scale-110 transition ease-in-out"
           />

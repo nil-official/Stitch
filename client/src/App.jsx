@@ -4,7 +4,7 @@ import LoginForm from './pages/LoginForm'
 import './App.css'
 import Navbar from './components/Navbar';
 import RegisterPage from './pages/RegisterPage';
-import ProductDetails from './pages/ProductDetails'
+import ProductPage from './pages/ProductPage';
 import Footer from './components/Footer'
 import Wishlist from './pages/Wishlist'
 import Orders from './pages/Orders';
@@ -63,7 +63,7 @@ function App() {
           {/* User Routes */}
           <Route path="/" element={<Home isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
           <Route path="/products/search" element={<SearchPage />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/order-summary" element={<OrderSummary />} />

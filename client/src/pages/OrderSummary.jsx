@@ -117,7 +117,7 @@ const OrderSummary = () => {
                                     <div key={index} className="flex gap-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
                                         <div className="w-24 flex-shrink-0">
                                             <img
-                                                src={item.product.imageUrl}
+                                                src={item.product.preview}
                                                 alt={item.product.title}
                                                 className="w-full h-full object-cover rounded-md"
                                             />

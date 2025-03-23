@@ -13,7 +13,7 @@ const WishListProductCard = ({ id, productId, image, name, size, price, discount
     const onRemove = async (e) => {
         e.preventDefault(); // Prevent navigation when clicking remove button
         try {
-            const res = await axios.delete(`${BASE_URL}/api/wishlist/remove/${id}`, {
+            const res = await axios.delete(`${BASE_URL}/api/wishlist/remove/id/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 }
@@ -74,7 +74,7 @@ const WishListProductCard = ({ id, productId, image, name, size, price, discount
                 <div className="w-40 font-semibold mb-2">{name}</div>
 
                 {/* Product size */}
-                <div className="mb-2">Size: {size[0] === 'T' ? size.split('T')[1] : size}</div>
+                {/* <div className="mb-2">Size: {size[0] === 'T' ? size.split('T')[1] : size}</div> */}
 
                 {/* Product price and discount */}
                 <div className="flex items-center gap-2 mt-2">

@@ -6,7 +6,7 @@ const ProductRow = ({ product, onEdit, onDelete }) => {
 			{/* Product Image */}
 			<div className="w-full sm:w-32 h-32 sm:h-auto flex-shrink-0 bg-gray-100 flex items-center justify-center">
 				<img
-					src={product.imageUrl || '/placeholder.png'}
+					src={product.preview || '/placeholder.png'}
 					alt={product.title}
 					className="object-contain h-20"
 				/>

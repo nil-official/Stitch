@@ -177,13 +177,12 @@ const ProductDetails = () => {
                                         type="button"
                                         onClick={() => setSize(item.name)}
                                         disabled={item.quantity === 0}
-                                        className={`${item.name === size
-                                            ? 'bg-black text-white'
-                                            : 'bg-white text-gray-900 border-gray-200 hover:bg-gray-50'} 
-                                                ${item.quantity === 0
-                                                ? 'opacity-40 cursor-not-allowed'
-                                                : ''}
-                                                     border rounded-md py-2 px-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors`}
+                                        className={`border rounded-md py-2 px-4 text-sm font-medium transition-colors
+                                            ${item.quantity === 0
+                                                ? 'opacity-40'
+                                                : item.name === size
+                                                    ? 'bg-black text-white hover:bg-gray-800'
+                                                    : 'border-gray-200 hover:bg-gray-100'}`}
                                     >
                                         {item.name[0] === 'T' ? item.name.split('T')[1] : item.name}
                                     </button>
@@ -204,7 +203,7 @@ const ProductDetails = () => {
                                 value={quantity}
                                 onChange={handleQuantityChange}
                                 disabled={isOutOfStock}
-                                className={`w-full h-full rounded-md border border-gray-300 py-2 px-3 text-base leading-normal text-gray-700 ${isOutOfStock ? 'opacity-50 cursor-not-allowed' : ''
+                                className={`w-full h-full rounded-md border border-gray-300 py-2 px-3 text-base leading-normal text-gray-700 ${isOutOfStock ? 'opacity-50' : ''
                                     }`}
                             />
                         </div>
@@ -213,11 +212,12 @@ const ProductDetails = () => {
                             type="button"
                             onClick={() => handleAddToCart(singleProduct.id, size, quantity)}
                             disabled={isOutOfStock}
-                            className={`flex-1 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white shadow-lg transition-transform transform ${isOutOfStock
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-black'}
-                                    ${size === '' ? 'opacity-40 cursor-not-allowed' : 'hover:opacity-80'}
-                                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black`}
+                            className={`flex-1 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white transition-all transform 
+                                ${isOutOfStock
+                                    ? 'bg-gray-300 cursor-default'
+                                    : size
+                                        ? 'bg-black hover:bg-gray-800'
+                                        : 'bg-gray-400 cursor-default'}`}
                         >
                             {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
                         </button>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import { RiDeleteBin6Line } from "react-icons/ri";
 import CartTotalValue from '../components/CartTotalValue';
-import axios from 'axios';
+import axios from '../utils/axiosConfig';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TotalOrderComponent from '../components/TotalOrderComponent';
 import BASE_URL from '../utils/baseurl';
@@ -21,10 +21,8 @@ const Orders = () => {
     useEffect(() => {
         const fetchOrdersData = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/api/orders/user`,
-                    { headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` } })
+                const res = await axios.get('/api/orders/user');
                 if (res) {
-                    console.log("Orders fetched: ", res.data)
                     setTotalOrderData(res.data);
                 }
             } catch (err) {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../utils/axiosConfig";
 import { IoStar } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -15,41 +15,22 @@ const TotalOrderComponent = ({ orderData, totalDetails, status }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showReviewBox, setShowReviewBox] = useState(false);
     const navigate = useNavigate();
-    // console.log(totalDetails);
+
     useEffect(() => {
         if (orderData && orderData.product) {
             setProductId(orderData.product.id);
-            if (orderData.product.ratings.length) setRating(orderData.product.ratings[0].rating);
-            if (orderData.product.reviews.length) setReview(orderData.product.reviews[0].review)
-            console.log("orderdata:", orderData)
+            if (orderData.product.reviews.length) setRating(orderData.product.reviews[0].rating);
+            if (orderData.product.reviews.length) setReview(orderData.product.reviews[0].review);
         }
     }, [orderData]);
 
     const sendReview = async () => {
-
-        console.log(productId, review, rating);
         try {
-            const [res, res1] = await Promise.all([
-                axios.post(`${BASE_URL}/api/reviews/create`,
-                    { productId, review },
-                    {
-                        headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` }
-                    }),
-                axios.post(`${BASE_URL}/api/ratings/create`,
-                    { productId, rating }, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-                    }
-                }),
-            ])
-            if (res && res1) {
-                console.log(res);
-                console.log(res.data);
-                console.log(res1.data)
-                toast.success('Review Added!')
+            const res = await axios.post('/api/reviews/create', { productId, rating, review });
+            if (res) {
                 setIsEditing(!isEditing);
+                toast.success('Review Added!')
             }
-
         } catch (error) {
             console.log("Something went wrong", error);
         }
@@ -67,7 +48,7 @@ const TotalOrderComponent = ({ orderData, totalDetails, status }) => {
                     <div className="flex items-center gap-4">
                         <img
                             className="w-16 sm:w-20 cursor-pointer"
-                            src={orderData.product.imageUrl}
+                            src={orderData.product.preview}
                             alt={orderData.product.title}
                             onClick={() => navigate(`/product/${orderData.product.id}`)}
                         />
@@ -117,7 +98,12 @@ const TotalOrderComponent = ({ orderData, totalDetails, status }) => {
                                 ></textarea>
                                 <div className="flex gap-4 mt-2">
                                     <button
-                                        className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700"
+                                        className={`text-white py-2 px-6 rounded-md transition-all 
+                                            ${rating === 0 || review === ''
+                                                ? 'bg-gray-400'
+                                                : 'bg-gray-800 hover:bg-gray-700'
+                                            }`}
+                                        disabled={rating === 0 || review === ''}
                                         onClick={() => {
                                             setSubmitted(true);
                                             setProductId(orderData.product.id);
@@ -136,68 +122,6 @@ const TotalOrderComponent = ({ orderData, totalDetails, status }) => {
                             </div>
                         </div>
                     )}
-
-
-
-
-                    {/* Review Submission Section */}
-                    {/* <div className="mt-4">
-                        {!review ? (
-                            <div>
-                                <p className="text-sm font-semibold mb-2">Submit a Review:</p>
-                                <textarea
-                                    className="w-full border border-gray-300 rounded-md p-2 text-sm"
-                                    rows="3"
-                                    placeholder="Write your review here..."
-                                    value={review}
-                                    onChange={(e) => setReview(e.target.value)}
-                                ></textarea>
-                                <button
-                                    className="mt-2 bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                                    onClick={() => {
-                                        setSubmitted(true);
-                                        setProductId(orderData.product.id);
-                                        sendReview();
-                                    }}
-                                >
-                                    Submit Review
-                                </button>
-                            </div>
-                        ) : isEditing ? (
-                            <div>
-                                <p className="text-sm font-semibold mb-2">Edit Your Review:</p>
-                                <textarea
-                                    className="w-full border border-gray-300 rounded-md p-2 text-sm"
-                                    rows="3"
-                                    placeholder="Edit your review here..."
-                                    value={review}
-                                    onChange={(e) => setReview(e.target.value)}
-                                ></textarea>
-                                <button
-                                    className="mt-2 bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                                    onClick={() => {
-                                        setProductId(orderData.product.id);
-                                        sendReview();
-                                        setIsEditing(false); // Exit editing mode after submission
-                                    }}
-                                >
-                                    Update Review
-                                </button>
-                            </div>
-                        ) : (
-                            <div>
-                                <div
-                                    className="flex items-center space-x-2 p-2 rounded-md cursor-pointer"
-                                    onClick={() => setIsEditing(true)}
-                                >
-                                    <FiEdit className="text-gray-500" />
-                                    <span className="text-sm font-medium text-gray-700">Edit Review</span>
-                                </div>
-                                <span className="font-bold p-2 text-sm">Review: </span>
-                                <span className="w-full text-sm">{review}</span>
-                            </div>
-                        )}
-                    </div> */}
                 </div>
             )}
         </div>

@@ -96,7 +96,7 @@ const OrdersDetails = () => {
                     <li key={item.id} className="py-2">
                       <div className="flex items-center space-x-4">
                         <img
-                          src={item.product.imageUrl}
+                          src={item.product.preview}
                           alt={item.product.title}
                           className="w-16 object-cover rounded"
                         />
