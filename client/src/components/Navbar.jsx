@@ -6,16 +6,16 @@ import { BsSearch } from "react-icons/bs";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { CiUser } from "react-icons/ci";
 import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart } from '../redux/customer/cart/cartActions';
 import decodeJWT from '../utils/decodeJWT';
 import axios from '../utils/axiosConfig';
+import { logout } from '../redux/auth/action';
 
 const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
     const dispatch = useDispatch();
-    const { cart, loading, error } = useSelector((state) => state.cartState);
+    const { cart } = useSelector((state) => state.cartState);
 
     const [isSidebarOpen, setSidebar] = useState(false);
     const [input, setInput] = useState('');
@@ -67,16 +67,9 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
     };
 
     const handleLogOut = () => {
-        try {
-            const tokenKey = "jwtToken"
-            localStorage.removeItem(tokenKey);
-            setSidebar(false);
-            navigate("/");
-            toast.warn('Logged out successfully!');
-        } catch (error) {
-            console.log("Error:", error);
-            toast.error('Error while logging out!');
-        }
+        dispatch(logout());
+        setSidebar(false);
+        navigate("/");
     }
 
     const navlinks = [

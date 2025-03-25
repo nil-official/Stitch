@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import InputField from '../components/InputField';
+import InputField from '../components/Auth/InputField';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { RiDeleteBin6Line } from "react-icons/ri";
