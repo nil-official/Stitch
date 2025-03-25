@@ -5,8 +5,8 @@ import MaintenancePage from '../pages/MaintenancePage';
 
 const HealthCheckWrapper = ({ children }) => {
 
-    const [isBackendUp, setIsBackendUp] = useState(true);
     const navigate = useNavigate();
+    const [isBackendUp, setIsBackendUp] = useState(true);
 
     useEffect(() => {
         const checkHealth = async () => {

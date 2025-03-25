@@ -1,6 +1,7 @@
 import axios from 'axios';
+import BASE_URL from './baseurl';
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5454';
+axios.defaults.baseURL = BASE_URL;
 
 axios.interceptors.request.use(
     (config) => {

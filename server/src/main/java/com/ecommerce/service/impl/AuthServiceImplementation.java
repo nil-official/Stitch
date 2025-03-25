@@ -20,9 +20,7 @@ import com.ecommerce.service.CartService;
 import com.ecommerce.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -75,7 +73,7 @@ public class AuthServiceImplementation implements AuthService {
         // Check if user with the given email already exists
         User isEmailExist = userRepository.findByEmail(registerRequest.getEmail());
         if (isEmailExist != null) {
-            throw new UserException("Email Is Already Used With Another Account");
+            throw new UserException("Registration failed: Email already exists!");
         }
 
         // Creating a User object
@@ -121,8 +119,12 @@ public class AuthServiceImplementation implements AuthService {
 
         User existingUser = userRepository.findByEmail(loginRequest.getEmail());
 
+        if (existingUser == null) {
+            throw new BadCredentialsException("Authentication failed: User not found!");
+        }
+
         if (!existingUser.isVerified()) {
-            throw new UserNotVerifiedException("Authentication failed. User is not verified with email: " + email);
+            throw new UserNotVerifiedException("Authentication failed: User is not verified!");
         }
 
         Authentication authentication = authenticate(email, password);
@@ -139,11 +141,8 @@ public class AuthServiceImplementation implements AuthService {
     private Authentication authenticate(String email, String password) {
 
         UserDetails userDetails = customUserDetails.loadUserByUsername(email);
-        if (userDetails == null) {
-            throw new BadCredentialsException("Authentication failed. User not found with email: " + email);
-        }
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Authentication failed. Password is wrong!.");
+            throw new BadCredentialsException("Authentication failed: Password is incorrect!");
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 

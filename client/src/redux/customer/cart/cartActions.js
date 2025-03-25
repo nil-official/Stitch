@@ -75,13 +75,10 @@ export const getCart = () => async (dispatch) => {
     dispatch(getCartPending());
     try {
         const res = await axios.get('/api/cart/');
-        // setTimeout(() => {
         dispatch(getCartFulfilled(res.data));
-        // }, 5000);
     } catch (error) {
         dispatch(getCartRejected(error));
         console.log(error);
-        toast.error('Error while fetching cart');
     }
 };
 

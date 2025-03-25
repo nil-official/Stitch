@@ -4,14 +4,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,11 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Configuration
 public class AppConfig {
@@ -62,11 +54,7 @@ public class AppConfig {
                 )
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class) // Add JWT token validation before the auth filter
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
-                .httpBasic(httpBasic -> {
-                }) // Enable basic authentication
-                .formLogin(formLogin -> {
-                }) // Enable form login (optional)
-                .build(); // Build the security configuration
+                .build();
     }
 
     @Bean
@@ -84,4 +72,5 @@ public class AppConfig {
         corsConfig.setMaxAge(3600L); // Cache preflight request for 1 hour
         return request -> corsConfig;
     }
+
 }

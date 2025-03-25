@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { logout } from "../redux/auth/action";
 
 const checkJwtExpiration = () => {
     const token = localStorage.getItem('jwtToken');
@@ -17,17 +18,13 @@ const checkJwtExpiration = () => {
 };
 
 const AuthGuard = ({ children }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (checkJwtExpiration()) {
-            if (!localStorage.getItem("sessionExpired")) {
-                localStorage.setItem("sessionExpired", "true"); // Set flag to prevent duplicate toast
-                toast.error("Session Expired! Log in Again");
-            }
-            navigate("/login");
-        } else {
-            localStorage.removeItem("sessionExpired"); // Reset flag if session is valid
+            dispatch(logout());
+            navigate("/");
         }
     }, [navigate]);
 

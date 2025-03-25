@@ -1,6 +1,5 @@
 package com.ecommerce.config;
 
-import java.awt.RenderingHints.Key;
 import java.io.IOException;
 import java.util.List;
 
@@ -13,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.GrantedAuthoritiesContainer;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,7 +32,6 @@ public class JwtTokenValidator extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Logging the incoming request
         log.info("Incoming Request: {} {}", request.getMethod(), request.getRequestURI());
 
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
@@ -53,19 +49,15 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                 String authorities = String.valueOf(claims.get("authorities"));
 
                 List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
-                Authentication athentication = new UsernamePasswordAuthenticationToken(email, null, auths);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auths);
 
-                SecurityContextHolder.getContext().setAuthentication(athentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (Exception e) {
-                throw new BadCredentialsException("invalid token...");
+                throw new BadCredentialsException("Invalid token...");
             }
-        } else {
-            System.out.println("jwt is null");
         }
-
         filterChain.doFilter(request, response);
-
     }
 
 }
