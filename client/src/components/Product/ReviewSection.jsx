@@ -70,7 +70,7 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
                     </div>
 
                     {/* Right Column: Reviews List */}
-                    <div className='w-2/3'>
+                    <div className='w-2/3 max-h-[500px] overflow-y-auto pr-2'>
                         {reviews.map((item, index) => (
                             <div key={index} className="bg-white shadow-sm rounded-md p-4 mb-4 border border-gray-200">
 
@@ -130,7 +130,9 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
                     </div>
                 </div>
             ) : (
-                <p className="mt-4 text-gray-500">No reviews available for this product.</p>
+                <div className="flex items-center justify-center">
+                    <p className="mt-4 text-gray-500">No reviews available for this product.</p>
+                </div>
             )}
         </div>
     )

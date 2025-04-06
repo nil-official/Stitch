@@ -12,5 +12,8 @@ public class ReviewRequest {
     private Long productId;
     private double rating;
     private String review;
+    private Long userId;
+    private String firstName;
+    private String lastName;
 
 }

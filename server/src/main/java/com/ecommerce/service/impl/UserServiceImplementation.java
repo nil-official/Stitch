@@ -78,8 +78,6 @@ public class UserServiceImplementation implements UserService {
             existingUser.get().getRoles().clear();
             existingUser.get().getAddresses().clear();
             existingUser.get().getPaymentInformation().clear();
-            existingUser.get().getReviews().clear();
-            existingUser.get().getRatings().clear();
             existingUser.get().getCart().getCartItems().clear();
             existingUser.get().getOrders().forEach(order -> order.getOrderItems().clear());
             existingUser.get().getWishlists().forEach(wishlist -> wishlist.getWishlistItems().clear());

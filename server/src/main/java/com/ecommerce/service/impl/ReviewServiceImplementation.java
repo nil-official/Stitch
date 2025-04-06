@@ -27,7 +27,6 @@ import com.ecommerce.request.ReviewRequest;
 @AllArgsConstructor
 public class ReviewServiceImplementation implements ReviewService {
 
-    private ProductService productService;
     private ReviewRepository reviewRepository;
     private ProductRepository productRepository;
     private MLService mlService;
@@ -37,6 +36,7 @@ public class ReviewServiceImplementation implements ReviewService {
         // Getting the product
         Product product = productRepository.findById(req.getProductId())
                 .orElseThrow(() -> new ProductException("Product not found"));
+
         // Getting the review by user
         Review reviewByUser = reviewRepository.getReviewByUserAndProduct(user.getId(), product.getId());
 
@@ -50,10 +50,12 @@ public class ReviewServiceImplementation implements ReviewService {
         } else {
             // Otherwise, add a new review
             review = new Review();
-            review.setUser(user);
             review.setProduct(product);
             review.setRating(req.getRating());
             review.setReview(req.getReview());
+            review.setUserId(user.getId());
+            review.setFirstName(user.getFirstName());
+            review.setLastName(user.getLastName());
             review.setUpdatedAt(LocalDateTime.now());
             review = reviewRepository.save(review);
         }
@@ -74,6 +76,7 @@ public class ReviewServiceImplementation implements ReviewService {
                 .mapToDouble(Review::getRating)
                 .average()
                 .orElse(0.0);
+        avgRating = Math.round(avgRating * 10.0) / 10.0;
 
         // Call ML service
         double newRankScore = mlService.getRankScore(
@@ -93,11 +96,12 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     public ReviewsDto getProductReviews(Long productId, User user) throws ProductException {
+        // Getting the product
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductException("Product not found"));
+
         // Get all the reviews of the product
         List<Review> reviews = reviewRepository.findByProductId(productId);
-        if (reviews.isEmpty()) {
-            throw new ProductException("No reviews found for this product");
-        }
 
         // Sort by Date & Map Review entities to ReviewDto using ReviewMapper
         List<ReviewDto> reviewDtos = reviews.stream()
@@ -107,8 +111,7 @@ public class ReviewServiceImplementation implements ReviewService {
 
         // Calculate review stats
         int total = reviews.size();
-        double average = total == 0 ? 0.0 :
-                reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
+        double average = product.getAverageRating();
 
         int fiveStar = 0, fourStar = 0, threeStar = 0, twoStar = 0, oneStar = 0;
         for (Review review : reviews) {
@@ -184,6 +187,28 @@ public class ReviewServiceImplementation implements ReviewService {
 
         // Convert to DTO
         return ReviewMapper.mapToDto(updatedReview, user);
+    }
+
+    @Override
+    public ReviewDto createFakeReview(ReviewRequest req) throws ProductException {
+        // Getting the product
+        Product product = productRepository.findById(req.getProductId())
+                .orElseThrow(() -> new ProductException("Product not found"));
+
+        // Create a new review
+        Review review = new Review();
+        review.setProduct(product);
+        review.setRating(req.getRating());
+        review.setReview(req.getReview());
+        review.setUserId(req.getUserId());
+        review.setFirstName(req.getFirstName());
+        review.setLastName(req.getLastName());
+        review.setUpdatedAt(LocalDateTime.now());
+        review = reviewRepository.save(review);
+
+        // Recalculate and update the average rating
+        updateProductAverageRating(req, product);
+        return ReviewMapper.mapToDto(review, null);
     }
 
 }

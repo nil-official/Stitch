@@ -1,14 +1,15 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.dto.ProductDto;
+import com.ecommerce.dto.ReviewDto;
 import com.ecommerce.exception.ProductException;
+import com.ecommerce.request.ReviewRequest;
 import com.ecommerce.service.HomeService;
+import com.ecommerce.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ecommerce.response.ApiResponse;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class HomeController {
 
     private final HomeService homeService;
+    private final ReviewService reviewService;
 
     @GetMapping("/")
     public ResponseEntity<ApiResponse> welcome() {
@@ -55,6 +57,12 @@ public class HomeController {
     public ResponseEntity<List<ProductDto>> getBestSeller() throws ProductException {
         List<ProductDto> bestSellerProducts = homeService.getBestSellerProducts();
         return new ResponseEntity<>(bestSellerProducts, HttpStatus.OK);
+    }
+
+    @PostMapping("/review/fake/create")
+    public ResponseEntity<ReviewDto> createFakeReview(@RequestBody ReviewRequest req) throws ProductException {
+        ReviewDto reviewDto = reviewService.createFakeReview(req);
+        return new ResponseEntity<>(reviewDto, HttpStatus.OK);
     }
 
 }

@@ -15,7 +15,7 @@ const RatingStarsBar = (stats, stars, count, color) => {
             <div className="w-1/2 relative h-2 bg-gray-200 rounded">
                 <div className={`absolute top-0 left-0 h-2 rounded ${color}`} style={{ width: `${getRatingPercentage()}%` }}></div>
             </div>
-            <span className="text-right text-gray-700 font-medium">{getRatingPercentage()}%</span>
+            <span className="text-right text-gray-700 font-medium">{getRatingPercentage().toFixed(2)}%</span>
         </div>
     )
 }

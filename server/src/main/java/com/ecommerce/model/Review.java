@@ -33,9 +33,11 @@ public class Review {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
+
+    private String firstName;
+
+    private String lastName;
 
     @ManyToMany
     @JoinTable(name = "review_likes",
