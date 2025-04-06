@@ -46,32 +46,32 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
                 </p>
             </div>
 
-            <div className="py-4 flex justify-between gap-12 w-full">
-                {/* Left Column: Rating Stats */}
-                <div className='flex flex-col w-1/3 items-center gap-6'>
-                    <div className="flex flex-col items-center">
-                        <div className="text-4xl font-semibold flex gap-2 p-2">
-                            <p>{stats.average}</p>
-                            <FaStar className="text-yellow-500 w-10 h-10" />
+            {reviews.length > 0 ? (
+                <div className="py-4 flex justify-between gap-12 w-full">
+                    {/* Left Column: Rating Stats */}
+                    <div className='flex flex-col w-1/3 items-center gap-6'>
+                        <div className="flex flex-col items-center">
+                            <div className="text-4xl font-semibold flex gap-2 p-2">
+                                <p>{stats.average}</p>
+                                <FaStar className="text-yellow-500 w-10 h-10" />
+                            </div>
+                            <div className="text-sm text-gray-600">
+                                Out of {stats.total} ratings
+                            </div>
                         </div>
-                        <div className="text-sm text-gray-600">
-                            Out of {stats.total} ratings
+
+                        <div className="flex flex-col gap-4 w-full">
+                            {RatingStarsBar(stats, 5, stats.fiveStar, "bg-green-600")}
+                            {RatingStarsBar(stats, 4, stats.fourStar, "bg-lime-500")}
+                            {RatingStarsBar(stats, 3, stats.threeStar, "bg-yellow-400")}
+                            {RatingStarsBar(stats, 2, stats.twoStar, "bg-orange-400")}
+                            {RatingStarsBar(stats, 1, stats.oneStar, "bg-red-500")}
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4 w-full">
-                        {RatingStarsBar(stats, 5, stats.fiveStar, "bg-green-600")}
-                        {RatingStarsBar(stats, 4, stats.fourStar, "bg-lime-500")}
-                        {RatingStarsBar(stats, 3, stats.threeStar, "bg-yellow-400")}
-                        {RatingStarsBar(stats, 2, stats.twoStar, "bg-orange-400")}
-                        {RatingStarsBar(stats, 1, stats.oneStar, "bg-red-500")}
-                    </div>
-                </div>
-
-                {/* Right Column: Reviews List */}
-                <div className='w-2/3'>
-                    {reviews.length > 0 ? (
-                        reviews.map((item, index) => (
+                    {/* Right Column: Reviews List */}
+                    <div className='w-2/3'>
+                        {reviews.map((item, index) => (
                             <div key={index} className="bg-white shadow-sm rounded-md p-4 mb-4 border border-gray-200">
 
                                 {/* User Info */}
@@ -126,12 +126,12 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
                                     </div>
                                 </div>
                             </div>
-                        ))
-                    ) : (
-                        <p className="mt-4 text-gray-500">No reviews available for this product.</p>
-                    )}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <p className="mt-4 text-gray-500">No reviews available for this product.</p>
+            )}
         </div>
     )
 })
