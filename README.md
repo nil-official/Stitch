@@ -1,19 +1,31 @@
 # Stitch - E-Commerce Web Application
 
-Welcome to Stitch! A modern e-commerce web application designed for seamless shopping, secure transactions, and effortless browsing. Built with React.js and Spring Boot, Stitch offers dynamic product filtering, user authentication, and a smooth, responsive experience. Happy shopping! 🚀
+Welcome to Stitch!
+
+A modern e-commerce web application designed for seamless shopping, secure transactions, and effortless browsing. Built with React.js and Spring Boot, Stitch offers dynamic product filtering, user authentication, and a smooth, responsive experience.
+
+✨ Now enhanced with a Machine Learning-powered product ranking system — reviews and ratings submitted by users are analyzed in real-time using NLP sentiment analysis (RoBERTa) and a custom weighted scoring algorithm to intelligently rank products, ensuring the best items rise to the top.
+
+🛒 Happy shopping — smarter than ever! 🚀
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=coffeescript&logoColor=white" alt="Java">
-  <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot">
-  <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Security">
-  <img src="https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" alt="Maven">
-  <img src="https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white" alt="Hibernate">
-  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
-  <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="Redux">
-  <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white" alt="React Router">
-  <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT">
-  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Razorpay-02569B?style=for-the-badge&logo=razorpay&logoColor=white" alt="Razorpay">
+   <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=coffeescript&logoColor=white" alt="Java">
+   <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot">
+   <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Security">
+   <img src="https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" alt="Maven">
+   <img src="https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white" alt="Hibernate">
+   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React">
+   <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="Redux">
+   <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white" alt="React Router">
+   <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT">
+   <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+   <img src="https://img.shields.io/badge/Razorpay-02569B?style=for-the-badge&logo=razorpay&logoColor=white" alt="Razorpay">
+   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+   <img src="https://img.shields.io/badge/Transformers-ffcc00?style=for-the-badge&logo=huggingface&logoColor=black" alt="HuggingFace Transformers">
+   <img src="https://img.shields.io/badge/PyTorch-ee4c2c?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">
+   <img src="https://img.shields.io/badge/Uvicorn-000000?style=for-the-badge&logo=uvicorn&logoColor=white" alt="Uvicorn">
+   <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas">
 </p>
 
 ## Preview
@@ -27,6 +39,7 @@ Welcome to Stitch! A modern e-commerce web application designed for seamless sho
 - [Kaustabh Basu](https://github.com/axon04)
 - [Niladri Chakraborty](https://github.com/nil-official)
 - [Devanjana Ghosh](https://github.com/tanu002)
+- [Rony Karmakar]()
 
 ## Table of Contents
 
@@ -147,6 +160,35 @@ The server will run on `http://localhost:5454`.
    ```
 
 The application will be available at `http://localhost:5173`.
+
+### ML Setup
+
+1. **Navigate to the ml directory:**
+
+   ```bash
+   cd ../ml
+   ```
+
+2. **Create and activate the virtual environment (optional):**
+
+   ```bash
+   python -m venv venv
+   source venv/Scripts/activate
+   ```
+
+3. **Install ml dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Start the ml model:**
+
+   ```bash
+   uvicorn app:app --reload
+   ```
+
+The application will be available at `http://localhost:8000`.
 
 ## Usage
 
