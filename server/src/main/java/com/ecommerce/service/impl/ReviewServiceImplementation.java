@@ -5,6 +5,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 
 import com.ecommerce.dto.ReviewDto;
+import com.ecommerce.dto.ReviewStatsDto;
 import com.ecommerce.dto.ReviewsDto;
 import com.ecommerce.mapper.ReviewMapper;
 import com.ecommerce.request.RankScoreRequest;
@@ -91,9 +92,12 @@ public class ReviewServiceImplementation implements ReviewService {
     }
 
     @Override
-    public ReviewsDto getAllReview(Long productId, User user) {
+    public ReviewsDto getProductReviews(Long productId, User user) throws ProductException {
         // Get all the reviews of the product
         List<Review> reviews = reviewRepository.findByProductId(productId);
+        if (reviews.isEmpty()) {
+            throw new ProductException("No reviews found for this product");
+        }
 
         // Sort by Date & Map Review entities to ReviewDto using ReviewMapper
         List<ReviewDto> reviewDtos = reviews.stream()
@@ -101,8 +105,29 @@ public class ReviewServiceImplementation implements ReviewService {
                 .map(review -> ReviewMapper.mapToDto(review, user))
                 .toList();
 
+        // Calculate review stats
+        int total = reviews.size();
+        double average = total == 0 ? 0.0 :
+                reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
+
+        int fiveStar = 0, fourStar = 0, threeStar = 0, twoStar = 0, oneStar = 0;
+        for (Review review : reviews) {
+            int rating = (int) Math.floor(review.getRating());
+            if (rating >= 1 && rating <= 5) {
+                switch (rating) {
+                    case 5 -> fiveStar++;
+                    case 4 -> fourStar++;
+                    case 3 -> threeStar++;
+                    case 2 -> twoStar++;
+                    case 1 -> oneStar++;
+                }
+            }
+        }
+
+        ReviewStatsDto stats = new ReviewStatsDto(total, average, fiveStar, fourStar, threeStar, twoStar, oneStar);
+
         // Create and return the ReviewsDto
-        return new ReviewsDto(reviewDtos, reviews.size());
+        return new ReviewsDto(reviewDtos, stats);
     }
 
     @Override

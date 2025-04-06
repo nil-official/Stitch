@@ -11,7 +11,7 @@ public interface ReviewService {
 
     Review createReview(ReviewRequest req, User user) throws ProductException;
 
-    ReviewsDto getAllReview(Long productId, User user);
+    ReviewsDto getProductReviews(Long productId, User user) throws ProductException;
 
     ReviewDto toggleLike(Long reviewId, User user) throws ProductException;
 

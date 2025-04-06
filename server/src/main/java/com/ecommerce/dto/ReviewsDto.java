@@ -11,6 +11,6 @@ import java.util.List;
 public class ReviewsDto {
 
     private List<ReviewDto> reviews;
-    private int totalReviews;
+    private ReviewStatsDto stats;
 
 }
