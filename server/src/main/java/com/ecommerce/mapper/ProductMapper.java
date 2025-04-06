@@ -27,6 +27,7 @@ public class ProductMapper {
         dto.setSizes(SizeSortingUtil.sortSizes(product.getSizes()));
         dto.setAverageRating(product.getAverageRating());
         dto.setTotalReviews(product.getReviews() != null ? product.getReviews().size() : 0);
+        dto.setRankScore(product.getRankScore());
         dto.setCategory(product.getCategory());
         return dto;
     }
@@ -50,6 +51,7 @@ public class ProductMapper {
                     dto.setBrand(product.getBrand());
                     dto.setPreview(product.getPreview());
                     dto.setAverageRating(product.getAverageRating());
+                    dto.setRankScore(product.getRankScore());
                     return dto;
                 })
                 .collect(Collectors.toList());

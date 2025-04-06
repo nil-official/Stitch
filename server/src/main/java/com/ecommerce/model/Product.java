@@ -60,7 +60,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private double sort_score = 0.0;
+    private double rankScore = 0.0;
 
     private LocalDateTime createdAt;
 

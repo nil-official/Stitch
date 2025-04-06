@@ -6,6 +6,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGOUT,
+    RESET_JUST_LOGGED_IN,
 } from "./type";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
     loading: false,
     error: null,
     message: null,
+    justLoggedIn: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -26,11 +28,13 @@ const authReducer = (state = initialState, action) => {
         case LOGIN_REQUEST:
             return { ...state, loading: true, error: null };
         case LOGIN_SUCCESS:
-            return { ...state, loading: false, token: action.payload };
+            return { ...state, loading: false, token: action.payload, justLoggedIn: true };
         case LOGIN_FAILURE:
             return { ...state, loading: false, error: action.payload };
         case LOGOUT:
-            return { ...state, token: null };
+            return { ...state, token: null, justLoggedIn: false };
+        case RESET_JUST_LOGGED_IN:
+            return { ...state, justLoggedIn: false };
         default:
             return state;
     }

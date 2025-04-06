@@ -1,4 +1,4 @@
-import { combineReducers, legacy_createStore, applyMiddleware } from 'redux';
+import { combineReducers, legacy_createStore, applyMiddleware, compose } from 'redux';
 import { thunk } from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import authReducer from './auth/reducer';
@@ -23,7 +23,12 @@ if (process.env.NODE_ENV === 'development') {
     middlewares.push(logger);
 }
 
+const composeEnhancers =
+    process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        : compose;
+
 export const store = legacy_createStore(
     rootReducers,
-    applyMiddleware(...middlewares),
+    composeEnhancers(applyMiddleware(...middlewares))
 );

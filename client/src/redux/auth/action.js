@@ -8,6 +8,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGOUT,
+    RESET_JUST_LOGGED_IN,
 } from "./type";
 
 export const register = (firstName, lastName, email, password) => async (dispatch) => {
@@ -46,4 +47,8 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem("jwtToken");
     dispatch({ type: LOGOUT });
     toast.warn("You have been logged out.");
+};
+
+export const resetJustLoggedIn = () => (dispatch) => {
+    dispatch({ type: RESET_JUST_LOGGED_IN });
 };

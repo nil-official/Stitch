@@ -487,6 +487,9 @@ public class ProductServiceImplementation implements ProductService {
             }
         }
 
+        // INTERNAL RANK-BASED SORTING (for ML ranking)
+        products.sort((p1, p2) -> Double.compare(p2.getRankScore(), p1.getRankScore()));
+
         List<SearchDto> searchedProducts = ProductMapper.toSearchDtoList(products);
         return Pagination1BasedUtil.paginateList(searchedProducts, pageNumber, pageSize);
 

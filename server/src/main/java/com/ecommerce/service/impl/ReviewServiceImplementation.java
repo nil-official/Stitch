@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import com.ecommerce.dto.ReviewDto;
 import com.ecommerce.dto.ReviewsDto;
 import com.ecommerce.mapper.ReviewMapper;
+import com.ecommerce.request.RankScoreRequest;
+import com.ecommerce.service.MLService;
 import com.ecommerce.service.ProductService;
 import com.ecommerce.service.ReviewService;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,7 @@ public class ReviewServiceImplementation implements ReviewService {
     private ProductService productService;
     private ReviewRepository reviewRepository;
     private ProductRepository productRepository;
+    private MLService mlService;
 
     @Override
     public Review createReview(ReviewRequest req, User user) throws ProductException {
@@ -55,13 +58,15 @@ public class ReviewServiceImplementation implements ReviewService {
         }
 
         // Recalculate and update the average rating
-        updateProductAverageRating(product);
+        updateProductAverageRating(req, product);
         return review;
     }
 
-    private void updateProductAverageRating(Product product) {
+    private void updateProductAverageRating(ReviewRequest req, Product product) {
         // Fetch all reviews of the product
         List<Review> reviews = reviewRepository.findByProductId(product.getId());
+
+        int totalRatings = reviews.size();
 
         // Calculate the new average rating
         double avgRating = reviews.stream()
@@ -69,8 +74,19 @@ public class ReviewServiceImplementation implements ReviewService {
                 .average()
                 .orElse(0.0);
 
-        // Update the product's average rating
+        // Call ML service
+        double newRankScore = mlService.getRankScore(
+                new RankScoreRequest(req.getReview(), req.getRating(), totalRatings, avgRating)
+        );
+
+        double previousRankScore = product.getRankScore();
+        double updatedRankScore = (previousRankScore + newRankScore) / 2;
+
+        // Update product fields
         product.setAverageRating(avgRating);
+        product.setRankScore(updatedRankScore);
+
+        // Save product
         productRepository.save(product);
     }
 

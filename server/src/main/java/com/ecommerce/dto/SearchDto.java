@@ -26,5 +26,6 @@ public class SearchDto {
     private String brand;
     private String preview;
     private double averageRating;
+    private double rankScore;
 
 }

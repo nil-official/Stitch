@@ -4,6 +4,9 @@ import { motion } from 'framer-motion'
 import { Star, ShoppingCart, Zap, Award, TrendingUp } from 'lucide-react'
 import axios from 'axios'
 import BASE_URL from '../utils/baseurl'
+import UserInfoDialog from '../components/Home/UserInfoDialog'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetJustLoggedIn } from '../redux/auth/action'
 
 const API_ENDPOINTS = [
   { title: 'Exclusive Discounts', url: `${BASE_URL}/public/exclusive-discounts`, style: 'discount' },
@@ -14,7 +17,21 @@ const API_ENDPOINTS = [
 ]
 
 export default function Home({ isSearchOpen, setIsSearchOpen, searchInputRef }) {
-  const [productSections, setProductSections] = useState([])
+
+  const dispatch = useDispatch();
+  const { justLoggedIn } = useSelector((state) => state.auth);
+  const [showPopup, setShowPopup] = useState(false);
+  const [productSections, setProductSections] = useState([]);
+
+  useEffect(() => {
+    if (justLoggedIn) {
+      setShowPopup(true);
+      dispatch(resetJustLoggedIn());
+      // setTimeout(() => {
+      //   setShowPopup(false);
+      // }, 5000);
+    }
+  }, [justLoggedIn, dispatch]);
 
   useEffect(() => {
     const fetchProductData = async (endpoint) => {
@@ -38,6 +55,7 @@ export default function Home({ isSearchOpen, setIsSearchOpen, searchInputRef }) 
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
+      {showPopup && <UserInfoDialog onClose={() => setShowPopup(false)} />}
       <Hero
         isSearchOpen={isSearchOpen}
         setIsSearchOpen={setIsSearchOpen}
@@ -48,7 +66,7 @@ export default function Home({ isSearchOpen, setIsSearchOpen, searchInputRef }) 
       ))}
     </div>
   )
-}
+};
 
 function Hero({ isSearchOpen, setIsSearchOpen, searchInputRef }) {
 

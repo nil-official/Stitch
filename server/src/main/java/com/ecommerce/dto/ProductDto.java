@@ -31,6 +31,7 @@ public class ProductDto {
     private Set<Size> sizes;
     private double averageRating;
     private int totalReviews;
+    private double rankScore;
     private Category category;
 
 }
