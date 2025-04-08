@@ -69,6 +69,8 @@ public class AppConfig {
         corsConfig.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
                 "http://localhost:3000",
+                "http://192.168.29.211:5173",
+                "http://192.168.29.211:3000",
                 frontendBaseUrl
         )); // Allowed origins
         corsConfig.setAllowedMethods(Collections.singletonList("*")); // Allow all HTTP methods

@@ -4,6 +4,7 @@ import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.ReviewDto;
 import com.ecommerce.exception.ProductException;
 import com.ecommerce.request.ReviewRequest;
+import com.ecommerce.response.HomeResponse;
 import com.ecommerce.service.HomeService;
 import com.ecommerce.service.ReviewService;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,16 @@ public class HomeController {
     public ResponseEntity<ApiResponse> welcome() {
         ApiResponse res = new ApiResponse("Welcome To E-Commerce Backend", true);
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/home/products")
+    public ResponseEntity<HomeResponse> getHomeProducts(
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize) throws ProductException {
+
+        HomeResponse products = homeService.getHomeProducts(pageNumber, pageSize);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
     }
 
     @GetMapping("/featured-products")

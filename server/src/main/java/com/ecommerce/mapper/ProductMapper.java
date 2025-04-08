@@ -1,5 +1,6 @@
 package com.ecommerce.mapper;
 
+import com.ecommerce.dto.HomeProductDto;
 import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.SearchDto;
 import com.ecommerce.model.Product;
@@ -42,6 +43,25 @@ public class ProductMapper {
         return products.stream()
                 .map(product -> {
                     SearchDto dto = new SearchDto();
+                    dto.setId(product.getId());
+                    dto.setTitle(product.getTitle());
+                    dto.setPrice(product.getPrice());
+                    dto.setDiscountedPrice(product.getDiscountedPrice());
+                    dto.setDiscountPercent(product.getDiscountPercent());
+                    dto.setQuantity(product.getQuantity());
+                    dto.setBrand(product.getBrand());
+                    dto.setPreview(product.getPreview());
+                    dto.setAverageRating(product.getAverageRating());
+                    dto.setRankScore(product.getRankScore());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<HomeProductDto> toHomeProductDtoList(List<Product> products) {
+        return products.stream()
+                .map(product -> {
+                    HomeProductDto dto = new HomeProductDto();
                     dto.setId(product.getId());
                     dto.setTitle(product.getTitle());
                     dto.setPrice(product.getPrice());
