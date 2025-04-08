@@ -2,11 +2,13 @@ package com.ecommerce.mapper;
 
 import com.ecommerce.dto.HomeProductDto;
 import com.ecommerce.dto.ProductDto;
+import com.ecommerce.dto.ProductMLDto;
 import com.ecommerce.dto.SearchDto;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.ProductES;
 import com.ecommerce.utility.SizeSortingUtil;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,8 @@ public class ProductMapper {
         dto.setQuantity(product.getQuantity());
         dto.setBrand(product.getBrand());
         dto.setColor(product.getColor());
+        dto.setFeatured(product.isFeatured());
+        dto.setOnSale(product.isOnSale());
         dto.setPreview(product.getPreview());
         dto.setImages(product.getImages());
         dto.setSizes(SizeSortingUtil.sortSizes(product.getSizes()));
@@ -50,6 +54,8 @@ public class ProductMapper {
                     dto.setDiscountPercent(product.getDiscountPercent());
                     dto.setQuantity(product.getQuantity());
                     dto.setBrand(product.getBrand());
+                    dto.setFeatured(product.isFeatured());
+                    dto.setOnSale(product.isOnSale());
                     dto.setPreview(product.getPreview());
                     dto.setAverageRating(product.getAverageRating());
                     dto.setRankScore(product.getRankScore());
@@ -69,9 +75,28 @@ public class ProductMapper {
                     dto.setDiscountPercent(product.getDiscountPercent());
                     dto.setQuantity(product.getQuantity());
                     dto.setBrand(product.getBrand());
+                    dto.setFeatured(product.isFeatured());
+                    dto.setOnSale(product.isOnSale());
                     dto.setPreview(product.getPreview());
                     dto.setAverageRating(product.getAverageRating());
                     dto.setRankScore(product.getRankScore());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<ProductMLDto> toProductMLDtoList(List<Product> products) {
+        return products.stream()
+                .sorted(Comparator.comparing(Product::getId))
+                .map(product -> {
+                    ProductMLDto dto = new ProductMLDto();
+                    dto.setId(product.getId());
+                    dto.setTitle(product.getTitle());
+                    dto.setDescription(product.getDescription());
+                    dto.setBrand(product.getBrand());
+                    dto.setColor(product.getColor());
+                    dto.setRankScore(product.getRankScore());
+                    dto.setCategory(product.getCategory().getName());
                     return dto;
                 })
                 .collect(Collectors.toList());

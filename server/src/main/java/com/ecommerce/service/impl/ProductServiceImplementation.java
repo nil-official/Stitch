@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.ecommerce.dto.ProductDto;
+import com.ecommerce.dto.ProductMLDto;
 import com.ecommerce.dto.SearchDto;
 import com.ecommerce.mapper.ProductMapper;
 import com.ecommerce.repository.ProductESRepository;
@@ -246,6 +247,15 @@ public class ProductServiceImplementation implements ProductService {
         // Find all products
         List<Product> products = productRepository.findAll();
         return PaginationUtil.paginateList(products, pageNumber, pageSize);
+
+    }
+
+    @Override
+    public Page<ProductMLDto> getLimitedProducts(Integer pageNumber, Integer pageSize) {
+
+        // Find all products
+        List<Product> products = productRepository.findAll();
+        return PaginationUtil.paginateList(ProductMapper.toProductMLDtoList(products), pageNumber, pageSize);
 
     }
 

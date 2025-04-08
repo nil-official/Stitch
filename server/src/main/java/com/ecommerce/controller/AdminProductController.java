@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ecommerce.dto.ProductMLDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -70,6 +71,14 @@ public class AdminProductController {
     public ResponseEntity<Page<Product>> findAllProductHandler(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
 
         Page<Product> products = productService.getAllProducts(pageNumber, pageSize);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/all/limited")
+    public ResponseEntity<Page<ProductMLDto>> findLimitedProductHandler(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
+
+        Page<ProductMLDto> products = productService.getLimitedProducts(pageNumber, pageSize);
         return new ResponseEntity<>(products, HttpStatus.OK);
 
     }

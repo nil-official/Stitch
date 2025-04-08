@@ -41,6 +41,8 @@ public class Product {
 
     private boolean isFeatured = false;
 
+    private boolean onSale = false;
+
     @ElementCollection
     private Set<Size> sizes = new HashSet<>();
 

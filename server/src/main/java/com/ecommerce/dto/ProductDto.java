@@ -1,7 +1,6 @@
 package com.ecommerce.dto;
 
 import com.ecommerce.model.Category;
-import com.ecommerce.model.Review;
 import com.ecommerce.model.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +25,8 @@ public class ProductDto {
     private int quantity;
     private String brand;
     private String color;
+    private boolean isFeatured;
+    private boolean onSale;
     private String preview;
     private List<String> images;
     private Set<Size> sizes;

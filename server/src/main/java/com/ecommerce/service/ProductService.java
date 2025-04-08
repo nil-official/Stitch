@@ -3,6 +3,7 @@ package com.ecommerce.service;
 import java.util.List;
 
 import com.ecommerce.dto.ProductDto;
+import com.ecommerce.dto.ProductMLDto;
 import com.ecommerce.dto.SearchDto;
 import org.springframework.data.domain.Page;
 
@@ -23,6 +24,8 @@ public interface ProductService {
     ProductDto findProductById(Long id) throws ProductException;
 
     Page<Product> getAllProducts(Integer pageNumber, Integer pageSize);
+
+    Page<ProductMLDto> getLimitedProducts(Integer pageNumber, Integer pageSize);
 
     Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize);
 
