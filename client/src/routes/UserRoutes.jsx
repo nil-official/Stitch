@@ -7,7 +7,7 @@ import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword';
 import VerifyEmail from '../pages/VerifyEmail';
 import MaintenancePage from '../pages/MaintenancePage';
-import Home from '../pages/Home';
+import HomePage from '../pages/HomePage';
 import ProductPage from '../pages/ProductPage';
 import Wishlist from '../pages/Wishlist';
 import Orders from '../pages/Orders';
@@ -34,7 +34,7 @@ const UserRoutes = () => {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/maintainance" element={<MaintenancePage />} />
             <Route element={<Layout isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />}>
-                <Route path="/" element={<Home isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
+                <Route path="/" element={<HomePage isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
                 <Route path="/products/search" element={<SearchPage />} />
                 <Route path="/product/:id" element={<ProductPage />} />
                 <Route path="/cart" element={<Cart />} />

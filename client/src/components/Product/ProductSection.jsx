@@ -31,7 +31,7 @@ const ProductSection = ({ product, scrollToReviews }) => {
             {/* Right column */}
             <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
                 <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                    {product.title}
+                    {product.brand} {product.title}
                 </h1>
 
                 <div className="pt-4 inline-flex cursor-pointer" onClick={scrollToReviews}>
