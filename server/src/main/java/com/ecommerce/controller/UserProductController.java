@@ -33,24 +33,6 @@ public class UserProductController {
 
     }
 
-    @GetMapping("/products/search")
-    public ResponseEntity<Page<Product>> searchProductHandler(@RequestParam String query,
-                                                              @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
-
-        Page<Product> products = productService.searchProduct(query, pageNumber, pageSize);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-
-    }
-
-    @GetMapping("/products/search/category")
-    public ResponseEntity<Page<Product>> searchProductByCategoryHandler(@RequestParam String category,
-                                                                        @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
-
-        Page<Product> products = productService.searchProductByCategory(category, pageNumber, pageSize);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-
-    }
-
     @GetMapping("/products/similar/{productId}")
     public ResponseEntity<Page<SearchDto>> findSimilarProductsHandler(
             @PathVariable Long productId,
@@ -69,6 +51,15 @@ public class UserProductController {
             @RequestParam(defaultValue = "10") Integer pageSize) throws ProductException {
 
         Page<SearchDto> products = productService.findLikeProducts(productId, pageNumber, pageSize);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/products/search/category")
+    public ResponseEntity<Page<Product>> searchProductByCategoryHandler(@RequestParam String category,
+                                                                        @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
+
+        Page<Product> products = productService.searchProductByCategory(category, pageNumber, pageSize);
         return new ResponseEntity<>(products, HttpStatus.OK);
 
     }

@@ -29,21 +29,12 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public HomeResponse getHomeProducts(Integer pageNumber, Integer pageSize) throws ProductException {
         try {
-            List<Product> featuredProducts = productRepository.findByIsFeaturedTrue();
-            List<Product> newArrivals = productRepository.findNewArrivals(LocalDateTime.now().minusWeeks(1));
-            List<Product> discountedProducts = productRepository.findDiscountedProducts();
-            List<Product> topRatedProducts = productRepository.findTopRatedProducts();
-            List<Product> bestSellerProducts = orderItemRepository.findBestSellerProducts()
-                    .stream()
-                    .map(result -> (Product) result[0])
-                    .collect(Collectors.toList());
-
             return new HomeResponse(
-                    mapAndPaginate(featuredProducts, pageNumber, pageSize),
-                    mapAndPaginate(newArrivals, pageNumber, pageSize),
-                    mapAndPaginate(discountedProducts, pageNumber, pageSize),
-                    mapAndPaginate(topRatedProducts, pageNumber, pageSize),
-                    mapAndPaginate(bestSellerProducts, pageNumber, pageSize)
+                    mapAndPaginate(fetchFeatured(), pageNumber, pageSize),
+                    mapAndPaginate(fetchDiscounted(), pageNumber, pageSize),
+                    mapAndPaginate(fetchNewArrival(), pageNumber, pageSize),
+                    mapAndPaginate(fetchTopRated(), pageNumber, pageSize),
+                    mapAndPaginate(fetchBestSeller(), pageNumber, pageSize)
             );
         } catch (Exception e) {
             throw new ProductException("Error while fetching home products: " + e.getMessage());
@@ -58,41 +49,73 @@ public class HomeServiceImpl implements HomeService {
         );
     }
 
+    private List<Product> fetchFeatured() {
+        // Get all products that are featured
+        return productRepository.findByIsFeaturedTrue();
+    }
+
+    private List<Product> fetchDiscounted() {
+        // Get all products oder by discountPercent desc
+        return productRepository.findAllByOrderByDiscountPercentDesc();
+    }
+
+    private List<Product> fetchNewArrival() {
+        // Get all products and filter by createdAt in the last 7 days, then sort by createdAt desc
+        return productRepository.findAll().stream()
+                .filter(product -> product.getCreatedAt() != null && product.getCreatedAt().isAfter(LocalDateTime.now().minusWeeks(1)))
+                .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
+                .collect(Collectors.toList());
+    }
+
+    private List<Product> fetchTopRated() {
+        // Filter those that have at least one review
+        return productRepository.findAll().stream()
+                .filter(product -> product.getReviews() != null && !product.getReviews().isEmpty())
+                .sorted(Comparator
+                        .comparingDouble(Product::getAverageRating).reversed()
+                        .thenComparing((p) -> p.getReviews().size(), Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+    }
+
+    private List<Product> fetchBestSeller() {
+        // Get all products that are best-selling
+        return orderItemRepository.findBestSellerProducts()
+                .stream()
+                .map(result -> (Product) result[0])
+                .collect(Collectors.toList());
+    }
+
     @Override
     public List<ProductDto> getFeaturedProducts() throws ProductException {
         try {
-            List<Product> featuredProducts = productRepository.findByIsFeaturedTrue();
-            return ProductMapper.toDtoList(featuredProducts);
+            return ProductMapper.toDtoList(fetchFeatured());
         } catch (Exception e) {
             throw new ProductException("Error while fetching featured products: " + e.getMessage());
         }
     }
 
     @Override
-    public List<ProductDto> getNewArrivals() throws ProductException {
-        try {
-            List<Product> newArrivals = productRepository.findNewArrivals(LocalDateTime.now().minusWeeks(1));
-            return ProductMapper.toDtoList(newArrivals);
-        } catch (Exception e) {
-            throw new ProductException("Error while fetching new arrivals: " + e.getMessage());
-        }
-    }
-
-    @Override
     public List<ProductDto> getExclusiveDiscounts() throws ProductException {
         try {
-            List<Product> discountedProducts = productRepository.findDiscountedProducts();
-            return ProductMapper.toDtoList(discountedProducts);
+            return ProductMapper.toDtoList(fetchDiscounted());
         } catch (Exception e) {
             throw new ProductException("Error while fetching discounted products: " + e.getMessage());
         }
     }
 
     @Override
+    public List<ProductDto> getNewArrivals() throws ProductException {
+        try {
+            return ProductMapper.toDtoList(fetchNewArrival());
+        } catch (Exception e) {
+            throw new ProductException("Error while fetching new arrivals: " + e.getMessage());
+        }
+    }
+
+    @Override
     public List<ProductDto> getTopRatedProducts() throws ProductException {
         try {
-            List<Product> topRatedProducts = productRepository.findTopRatedProducts();
-            return ProductMapper.toDtoList(topRatedProducts);
+            return ProductMapper.toDtoList(fetchTopRated());
         } catch (Exception e) {
             throw new ProductException("Error while fetching top rated products: " + e.getMessage());
         }
@@ -101,11 +124,7 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public List<ProductDto> getBestSellerProducts() throws ProductException {
         try {
-            List<Product> bestSellerProducts = orderItemRepository.findBestSellerProducts()
-                    .stream()
-                    .map(result -> (Product) result[0])
-                    .collect(Collectors.toList());
-            return ProductMapper.toDtoList(bestSellerProducts);
+            return ProductMapper.toDtoList(fetchBestSeller());
         } catch (Exception e) {
             throw new ProductException("Error while fetching best seller products: " + e.getMessage());
         }

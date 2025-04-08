@@ -271,15 +271,6 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize) {
-
-        // Search for products using the query
-        List<Product> products = productRepository.searchProduct(query);
-        return PaginationUtil.paginateList(products, pageNumber, pageSize);
-
-    }
-
-    @Override
     public Page<Product> searchProductByCategory(String category, Integer pageNumber, Integer pageSize) {
 
         // Search for products using the query

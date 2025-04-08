@@ -27,8 +27,6 @@ public interface ProductService {
 
     Page<ProductMLDto> getLimitedProducts(Integer pageNumber, Integer pageSize);
 
-    Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize);
-
     Page<Product> searchProductByCategory(String category, Integer pageNumber, Integer pageSize);
 
     Page<SearchDto> findSimilarProducts(Long productId, Integer pageNumber, Integer pageSize) throws ProductException;
