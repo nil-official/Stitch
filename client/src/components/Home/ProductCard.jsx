@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Star, ShoppingCart, Zap, Award, TrendingUp } from 'lucide-react'
+import { Star, Zap, Sparkles, Award, TrendingUp } from 'lucide-react'
 import { FaStar } from 'react-icons/fa'
 
 const ProductCard = ({ product, index, style }) => {
 
     const [currency, setCurrency] = useState('INR');
     const iconStyles = {
-        discount: <Zap className="w-5 h-5 text-red-500" />,
-        new: <ShoppingCart className="w-5 h-5 text-green-500" />,
         featured: <Star className="w-5 h-5 text-blue-500" />,
-        rated: <Award className="w-5 h-5 text-yellow-500" />,
+        discount: <Zap className="w-5 h-5 text-red-500" />,
+        new: <Sparkles className="w-5 h-5 text-yellow-500" />,
+        rated: <Award className="w-5 h-5 text-green-500" />,
         seller: <TrendingUp className="w-5 h-5 text-purple-500" />
     }
 
