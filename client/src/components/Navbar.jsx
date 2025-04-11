@@ -104,17 +104,20 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
     return (
         <nav className="shadow-md">
-            <div className="container mx-auto px-4 py-6">
-                <div className="flex items-center justify-between">
+            <div className="w-full flex justify-center items-center p-4">
+                <div className="w-11/12 flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <button onClick={() => setSidebar(true)} className="text-gray-600 hover:text-gray-900 focus:outline-none">
                             <FiMenu className="text-2xl" />
                         </button>
                     </div>
 
-                    <div className="absolute left-1/2 transform -translate-x-1/2 text-center">
-                        <Link to="/" className="text-3xl font-bold text-gray-800">Stitch</Link>
-                    </div>
+                    <Link to="/">
+                        <div className='flex items-center'>
+                            <img src="logo2.png" alt="Stitch" className='h-[40px]' />
+                            <p className="text-3xl font-bold text-gray-800">Stitch</p>
+                        </div>
+                    </Link>
 
                     <div className="flex items-center space-x-4">
                         <button
