@@ -104,7 +104,7 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
     return (
         <nav className="shadow-md">
-            <div className="w-full flex justify-center items-center p-4">
+            <div className="w-full flex flex-col justify-center items-center p-4">
                 <div className="w-11/12 flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <button onClick={() => setSidebar(true)} className="text-gray-600 hover:text-gray-900 focus:outline-none">
@@ -113,9 +113,9 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                     </div>
 
                     <Link to="/">
-                        <div className='flex items-center'>
-                            <img src="logo2.png" alt="Stitch" className='h-[40px]' />
-                            <p className="text-3xl font-bold text-gray-800">Stitch</p>
+                        <div className='flex items-center gap-2 text-gray-800'>
+                            <img src="stitch.svg" alt="Stitch" className='h-[40px]' />
+                            <p className="text-3xl font-bold">Stitch</p>
                         </div>
                     </Link>
 
@@ -151,7 +151,7 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.2 }}
                             onSubmit={handleSearch}
-                            className="mt-4"
+                            className="mt-4 w-11/12"
                         >
                             <div className="relative">
                                 <input

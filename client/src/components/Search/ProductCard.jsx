@@ -11,6 +11,13 @@ const ProductCard = ({ product }) => {
         <Link to={`/product/${product.id}`}>
             <div className={`p-2 group relative flex flex-col h-full rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105  ${isOutOfStock ? 'opacity-75' : ''}`}>
                 <div className="relative w-full aspect-[2/3] overflow-hidden rounded-lg">
+                    {product.rankScore > 9.5 &&
+                        <img
+                            src="/recommended.png"
+                            alt="Recommended"
+                            className="absolute w-[60%] z-10"
+                        />
+                    }
                     <img
                         className={`absolute top-0 left-0 w-full h-full object-cover ${isOutOfStock ? 'filter grayscale' : ''}`}
                         src={product.preview}
@@ -33,8 +40,8 @@ const ProductCard = ({ product }) => {
                             {product.brand}
                         </h3>
                         {product.averageRating != 0 && (
-                            <div className="flex items-center bg-green-500 text-white text-xs font-medium px-2 py-1 rounded">
-                                <FaStar className="mr-1" />
+                            <div className="flex items-center bg-green-500 text-white text-xs font-medium px-1 py-0.5 rounded">
+                                <FaStar size={10} className="mr-1" />
                                 {product.averageRating.toFixed(1)}
                             </div>
                         )}

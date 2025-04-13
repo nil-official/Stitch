@@ -116,29 +116,31 @@ const SearchPage = () => {
                     <ErrorEncountered message={productsError.response.data.error || filtersError.response.data.error} />
                 ) : (
                     <div className='w-full 2xl:w-11/12 3xl:w-3/4 flex justify-center pb-4'>
-                        
-                        {/* ------------- Left Section (Filters) ------------- */}
-                        <div className="w-1/4 p-6">
-                            {/* Filter Search Heading */}
-                            <p className='text-xl py-6'>
-                                {filtersLoading ? (
-                                    `Searching Filters ......`
-                                ) : (
-                                    `Filters`
-                                )}
-                            </p>
 
-                            {/* Filter Box */}
-                            <div className="border rounded-lg p-6">
-                                {filtersLoading ? (
-                                    <div className="flex justify-center items-center min-h-[65vh]">
-                                        <div className="loader border-4 border-gray-300 border-t-gray-800 rounded-full w-12 h-12 animate-spin"></div>
-                                    </div>
-                                ) : (filters && showFilters && (
-                                    <FilterSection filters={filters} selectedFilters={selectedFilters} onFilterChange={handleFilterChange} />
-                                ))}
+                        {/* ------------- Left Section (Filters) ------------- */}
+                        {showFilters &&
+                            <div className="w-1/4 p-6">
+                                {/* Filter Search Heading */}
+                                <p className='text-xl py-6'>
+                                    {filtersLoading ? (
+                                        `Searching Filters ......`
+                                    ) : (
+                                        `Filters`
+                                    )}
+                                </p>
+
+                                {/* Filter Box */}
+                                <div className="border rounded-lg p-6">
+                                    {filtersLoading ? (
+                                        <div className="flex justify-center items-center min-h-[65vh]">
+                                            <div className="loader border-4 border-gray-300 border-t-gray-800 rounded-full w-12 h-12 animate-spin"></div>
+                                        </div>
+                                    ) : (filters && (
+                                        <FilterSection filters={filters} selectedFilters={selectedFilters} onFilterChange={handleFilterChange} />
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        }
 
                         {/* ------------- Right Section (Products) ------------- */}
                         <div className="w-3/4 p-6">

@@ -1,6 +1,5 @@
 package com.ecommerce.service.impl;
 
-
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -141,7 +140,6 @@ public class ProductServiceImplementation implements ProductService {
 
         boolean priceUpdated = false;
         boolean discountedPriceUpdated = false;
-        boolean sizesUpdated = false;
 
         // Update fields dynamically using a map for non-primitive and non-collection types
         Map<Runnable, Boolean> updateActions = Map.of(
@@ -171,7 +169,6 @@ public class ProductServiceImplementation implements ProductService {
         if (req.getSizes() != null && !req.getSizes().isEmpty()) {
             // Update sizes if provided
             product.setSizes(req.getSizes());
-            sizesUpdated = true;
 
             // Update the total quantity using QuantityCalculatorUtil
             int updatedQuantity = QuantityCalculatorUtil.getTotalQuantity(product.getSizes());
@@ -357,7 +354,10 @@ public class ProductServiceImplementation implements ProductService {
 
             products = products.stream()
                     .filter(product -> {
-                        // Check if the product matches ALL of the search terms
+                        // Exclude out-of-stock products
+                        if (product.getQuantity() <= 0) return false;
+
+                        // Check if the product matches all the search terms
                         for (String term : searchTerms) {
                             term = term.trim().toLowerCase(); // Normalize the term
 
@@ -386,8 +386,34 @@ public class ProductServiceImplementation implements ProductService {
                         }
                         return true; // Product matches ALL terms
                     })
-                    .collect(Collectors.toList());
+                    .toList();
         }
+
+        // Sorting the products by category and rank score
+        // Step 1: After applying all filters and search query
+        Map<String, List<Product>> categoryGroups = products.stream()
+                .collect(Collectors.groupingBy(p -> p.getCategory().getName().toLowerCase()));
+
+        // Step 2: Identify the dominant category
+        String dominantCategory = categoryGroups.entrySet().stream()
+                .max(Comparator.comparingInt(entry -> entry.getValue().size()))
+                .map(Map.Entry::getKey)
+                .orElse(null);
+
+        // Step 3: Separate products
+        List<Product> dominantCategoryProducts = categoryGroups.getOrDefault(dominantCategory, new ArrayList<>());
+        List<Product> otherProducts = products.stream()
+                .filter(p -> !p.getCategory().getName().equalsIgnoreCase(dominantCategory))
+                .collect(Collectors.toList());
+
+        // Step 4: Sort both lists by rankScore
+        dominantCategoryProducts.sort((p1, p2) -> Double.compare(p2.getRankScore(), p1.getRankScore()));
+        otherProducts.sort((p1, p2) -> Double.compare(p2.getRankScore(), p1.getRankScore()));
+
+        // Step 5: Merge
+        List<Product> searchedProducts = new ArrayList<>();
+        searchedProducts.addAll(dominantCategoryProducts);
+        searchedProducts.addAll(otherProducts);
 
         // Apply category filter
         if (category != null && !category.isEmpty()) {
@@ -395,21 +421,21 @@ public class ProductServiceImplementation implements ProductService {
                     .map(String::toLowerCase)
                     .collect(Collectors.toSet());
 
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> categorySet.contains(product.getCategory().getName().toLowerCase()))
                     .collect(Collectors.toList());
         }
 
         // Apply minPrice filter
         if (minPrice != null) {
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> product.getDiscountedPrice() >= minPrice)
                     .collect(Collectors.toList());
         }
 
         // Apply maxPrice filter
         if (maxPrice != null) {
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> product.getDiscountedPrice() <= maxPrice)
                     .collect(Collectors.toList());
         }
@@ -420,7 +446,7 @@ public class ProductServiceImplementation implements ProductService {
                     .map(String::toLowerCase)
                     .collect(Collectors.toSet());
 
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> brandSet.contains(product.getBrand().toLowerCase()))
                     .collect(Collectors.toList());
         }
@@ -431,9 +457,9 @@ public class ProductServiceImplementation implements ProductService {
                     .map(String::toLowerCase)
                     .collect(Collectors.toSet());
 
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> product.getSizes().stream()
-                            .anyMatch(s -> sizeSet.contains(s.getName().toString().toLowerCase())))
+                            .anyMatch(s -> sizeSet.contains(s.getName().toLowerCase())))
                     .collect(Collectors.toList());
         }
 
@@ -443,21 +469,21 @@ public class ProductServiceImplementation implements ProductService {
                     .map(String::toLowerCase)
                     .collect(Collectors.toSet());
 
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> colorSet.contains(product.getColor().toLowerCase()))
                     .collect(Collectors.toList());
         }
 
         // Apply discount filter
         if (discount != null) {
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> product.getDiscountPercent() >= discount)
                     .collect(Collectors.toList());
         }
 
         // Apply minRating filter
         if (rating != null) {
-            products = products.stream()
+            searchedProducts = searchedProducts.stream()
                     .filter(product -> product.getAverageRating() >= rating)
                     .collect(Collectors.toList());
         }
@@ -466,33 +492,30 @@ public class ProductServiceImplementation implements ProductService {
         if (sort != null && !sort.isEmpty()) {
             switch (sort.toLowerCase()) {
                 case "name_asc":
-                    products.sort(Comparator.comparing(Product::getTitle, String.CASE_INSENSITIVE_ORDER));
+                    searchedProducts.sort(Comparator.comparing(Product::getTitle, String.CASE_INSENSITIVE_ORDER));
                     break;
                 case "name_desc":
-                    products.sort((p1, p2) -> p2.getTitle().compareToIgnoreCase(p1.getTitle()));
+                    searchedProducts.sort((p1, p2) -> p2.getTitle().compareToIgnoreCase(p1.getTitle()));
                     break;
                 case "price_low":
-                    products.sort(Comparator.comparingInt(Product::getDiscountedPrice));
+                    searchedProducts.sort(Comparator.comparingInt(Product::getDiscountedPrice));
                     break;
                 case "price_high":
-                    products.sort((p1, p2) -> Integer.compare(p2.getDiscountedPrice(), p1.getDiscountedPrice()));
+                    searchedProducts.sort((p1, p2) -> Integer.compare(p2.getDiscountedPrice(), p1.getDiscountedPrice()));
                     break;
                 case "rating_high":
-                    products.sort((p1, p2) -> Double.compare(p2.getAverageRating(), p1.getAverageRating()));
+                    searchedProducts.sort((p1, p2) -> Double.compare(p2.getAverageRating(), p1.getAverageRating()));
                     break;
                 case "rating_low":
-                    products.sort(Comparator.comparingDouble(Product::getAverageRating));
+                    searchedProducts.sort(Comparator.comparingDouble(Product::getAverageRating));
                     break;
                 default:
                     break;
             }
         }
 
-        // INTERNAL RANK-BASED SORTING (for ML ranking)
-        products.sort((p1, p2) -> Double.compare(p2.getRankScore(), p1.getRankScore()));
-
-        List<SearchDto> searchedProducts = ProductMapper.toSearchDtoList(products);
-        return Pagination1BasedUtil.paginateList(searchedProducts, pageNumber, pageSize);
+        List<SearchDto> searchedProductsDto = ProductMapper.toSearchDtoList(searchedProducts);
+        return Pagination1BasedUtil.paginateList(searchedProductsDto, pageNumber, pageSize);
 
     }
 
