@@ -4,7 +4,7 @@ import {
     GET_SEARCHED_PRODUCTS_PENDING,
     GET_SEARCHED_PRODUCTS_FULFILLED,
     GET_SEARCHED_PRODUCTS_REJECTED,
-} from './searchTypes';
+} from './type';
 
 const getProductsPending = () => ({
     type: GET_SEARCHED_PRODUCTS_PENDING,

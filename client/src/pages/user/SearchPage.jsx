@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { X, Settings2 } from "lucide-react";
-import FilterSection from '../components/Search/FilterSection';
-import SortDropdown from '../components/Search/SortDropdown';
-import ProductCard from '../components/Search/ProductCard';
-import Pagination from '../components/Search/Pagination';
-import ErrorEncountered from '../components/ErrorEncountered';
-import { getProducts } from '../redux/customer/search/searchProductsActions';
-import { getFilters } from '../redux/customer/search/searchFiltersActions';
+import FilterSection from '../../components/Search/FilterSection';
+import SortDropdown from '../../components/Search/SortDropdown';
+import ProductCard from '../../components/Search/ProductCard';
+import Pagination from '../../components/Search/Pagination';
+import ErrorEncountered from '../../components/ErrorEncountered';
+import { getProducts } from '../../redux/customer/search/action';
+import { getFilters } from '../../redux/customer/filter/action';
 
 const SearchPage = () => {
     // Hooks
@@ -16,8 +16,8 @@ const SearchPage = () => {
     const dispatch = useDispatch();
 
     // Redux states
-    const { products, productsLoading, productsError } = useSelector((state) => state.searchProductsState);
-    const { filters, filtersLoading, filtersError } = useSelector((state) => state.searchFiltersState);
+    const { products, productsLoading, productsError } = useSelector((state) => state.search);
+    const { filters, filtersLoading, filtersError } = useSelector((state) => state.filter);
 
     // URL Search Params
     const [searchParams, setSearchParams] = useSearchParams();

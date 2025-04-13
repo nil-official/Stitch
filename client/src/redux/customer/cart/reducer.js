@@ -11,7 +11,7 @@ import {
     REMOVE_FROM_CART_PENDING,
     REMOVE_FROM_CART_FULFILLED,
     REMOVE_FROM_CART_REJECTED,
-} from './cartTypes';
+} from './type';
 
 const initialState = {
     cart: [],
@@ -19,7 +19,7 @@ const initialState = {
     error: null,
 };
 
-export default (state = initialState, action) => {
+const cartReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_CART_PENDING:
             return { ...state, loading: true };
@@ -49,3 +49,5 @@ export default (state = initialState, action) => {
             return state;
     }
 };
+
+export default cartReducer;

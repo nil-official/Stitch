@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ImageCarousel from './ImageCarousel'
 import StarRating from './StarRating';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../redux/customer/cart/cartActions';
+import { addToCart } from '../../redux/customer/cart/action';
 
 const ProductSection = ({ product, scrollToReviews }) => {
 

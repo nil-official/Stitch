@@ -8,7 +8,7 @@ import Reviews from '../components/Reviews';
 import SimilarProducts from '../components/SimilarProducts';
 import BASE_URL from '../utils/baseurl';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart, addToCart } from '../redux/customer/cart/cartActions';
+import { getCart, addToCart } from '../redux/customer/cart/action';
 
 const API = `${BASE_URL}/api/products/search/category`;
 
@@ -22,7 +22,7 @@ const ProductDetails = () => {
     const [similarProducts, setSimilarProducts] = useState([]);
 
     const dispatch = useDispatch();
-    const { cart, loading, error } = useSelector((state) => state.cartState);
+    const { cart, loading, error } = useSelector((state) => state.cart);
 
     const handleAddToCart = (productId, size, quantity) => {
         dispatch(addToCart(productId, size, quantity));

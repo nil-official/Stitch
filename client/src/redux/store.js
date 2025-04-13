@@ -3,16 +3,16 @@ import { thunk } from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import authReducer from './auth/reducer';
 import homeReducer from './customer/home/reducer';
-import cartReducers from './customer/cart/cartReducers';
-import searchProductsReducers from './customer/search/searchProductsReducers';
-import searchFiltersReducers from './customer/search/searchFiltersReducers';
+import cartReducer from './customer/cart/reducer';
+import searchReducer from './customer/search/reducer';
+import filterReducer from './customer/filter/reducer';
 
 const rootReducers = combineReducers({
     auth: authReducer,
     home: homeReducer,
-    cartState: cartReducers,
-    searchProductsState: searchProductsReducers,
-    searchFiltersState: searchFiltersReducers,
+    cart: cartReducer,
+    search: searchReducer,
+    filter: filterReducer,
 });
 
 const middlewares = [thunk];

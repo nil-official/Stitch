@@ -13,7 +13,7 @@ import {
     REMOVE_FROM_CART_PENDING,
     REMOVE_FROM_CART_FULFILLED,
     REMOVE_FROM_CART_REJECTED,
-} from './cartTypes';
+} from './type';
 
 const getCartPending = () => ({
     type: GET_CART_PENDING,

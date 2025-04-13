@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetJustLoggedIn } from '../redux/auth/action'
-import { getHomeProducts } from '../redux/customer/home/action'
-import UserInfoDialog from '../components/Home/UserInfoDialog'
-import HeroSection from '../components/Home/HeroSection'
-import ProductSection from '../components/Home/ProductSection'
+import { resetJustLoggedIn } from '../../redux/auth/action'
+import { getHomeProducts } from '../../redux/customer/home/action'
+import UserInfoDialog from '../../components/Home/UserInfoDialog'
+import HeroSection from '../../components/Home/HeroSection'
+import ProductSection from '../../components/Home/ProductSection'
 
 const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 

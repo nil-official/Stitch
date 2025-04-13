@@ -2,7 +2,7 @@ import {
     GET_SEARCHED_PRODUCTS_PENDING,
     GET_SEARCHED_PRODUCTS_FULFILLED,
     GET_SEARCHED_PRODUCTS_REJECTED,
-} from './searchTypes';
+} from './type';
 
 const initialState = {
     products: null,
@@ -10,7 +10,7 @@ const initialState = {
     productsError: null,
 };
 
-export default (state = initialState, action) => {
+const searchReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SEARCHED_PRODUCTS_PENDING:
             return { ...state, productsLoading: true };
@@ -22,3 +22,5 @@ export default (state = initialState, action) => {
             return state;
     }
 };
+
+export default searchReducer;

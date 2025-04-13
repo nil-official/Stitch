@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { X } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getCart, removeFromCart, updateCart } from '../redux/customer/cart/cartActions';
-import { ShopContext } from '../context/ShopContext';
+import { getCart, removeFromCart, updateCart } from '../../redux/customer/cart/action';
+import { ShopContext } from '../../context/ShopContext';
 
-const Cart = () => {
+const CartPage = () => {
 
     const navigate = useNavigate();
     const [currency, setCurrency] = useState('INR');
 
     const dispatch = useDispatch();
-    const { cart, loading, error } = useSelector((state) => state.cartState);
+    const { cart, loading, error } = useSelector((state) => state.cart);
     const [isCartFetched, setIsCartFetched] = useState(false);
 
     const { setRerender, rerender, orderData, setOrderData } = useContext(ShopContext);
@@ -161,4 +161,4 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+export default CartPage;

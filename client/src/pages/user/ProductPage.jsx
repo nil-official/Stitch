@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from "react-router-dom";
-import ReviewSection from '../components/Product/ReviewSection';
-import ProductSection from '../components/Product/ProductSection';
-import LikeProductsSection from '../components/Product/LikeProductsSection';
-import SimilarProductsSection from '../components/Product/SimilarProductsSection';
-import axios from '../utils/axiosConfig';
+import ReviewSection from '../../components/Product/ReviewSection';
+import ProductSection from '../../components/Product/ProductSection';
+import LikeProductsSection from '../../components/Product/LikeProductsSection';
+import SimilarProductsSection from '../../components/Product/SimilarProductsSection';
+import axios from '../../utils/axiosConfig';
 
 const ProductPage = () => {
 

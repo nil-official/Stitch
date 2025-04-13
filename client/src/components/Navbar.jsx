@@ -7,7 +7,7 @@ import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { CiUser } from "react-icons/ci";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from '../redux/customer/cart/cartActions';
+import { getCart } from '../redux/customer/cart/action';
 import decodeJWT from '../utils/decodeJWT';
 import axios from '../utils/axiosConfig';
 import { logout } from '../redux/auth/action';
@@ -15,7 +15,7 @@ import { logout } from '../redux/auth/action';
 const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
     const dispatch = useDispatch();
-    const { cart } = useSelector((state) => state.cartState);
+    const { cart } = useSelector((state) => state.cart);
 
     const [isSidebarOpen, setSidebar] = useState(false);
     const [input, setInput] = useState('');

@@ -2,7 +2,7 @@ import {
     GET_PRODUCT_FILTERS_PENDING,
     GET_PRODUCT_FILTERS_FULFILLED,
     GET_PRODUCT_FILTERS_REJECTED,
-} from './searchTypes';
+} from './type';
 
 const initialState = {
     filters: null,
@@ -10,7 +10,7 @@ const initialState = {
     filtersError: null,
 };
 
-export default (state = initialState, action) => {
+const filterReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_PRODUCT_FILTERS_PENDING:
             return { ...state, filtersLoading: true };
@@ -22,3 +22,5 @@ export default (state = initialState, action) => {
             return state;
     }
 };
+
+export default filterReducer;

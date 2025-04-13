@@ -7,8 +7,8 @@ import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword';
 import VerifyEmail from '../pages/VerifyEmail';
 import MaintenancePage from '../pages/MaintenancePage';
-import HomePage from '../pages/HomePage';
-import ProductPage from '../pages/ProductPage';
+import HomePage from '../pages/user/HomePage';
+import ProductPage from '../pages/user/ProductPage';
 import Wishlist from '../pages/Wishlist';
 import Orders from '../pages/Orders';
 import UserProfile from '../pages/UserProfile';
@@ -16,8 +16,8 @@ import OrdersDetails from '../pages/OrderDetails';
 import HelpAndSupport from '../pages/HelpAndSupport';
 import OrderAddress from '../pages/OrderAddress';
 import OrderSummary from '../pages/OrderSummary';
-import Cart from '../pages/Cart';
-import SearchPage from '../pages/SearchPage';
+import CartPage from '../pages/user/CartPage';
+import SearchPage from '../pages/user/SearchPage';
 import Error404 from '../pages/Error404';
 
 const UserRoutes = () => {
@@ -37,7 +37,7 @@ const UserRoutes = () => {
                 <Route path="/" element={<HomePage isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
                 <Route path="/products/search" element={<SearchPage />} />
                 <Route path="/product/:id" element={<ProductPage />} />
-                <Route path="/cart" element={<Cart />} />
+                <Route path="/cart" element={<CartPage />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/order-summary" element={<OrderSummary />} />
                 <Route path="/orders" element={<Orders />} />
