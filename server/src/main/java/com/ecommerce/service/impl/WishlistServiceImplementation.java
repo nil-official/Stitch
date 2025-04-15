@@ -6,7 +6,6 @@ import com.ecommerce.model.*;
 import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.repository.WishlistRepository;
 import com.ecommerce.request.AddToWishlistRequest;
-import com.ecommerce.service.ProductService;
 import com.ecommerce.service.WishlistItemService;
 import com.ecommerce.service.WishlistService;
 import lombok.AllArgsConstructor;
@@ -19,9 +18,23 @@ import java.time.LocalDateTime;
 public class WishlistServiceImplementation implements WishlistService {
 
     private WishlistRepository wishlistRepository;
-    private ProductService productService;
     private ProductRepository productRepository;
     private WishlistItemService wishlistItemService;
+
+    @Override
+    public void createWishlist (User user) throws WishlistException {
+        // Check if the user already has a wishlist
+        Wishlist existingWishlist = wishlistRepository.findByUserId(user.getId());
+        if (existingWishlist != null) {
+            throw new WishlistException("Wishlist already exists for user ID: " + user.getId());
+        }
+
+        // Create a new wishlist for the user
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(user);
+        wishlist.setCreatedAt(LocalDateTime.now());
+        wishlistRepository.save(wishlist);
+    }
 
     @Override
     public Wishlist findUserWishlist(Long userId) throws WishlistException {

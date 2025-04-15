@@ -18,6 +18,7 @@ import com.ecommerce.security.CustomUserDetailsService;
 import com.ecommerce.service.AuthService;
 import com.ecommerce.service.CartService;
 import com.ecommerce.service.EmailService;
+import com.ecommerce.service.WishlistService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,6 +47,7 @@ public class AuthServiceImplementation implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomUserDetailsService customUserDetails;
     private final String frontendBaseUrl;
+    private final WishlistService wishlistService;
 
     public AuthServiceImplementation(UserRepository userRepository,
                                      PasswordEncoder passwordEncoder,
@@ -55,7 +57,7 @@ public class AuthServiceImplementation implements AuthService {
                                      EmailService emailService,
                                      JwtTokenProvider jwtTokenProvider,
                                      CustomUserDetailsService customUserDetails,
-                                     @Qualifier("frontendBaseUrl") String frontendBaseUrl) {
+                                     @Qualifier("frontendBaseUrl") String frontendBaseUrl, WishlistService wishlistService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
@@ -65,6 +67,7 @@ public class AuthServiceImplementation implements AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
         this.customUserDetails = customUserDetails;
         this.frontendBaseUrl = frontendBaseUrl;
+        this.wishlistService = wishlistService;
     }
 
     @Override
@@ -94,6 +97,9 @@ public class AuthServiceImplementation implements AuthService {
 
         // Creating a cart for the new user
         cartService.createCart(savedUser);
+
+        // Creating a wishlist for the new user
+        wishlistService.createWishlist(savedUser);
 
         // Creating an email verification token and saving it into DB
         String token = UUID.randomUUID().toString();
