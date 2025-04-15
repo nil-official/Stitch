@@ -4,6 +4,8 @@ import { createLogger } from 'redux-logger';
 import authReducer from './auth/reducer';
 import homeReducer from './customer/home/reducer';
 import cartReducer from './customer/cart/reducer';
+import productReducer from './customer/product/reducer';
+import reviewReducer from './customer/review/reducer';
 import searchReducer from './customer/search/reducer';
 import filterReducer from './customer/filter/reducer';
 
@@ -11,6 +13,8 @@ const rootReducers = combineReducers({
     auth: authReducer,
     home: homeReducer,
     cart: cartReducer,
+    product: productReducer,
+    review: reviewReducer,
     search: searchReducer,
     filter: filterReducer,
 });

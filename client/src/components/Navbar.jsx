@@ -114,7 +114,7 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
                     <Link to="/">
                         <div className='flex items-center gap-2 text-gray-800'>
-                            <img src="stitch.svg" alt="Stitch" className='h-[40px]' />
+                            <img src="/stitch.svg" alt="Stitch" className='h-[40px]' />
                             <p className="text-3xl font-bold">Stitch</p>
                         </div>
                     </Link>

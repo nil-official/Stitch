@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../Loader';
+import ErrorPage from '../../pages/ErrorPage';
 import ImageCarousel from './ImageCarousel'
 import StarRating from './StarRating';
-import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/customer/cart/action';
+import { getProduct } from '../../redux/customer/product/action';
 
-const ProductSection = ({ product, scrollToReviews }) => {
+const ProductSection = ({ productId, scrollToReviews }) => {
 
     const dispatch = useDispatch();
-    const [currency, setCurrency] = useState('INR');
     const [size, setSize] = useState('');
+    const [currency, setCurrency] = useState('INR');
     const [quantity, setQuantity] = useState(1);
-    const isOutOfStock = product.quantity === 0;
+    const { product, loading, error } = useSelector((state) => state.product);
+    const isOutOfStock = product.quantity === 0 || false;
+
+    useEffect(() => {
+        dispatch(getProduct(productId));
+    }, [dispatch, productId]);
 
     const handleQuantityChange = (e) => {
         const value = e.target.value;
@@ -21,6 +29,14 @@ const ProductSection = ({ product, scrollToReviews }) => {
 
     const handleAddToCart = (productId, size, quantity) => {
         dispatch(addToCart(productId, size, quantity));
+    };
+
+    if (loading) {
+        return <Loader />
+    };
+
+    if (error) {
+        return <ErrorPage code={400} title='An Error Occurred!' description={error} />
     };
 
     return (
@@ -63,7 +79,7 @@ const ProductSection = ({ product, scrollToReviews }) => {
                 <div className="mt-6">
                     <h3 className="font-medium text-gray-900">Size</h3>
                     <div className="mt-2 flex flex-wrap gap-2">
-                        {product.sizes.map((item, index) => (
+                        {product?.sizes?.map((item, index) => (
                             <button
                                 key={index}
                                 type="button"
@@ -129,7 +145,7 @@ const ProductSection = ({ product, scrollToReviews }) => {
             </div>
 
         </div>
-    )
-}
+    );
+};
 
 export default ProductSection;

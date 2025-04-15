@@ -1,41 +1,26 @@
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
 import { format, parseISO } from "date-fns";
 import StarRating from './StarRating';
-import axios from '../../utils/axiosConfig';
 import RatingStarsBar from './RatingStarsBar';
+import Loader from '../Loader';
+import { addLikeDislike, getReviews } from '../../redux/customer/review/action';
 
 const ReviewSection = forwardRef(({ productId }, ref) => {
 
-    const [reviews, setReviews] = useState([]);
-    const [stats, setStats] = useState([]);
+    const dispatch = useDispatch();
+    const { reviews, stats, loading, error } = useSelector((state) => state.review);
 
     useEffect(() => {
-        fetchReviews();
-    }, [productId])
-
-    const fetchReviews = async () => {
-        try {
-            const res = await axios.get(`/api/reviews/product/${productId}`);
-            if (res) {
-                setReviews(res.data.reviews);
-                setStats(res.data.stats);
-            }
-        } catch (err) {
-            console.error('Failed to fetch review:', err);
-        }
-    }
+        dispatch(getReviews(productId));
+    }, [dispatch, productId]);
 
     const handleLikeDislike = async (reviewId, type) => {
-        try {
-            const res = await axios.post(`/api/reviews/${reviewId}/${type}`);
-            fetchReviews();
-        } catch (err) {
-            console.error(`Failed to ${type} review:`, err);
-        }
+        dispatch(addLikeDislike(reviewId, type));
     };
 
     return (
@@ -46,7 +31,11 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
                 </p>
             </div>
 
-            {reviews.length > 0 ? (
+            {error ? (
+                <ErrorPage code={400} title='An Error Occurred!' description={error} />
+            ) : (loading ? (
+                <Loader />
+            ) : (reviews.length > 0 ? (
                 <div className="py-4 flex justify-between gap-12 w-full">
                     {/* Left Column: Rating Stats */}
                     <div className='flex flex-col w-1/3 items-center gap-6'>
@@ -133,7 +122,7 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
                 <div className="flex items-center justify-center">
                     <p className="mt-4 text-gray-500">No reviews available for this product.</p>
                 </div>
-            )}
+            )))}
         </div>
     )
 })

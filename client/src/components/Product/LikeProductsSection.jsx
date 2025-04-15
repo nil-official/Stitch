@@ -30,7 +30,7 @@ const SimilarProductsSection = ({ productId }) => {
 
     useEffect(() => {
         fetchSimilarProducts();
-    }, [page, productId]);
+    }, [productId, page, pageSize]);
 
     const handleLeftArrow = () => {
         if (!loading && page != 1) {
@@ -101,8 +101,8 @@ const SimilarProductsSection = ({ productId }) => {
                     </button>
                 </div>
             ) : (
-                <div className="flex items-center justify-center">
-                    <p className="mt-4 text-gray-500">No similar products available.</p>
+                <div className="flex justify-center items-center">
+                    <div className="loader border-4 border-gray-300 border-t-gray-800 rounded-full w-12 h-12 animate-spin"></div>
                 </div>
             )}
         </div>
