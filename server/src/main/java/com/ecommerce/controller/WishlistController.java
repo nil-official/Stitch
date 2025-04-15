@@ -4,8 +4,6 @@ import com.ecommerce.dto.WishlistDto;
 import com.ecommerce.exception.ProductException;
 import com.ecommerce.exception.UserException;
 import com.ecommerce.model.User;
-import com.ecommerce.model.Wishlist;
-import com.ecommerce.request.AddToWishlistRequest;
 import com.ecommerce.response.ApiResponse;
 import com.ecommerce.service.UserService;
 import com.ecommerce.service.WishlistService;
@@ -23,41 +21,43 @@ public class WishlistController {
     private WishlistService wishlistService;
 
     @GetMapping("/")
-    public ResponseEntity<Wishlist> getUserWishlist(@RequestHeader("Authorization") String jwt) throws UserException, ProductException {
+    public ResponseEntity<WishlistDto> getUserWishlist(@RequestHeader("Authorization") String jwt) throws UserException, ProductException {
+
         User user = userService.findUserProfileByJwt(jwt);
-        Wishlist wishlist = wishlistService.findUserWishlist(user.getId());
-        return new ResponseEntity<>(wishlist, HttpStatus.OK);
+        WishlistDto wishlistDto = wishlistService.findUserWishlist(user.getId());
+        return new ResponseEntity<>(wishlistDto, HttpStatus.OK);
+
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addItemToWishlist(@RequestHeader("Authorization") String jwt,
-                                                         @RequestBody AddToWishlistRequest addToWishlistRequest) throws UserException, ProductException {
+    @GetMapping("/add/id/{productId}")
+    public ResponseEntity<ApiResponse> addToWishlist(@RequestHeader("Authorization") String jwt,
+                                                     @PathVariable Long productId) throws UserException, ProductException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        wishlistService.addToWishlist(user.getId(), addToWishlistRequest);
-        ApiResponse res = new ApiResponse("Item Added to Wishlist Successfully", true);
+        wishlistService.addToWishlist(user.getId(), productId);
+        ApiResponse res = new ApiResponse("Product added to wishlist successfully!", true);
         return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
 
     }
 
-    @DeleteMapping("/remove/id/{wishlistItemId}")
-    public ResponseEntity<ApiResponse> removeItemFromWishlist(@RequestHeader("Authorization") String jwt,
-                                                              @PathVariable Long wishlistItemId) throws UserException, ProductException {
+    @DeleteMapping("/remove/id/{productId}")
+    public ResponseEntity<ApiResponse> removeFromWishlist(@RequestHeader("Authorization") String jwt,
+                                                          @PathVariable Long productId) throws UserException, ProductException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        wishlistService.removeFromWishlist(user.getId(), wishlistItemId);
-        ApiResponse res = new ApiResponse("Item Removed from Wishlist Successfully", true);
+        wishlistService.removeFromWishlist(user.getId(), productId);
+        ApiResponse res = new ApiResponse("Product removed from wishlist successfully!", true);
         return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
 
     }
 
-    @DeleteMapping("/remove/{productId}")
-    public ResponseEntity<ApiResponse> removeProductFromWishlist(@RequestHeader("Authorization") String jwt,
-                                                                 @PathVariable Long productId) throws UserException, ProductException {
+    @DeleteMapping("/remove/{wishlistItemId}")
+    public ResponseEntity<ApiResponse> removeWishlistItem(@RequestHeader("Authorization") String jwt,
+                                                          @PathVariable Long wishlistItemId) throws UserException, ProductException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        wishlistService.removeProductFromWishlist(user.getId(), productId);
-        ApiResponse res = new ApiResponse("Product Removed from Wishlist Successfully", true);
+        wishlistService.removeWishlistItem(user.getId(), wishlistItemId);
+        ApiResponse res = new ApiResponse("Wishlist item removed from wishlist successfully!", true);
         return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
 
     }

@@ -1,11 +1,12 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dto.WishlistDto;
 import com.ecommerce.exception.ProductException;
 import com.ecommerce.exception.WishlistException;
+import com.ecommerce.mapper.WishlistMapper;
 import com.ecommerce.model.*;
 import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.repository.WishlistRepository;
-import com.ecommerce.request.AddToWishlistRequest;
 import com.ecommerce.service.WishlistItemService;
 import com.ecommerce.service.WishlistService;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class WishlistServiceImplementation implements WishlistService {
     private WishlistItemService wishlistItemService;
 
     @Override
-    public void createWishlist (User user) throws WishlistException {
+    public void createWishlist(User user) throws WishlistException {
         // Check if the user already has a wishlist
         Wishlist existingWishlist = wishlistRepository.findByUserId(user.getId());
         if (existingWishlist != null) {
@@ -32,50 +33,21 @@ public class WishlistServiceImplementation implements WishlistService {
         // Create a new wishlist for the user
         Wishlist wishlist = new Wishlist();
         wishlist.setUser(user);
-        wishlist.setCreatedAt(LocalDateTime.now());
         wishlistRepository.save(wishlist);
     }
 
     @Override
-    public Wishlist findUserWishlist(Long userId) throws WishlistException {
+    public WishlistDto findUserWishlist(Long userId) throws WishlistException {
         Wishlist wishlist = wishlistRepository.findByUserId(userId);
-        if (wishlist == null) {
-            throw new WishlistException("Wishlist not found for user with ID: " + userId);
-        }
-        return wishlist;
+        return WishlistMapper.toWishlistDto(wishlist);
     }
 
     @Override
-    public void addToWishlist(Long userId, AddToWishlistRequest addToWishlistRequest) throws WishlistException {
+    public void addToWishlist(Long userId, Long productId) throws WishlistException, ProductException {
         try {
             // Find the product to be added
-            Product product = productRepository.findById(addToWishlistRequest.getProductId())
+            Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new ProductException("Product not found."));
-
-            // Check if the size is provided in the request body
-//            if (addToWishlistRequest.getSize() == null || addToWishlistRequest.getSize().isEmpty()) {
-//                throw new ProductException("Size cannot be null or empty.");
-//            }
-
-            // Validate the size against available sizes
-//            if (product.getSizes() == null || product.getSizes().isEmpty()) {
-//                throw new ProductException("No sizes available for this product.");
-//            }
-
-            // Validate if the requested size is available
-//            ProductSize requestedSize;
-//            try {
-//                requestedSize = ProductSize.valueOf(addToWishlistRequest.getSize().toUpperCase()); // Convert to enum
-//            } catch (IllegalArgumentException e) {
-//                throw new ProductException("Invalid size: " + addToWishlistRequest.getSize());
-//            }
-
-//            boolean sizeAvailable = product.getSizes().stream()
-//                    .anyMatch(size -> size.getName() == requestedSize && size.getQuantity() > 0);
-//
-//            if (!sizeAvailable) {
-//                throw new ProductException("Size " + addToWishlistRequest.getSize() + " is not available for this product.");
-//            }
 
             // Find the user's wishlist or create a new one if it doesn't exist
             Wishlist wishlist = wishlistRepository.findByUserId(userId);
@@ -84,7 +56,6 @@ public class WishlistServiceImplementation implements WishlistService {
                 User user = new User();
                 user.setId(userId);
                 wishlist.setUser(user);
-                wishlist.setCreatedAt(LocalDateTime.now());
                 wishlist = wishlistRepository.save(wishlist);
             }
 
@@ -96,8 +67,8 @@ public class WishlistServiceImplementation implements WishlistService {
                 WishlistItem wishlistItem = new WishlistItem();
                 wishlistItem.setWishlist(wishlist);
                 wishlistItem.setProduct(product);
-//                wishlistItem.setSize(requestedSize.name());
                 wishlistItem.setUserId(userId);
+                wishlistItem.setCreatedAt(LocalDateTime.now());
 
                 // Save and add the new WishlistItem to the wishlist
                 WishlistItem createdWishlistItem = wishlistItemService.createWishlistItem(wishlistItem);
@@ -111,18 +82,7 @@ public class WishlistServiceImplementation implements WishlistService {
     }
 
     @Override
-    public void removeFromWishlist(Long userId, Long wishlistItemId) throws WishlistException {
-
-        Wishlist wishlist = wishlistRepository.findByUserId(userId);
-        if (wishlist == null) {
-            throw new WishlistException("Wishlist not found for user with ID: " + userId);
-        }
-        wishlistItemService.deleteWishlistItem(wishlistItemId);
-
-    }
-
-    @Override
-    public void removeProductFromWishlist(Long userId, Long productId) throws WishlistException, ProductException {
+    public void removeFromWishlist(Long userId, Long productId) throws WishlistException, ProductException {
 
         Wishlist wishlist = wishlistRepository.findByUserId(userId);
         if (wishlist == null) {
@@ -139,6 +99,17 @@ public class WishlistServiceImplementation implements WishlistService {
         }
 
         wishlistItemService.deleteWishlistItem(wishlistItem.getId());
+
+    }
+
+    @Override
+    public void removeWishlistItem(Long userId, Long wishlistItemId) throws WishlistException {
+
+        Wishlist wishlist = wishlistRepository.findByUserId(userId);
+        if (wishlist == null) {
+            throw new WishlistException("Wishlist not found for user with ID: " + userId);
+        }
+        wishlistItemService.deleteWishlistItem(wishlistItemId);
 
     }
 

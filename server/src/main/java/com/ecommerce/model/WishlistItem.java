@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,5 +25,7 @@ public class WishlistItem {
     private Product product;
 
     private Long userId;
+
+    private LocalDateTime createdAt;
 
 }

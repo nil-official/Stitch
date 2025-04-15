@@ -24,6 +24,4 @@ public class Wishlist {
     @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<WishlistItem> wishlistItems = new HashSet<>();
 
-    private LocalDateTime createdAt;
-
 }

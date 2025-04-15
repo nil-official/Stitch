@@ -5,15 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WishlistDto {
+public class WishlistItemDto {
 
     private Long id;
-    private Set<WishlistItemDto> wishlistItems;
+    private WishlistProductDto product;
+    private LocalDateTime createdAt;
 
 }
