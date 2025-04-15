@@ -9,7 +9,6 @@ import VerifyEmail from '../pages/VerifyEmail';
 import MaintenancePage from '../pages/MaintenancePage';
 import HomePage from '../pages/user/HomePage';
 import ProductPage from '../pages/user/ProductPage';
-import Wishlist from '../pages/Wishlist';
 import Orders from '../pages/Orders';
 import UserProfile from '../pages/UserProfile';
 import OrdersDetails from '../pages/OrderDetails';
@@ -18,7 +17,8 @@ import OrderAddress from '../pages/OrderAddress';
 import OrderSummary from '../pages/OrderSummary';
 import CartPage from '../pages/user/CartPage';
 import SearchPage from '../pages/user/SearchPage';
-import Error404 from '../pages/Error404';
+import WishlistPage from '../pages/user/WishlistPage';
+import ErrorPage from '../pages/ErrorPage';
 
 const UserRoutes = () => {
 
@@ -38,14 +38,14 @@ const UserRoutes = () => {
                 <Route path="/products/search" element={<SearchPage />} />
                 <Route path="/product/:id" element={<ProductPage />} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/order-summary" element={<OrderSummary />} />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/orders/:id" element={<OrdersDetails />} />
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/order-address" element={<OrderAddress />} />
                 <Route path="/help" element={<HelpAndSupport />} />
-                <Route path="*" element={<Error404 />} />
+                <Route path="*" element={<ErrorPage />} />
             </Route>
         </Routes>
     );

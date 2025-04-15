@@ -6,7 +6,7 @@ import EditProduct from '../pages/EditProduct';
 import AdminOrders from '../pages/AdminOrders';
 import AdminUsers from '../pages/AdminUsers';
 import EditUser from '../pages/EditUser';
-import Error404 from '../pages/Error404';
+import ErrorPage from '../pages/ErrorPage';
 
 const AdminRoutes = () => {
     return (
@@ -18,7 +18,7 @@ const AdminRoutes = () => {
             <Route path="/users" element={<AdminUsers />} />
             <Route path="/orders" element={<AdminOrders />} />
             <Route path="/help" element={<AdminHelpSupport />} />
-            <Route path="*" element={<Error404 />} />
+            <Route path="*" element={<ErrorPage />} />
         </Routes>
     );
 };

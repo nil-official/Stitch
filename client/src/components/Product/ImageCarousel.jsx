@@ -1,56 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
-import axios from '../../utils/axiosConfig';
-import { toast } from 'react-toastify';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { addToWishlist, getWishlist, removeFromWishlist } from "../../redux/customer/wishlist/action";
 
 const ImageCarousel = ({ product }) => {
 
-    const [wishlistItems, setWishlistItems] = useState([]);
-    const [isWishlist, setIsWishlist] = useState(false);
+    const dispatch = useDispatch();
     const isOutOfStock = product.quantity === 0;
+    const [isWishlist, setIsWishlist] = useState(false);
+    const { wishlist, loading, error } = useSelector((state) => state.wishlist);
 
-    const toggleWishlist = async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        try {
-            if (isWishlist) {
-                const res = await axios.delete(`/api/wishlist/remove/${product.id}`);
-                if (res.data) {
-                    toast.success(res.data.message);
-                }
-            } else {
-                const res = await axios.post('/api/wishlist/add', { productId: product.id });
-                if (res.data) {
-                    toast.success(res.data.message);
-                }
-            }
-            fetchWishlist();
-        } catch (error) {
-            console.error("Error toggling wishlist:", error);
-            toast.error(error.response?.data?.error || "An error occurred.");
-        }
-    };
-
-    const fetchWishlist = async () => {
-        try {
-            const res = await axios.get('/api/wishlist/');
-            if (res.data) {
-                setWishlistItems(res.data.wishlistItems)
-            }
-        } catch (error) {
-            console.error("Error: ", error);
-        }
+    const toggleWishlist = () => {
+        isWishlist ? dispatch(removeFromWishlist(product.id)) : dispatch(addToWishlist(product.id));
     };
 
     useEffect(() => {
-        fetchWishlist();
-    }, [])
+        dispatch(getWishlist());
+    }, [product]);
 
     useEffect(() => {
-        setIsWishlist(wishlistItems.some(item => item.product?.id === product.id));
-    }, [wishlistItems, product.id]);
+        setIsWishlist(wishlist.some(item => item.product?.id === product.id));
+    }, [wishlist, product.id]);
 
     return (
         <div className="relative">

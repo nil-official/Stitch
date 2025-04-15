@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getCart, removeFromCart, updateCart } from '../../redux/customer/cart/action';
 import { ShopContext } from '../../context/ShopContext';
+import EmptyPage from '../EmptyPage';
 
 const CartPage = () => {
 
@@ -48,25 +49,13 @@ const CartPage = () => {
                         <div className="loader border-4 border-gray-300 border-t-gray-800 rounded-full w-12 h-12 animate-spin"></div>
                     </div>
                 ) : !cart?.cartItems?.length ? (
-                    <div className="flex flex-col items-center justify-center w-full min-h-[60vh] text-center rounded-lg p-6">
-                        <img
-                            src="empty-trolley.jpg"
-                            alt="Empty Cart"
-                            className="w-52 h-52 object-contain"
-                        />
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                            Your Cart is Empty!
-                        </h2>
-                        <p className="text-gray-500 mb-10">
-                            Looks like you haven’t added anything to your cart yet. Explore our collection and add your favorite items!
-                        </p>
-                        <button
-                            onClick={() => navigate('/')}
-                            className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700 mb-20"
-                        >
-                            Shop Now
-                        </button>
-                    </div>
+                    <EmptyPage
+                        image={"/empty-trolley.jpg"}
+                        title={"Your Cart is Empty!"}
+                        description={"Looks like you haven’t added anything to your cart yet. Explore our collection and add your favorite items!"}
+                        button={"Shop Now"}
+                        navigation={"/"}
+                    />
                 ) : (
                     <div className='flex flex-col sm:flex-row'>
                         <div className="w-full sm:w-3/4 p-6 space-y-4">

@@ -1,7 +1,7 @@
 import PublicRoutes from "./PublicRoutes";
 import UserRoutes from "./UserRoutes";
 import AdminRoutes from "./AdminRoutes";
-import Error404 from "../pages/Error404";
+import ErrorPage from "../pages/ErrorPage";
 
 const AppRoutes = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
     return (
@@ -9,7 +9,7 @@ const AppRoutes = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
             <PublicRoutes />
             <UserRoutes isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />
             <AdminRoutes />
-            <Error404 />
+            <ErrorPage />
         </>
     );
 };
