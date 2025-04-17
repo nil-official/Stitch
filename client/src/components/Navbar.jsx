@@ -55,7 +55,7 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
             const formattedInput = input.trim().replace(/\s+/g, '+');
             setInput('');
             setIsSearchOpen(false);
-            navigate(`/products/search?q=${formattedInput}`);
+            navigate(`/search?q=${formattedInput}`);
         }
     };
 
@@ -74,9 +74,10 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
     const navlinks = [
         { name: "Home", link: "/" },
-        { name: "Orders", link: "/orders" },
-        { name: "Cart", link: "/cart" },
-        { name: "Wishlist", link: "/wishlist" },
+        { name: "Account", link: "/user/account" },
+        { name: "Orders", link: "/user/orders" },
+        { name: "Cart", link: "/user/cart" },
+        { name: "Wishlist", link: "/user/wishlist" },
         { name: "Help & Support", link: "/help" },
         { name: "Log In", link: "/login" },
     ];
@@ -126,12 +127,12 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                             <BsSearch className="text-xl" />
                         </button>
                         {isLoggedIn && (
-                            <Link to="/profile" className="text-gray-600 hover:text-gray-900">
+                            <Link to="/user/account" className="text-gray-600 hover:text-gray-900">
                                 <CiUser className="text-2xl" />
                             </Link>
                         )}
                         {isLoggedIn && (
-                            <Link to="/cart" className="text-gray-600 hover:text-gray-900 relative">
+                            <Link to="/user/cart" className="text-gray-600 hover:text-gray-900 relative">
                                 <PiShoppingCartSimpleLight className="text-2xl" />
                                 {cart.totalItem > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-gray-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">

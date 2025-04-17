@@ -1,0 +1,73 @@
+[
+    {
+        "id": "my-orders",
+        "title": "MY ORDERS",
+        "icon": "order",
+        "hasSubItems": false,
+        "route": "/my-orders"
+    },
+    {
+        "id": "account-settings",
+        "title": "ACCOUNT SETTINGS",
+        "icon": "user",
+        "hasSubItems": true,
+        "subItems": [
+            {
+                "id": "profile-information",
+                "title": "Profile Information",
+                "route": "/account/profile"
+            },
+            {
+                "id": "manage-addresses",
+                "title": "Manage Addresses",
+                "route": "/account/addresses"
+            }
+        ]
+    },
+    {
+        "id": "payments",
+        "title": "PAYMENTS",
+        "icon": "credit-card",
+        "hasSubItems": true,
+        "subItems": [
+            {
+                "id": "saved-upi",
+                "title": "Saved UPI",
+                "route": "/payments/upi"
+            },
+            {
+                "id": "saved-cards",
+                "title": "Saved Cards",
+                "route": "/payments/cards"
+            }
+        ]
+    },
+    {
+        "id": "my-stuff",
+        "title": "MY STUFF",
+        "icon": "box",
+        "hasSubItems": true,
+        "subItems": [
+            {
+                "id": "my-coupons",
+                "title": "My Coupons",
+                "route": "/my-stuff/coupons"
+            },
+            {
+                "id": "my-reviews",
+                "title": "My Reviews & Ratings",
+                "route": "/my-stuff/reviews"
+            },
+            {
+                "id": "all-notifications",
+                "title": "All Notifications",
+                "route": "/my-stuff/notifications"
+            },
+            {
+                "id": "my-wishlist",
+                "title": "My Wishlist",
+                "route": "/my-stuff/wishlist"
+            }
+        ]
+    }
+]

@@ -102,7 +102,7 @@ const Orders = () => {
                                 </div>
                                 <div className='flex justify-end'>
                                     <button
-                                        onClick={() => navigate(`/orders/${item.orderId}`)}
+                                        onClick={() => navigate(`/user/orders/${item.orderId}`)}
                                         className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700"
                                     >
                                         View Order

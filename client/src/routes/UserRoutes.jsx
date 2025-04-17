@@ -1,24 +1,24 @@
 import { useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Layout from '../components/Layout';
-import Login from '../components/Auth/Login';
-import Register from '../components/Auth/Register';
-import ForgotPassword from '../pages/ForgotPassword';
-import ResetPassword from '../pages/ResetPassword';
-import VerifyEmail from '../pages/VerifyEmail';
-import MaintenancePage from '../pages/MaintenancePage';
-import HomePage from '../pages/user/HomePage';
-import ProductPage from '../pages/user/ProductPage';
 import Orders from '../pages/Orders';
-import UserProfile from '../pages/UserProfile';
-import OrdersDetails from '../pages/OrderDetails';
-import HelpAndSupport from '../pages/HelpAndSupport';
-import OrderAddress from '../pages/OrderAddress';
-import OrderSummary from '../pages/OrderSummary';
-import CartPage from '../pages/user/CartPage';
-import SearchPage from '../pages/user/SearchPage';
-import WishlistPage from '../pages/user/WishlistPage';
+import Layout from '../components/Layout';
 import ErrorPage from '../pages/ErrorPage';
+import Login from '../components/Auth/Login';
+import HomePage from '../pages/user/HomePage';
+import CartPage from '../pages/user/CartPage';
+import VerifyEmail from '../pages/VerifyEmail';
+import OrderSummary from '../pages/OrderSummary';
+import OrderAddress from '../pages/OrderAddress';
+import OrdersDetails from '../pages/OrderDetails';
+import SearchPage from '../pages/user/SearchPage';
+import Register from '../components/Auth/Register';
+import ResetPassword from '../pages/ResetPassword';
+import ProductPage from '../pages/user/ProductPage';
+import ProfilePage from '../pages/user/ProfilePage';
+import HelpAndSupport from '../pages/HelpAndSupport';
+import ForgotPassword from '../pages/ForgotPassword';
+import WishlistPage from '../pages/user/WishlistPage';
+import MaintenancePage from '../pages/MaintenancePage';
 
 const UserRoutes = () => {
 
@@ -35,15 +35,19 @@ const UserRoutes = () => {
             <Route path="/maintainance" element={<MaintenancePage />} />
             <Route element={<Layout isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />}>
                 <Route path="/" element={<HomePage isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
-                <Route path="/products/search" element={<SearchPage />} />
+                {/* User */}
+                <Route path="/user/cart" element={<CartPage />} />
+                <Route path="/user/account" element={<ProfilePage />} />
+                <Route path="/user/wishlist" element={<WishlistPage />} />
+                <Route path="/user/orders" element={<Orders />} />
+                <Route path="/user/orders/:id" element={<OrdersDetails />} />
+                {/* Checkout */}
+                <Route path="/checkout/init" element={<OrderAddress />} />
+                <Route path="/checkout/pay" element={<OrderSummary />} />
+                {/* Product */}
                 <Route path="/product/:id" element={<ProductPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/wishlist" element={<WishlistPage />} />
-                <Route path="/order-summary" element={<OrderSummary />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/orders/:id" element={<OrdersDetails />} />
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="/order-address" element={<OrderAddress />} />
+                {/* Others */}
+                <Route path="/search" element={<SearchPage />} />
                 <Route path="/help" element={<HelpAndSupport />} />
                 <Route path="*" element={<ErrorPage />} />
             </Route>

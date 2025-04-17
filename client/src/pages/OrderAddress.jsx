@@ -28,22 +28,25 @@ const OrderAddress = () => {
     const location = useLocation();
     const receivedData = orderData;
 
-    useEffect(() => {
-        console.log("received from context: ", orderData);
-        if (!orderData) {
-            console.log('refresh----------------');
-            navigate('/cart');
-        } 
-        // console.log("received: ", receivedData);
-        // location.state = null;
-        // console.log("updated received: ", receivedData);
-    }, [navigate])
+    // useEffect(() => {
+    //     console.log("received from context: ", orderData);
+    //     if (!orderData) {
+    //         console.log('refresh----------------');
+    //         navigate('/user/cart');
+    //     } 
+    // console.log("received: ", receivedData);
+    // location.state = null;
+    // console.log("updated received: ", receivedData);
+    // }, [navigate])
+
+    console.log("order address");
+    
 
     useEffect(() => {
         const fetchAddresses = async () => {
             setIsLoading(true);
             try {
-                const res = await axios.get(`${BASE_URL}/api/addresses/`, {
+                const res = await axios.get(`${BASE_URL}/api/user/address`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` }
                 });
                 if (res.data) {
@@ -87,7 +90,7 @@ const OrderAddress = () => {
             )
             if (res) {
                 console.log(res.data)
-                navigate('/order-summary', { state: res.data });
+                navigate('/checkout/pay', { state: res.data });
             }
         } catch (err) {
             console.log("Something went wrong", err);
@@ -103,7 +106,7 @@ const OrderAddress = () => {
             )
             if (res) {
                 console.log(res)
-                navigate('/order-summary', { state: res.data });
+                navigate('/checkout/pay', { state: res.data });
             }
         } catch (error) {
             console.log("Something went wrong", error);
@@ -290,7 +293,7 @@ const OrderAddress = () => {
                             </div>
                         </div>
                     </div>
-                ) : navigate('/cart')}
+                ) : navigate('/user/cart')}
 
             </div>
         </div >

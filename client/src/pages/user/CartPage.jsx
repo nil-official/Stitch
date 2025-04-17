@@ -38,7 +38,7 @@ const CartPage = () => {
             discount: cart.discount,
             totalItems: cart.totalItem
         })
-        navigate('/order-address', { state: { access: true } });
+        navigate('/checkout/init', { state: { access: true } });
     };
 
     return (

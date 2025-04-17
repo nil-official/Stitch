@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import BASE_URL from "../utils/baseurl";
 import { toast } from "react-toastify";
 import { ThreeDots } from "react-loader-spinner";
-import Address from "../components/Address";
+import Address from "./Address_expired";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/api/users/profile`,
+        const res = await axios.get(`${BASE_URL}/api/user/profile`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` },
           });
@@ -58,7 +58,7 @@ const UserProfile = () => {
       setErrors({}); // Clear previous errors if any
       try {
         const formattedDob = dob ? format(new Date(dob), "yyyy-MM-dd") : null;
-        const res = await axios.patch(`${BASE_URL}/api/users/update`,
+        const res = await axios.patch(`${BASE_URL}/api/user/update`,
           {
             firstName,
             lastName,

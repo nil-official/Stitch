@@ -9,6 +9,8 @@ import reviewReducer from './customer/review/reducer';
 import wishlistReducer from './customer/wishlist/reducer';
 import searchReducer from './customer/search/reducer';
 import filterReducer from './customer/filter/reducer';
+import profileReducer from './customer/profile/reducer';
+import addressReducer from './customer/address/reducer';
 
 const rootReducers = combineReducers({
     auth: authReducer,
@@ -19,6 +21,8 @@ const rootReducers = combineReducers({
     wishlist: wishlistReducer,
     search: searchReducer,
     filter: filterReducer,
+    profile: profileReducer,
+    address: addressReducer,
 });
 
 const middlewares = [thunk];
