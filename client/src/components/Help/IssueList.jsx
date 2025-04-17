@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import BASE_URL from '../utils/baseurl';
+import BASE_URL from '../../utils/baseurl';
 
 export default function IssueList() {
     const [issues, setIssues] = useState([]);

@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import AdminHelpSupport from '../pages/AdminHelpSupport';
-import AdminProducts from '../pages/AdminProducts';
-import CreateProduct from '../pages/CreateProduct';
-import EditProduct from '../pages/EditProduct';
-import AdminOrders from '../pages/AdminOrders';
-import AdminUsers from '../pages/AdminUsers';
-import EditUser from '../pages/EditUser';
+import AdminHelpSupport from '../pages/admin/AdminHelpSupport';
+import AdminProducts from '../pages/admin/AdminProducts';
+import CreateProduct from '../pages/admin/CreateProduct';
+import EditProduct from '../pages/admin/EditProduct';
+import AdminOrders from '../pages/admin/AdminOrders';
+import AdminUsers from '../pages/admin/AdminUsers';
+import EditUser from '../pages/admin/EditUser';
 import ErrorPage from '../pages/ErrorPage';
 
 const AdminRoutes = () => {

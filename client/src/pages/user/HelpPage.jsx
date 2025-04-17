@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import PostIssue from "../components/PostIssue";
-import IssueList from "../components/IssueList";
-import BASE_URL from "../utils/baseurl";
+import PostIssue from "../../components/Help/PostIssue";
+import IssueList from "../../components/Help/IssueList";
+import BASE_URL from "../../utils/baseurl";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const HelpAndSupport = () => {
+const HelpPage = () => {
     const [activeTab, setActiveTab] = useState('post-issue')
     // const [issues, setIssues] = useState([
     //     { id: 1, title: "Late delivery", description: "My order is 3 days late", status: "Open", reply: "We apologize for the delay. Your order will be delivered tomorrow." },
@@ -58,4 +58,4 @@ const HelpAndSupport = () => {
     )
 }
 
-export default HelpAndSupport;
+export default HelpPage;

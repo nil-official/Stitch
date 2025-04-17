@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext'
+import { ShopContext } from '../../context/ShopContext'
 import { RiDeleteBin6Line } from "react-icons/ri";
-import CartTotalValue from '../components/CartTotalValue';
-import axios from '../utils/axiosConfig';
+import CartTotalValue from '../../components/CartTotalValue';
+import axios from '../../utils/axiosConfig';
 import { useLocation, useNavigate } from 'react-router-dom';
-import TotalOrderComponent from '../components/TotalOrderComponent';
-import BASE_URL from '../utils/baseurl';
+import TotalOrderComponent from '../../components/TotalOrderComponent';
+import BASE_URL from '../../utils/baseurl';
 import { format } from 'date-fns';
 
-const Orders = () => {
+const OrdersPage = () => {
     const location = useLocation();
     const userDetails = location.state;
     const navigate = useNavigate();
@@ -113,7 +113,7 @@ const Orders = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Orders
+export default OrdersPage;

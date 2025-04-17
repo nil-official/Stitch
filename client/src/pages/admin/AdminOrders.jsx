@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import decodeJWT from '../utils/decodeJWT';
+import decodeJWT from '../../utils/decodeJWT';
 import { useNavigate } from 'react-router-dom';
-import OrderCard from '../components/Admin/OrderCard';
-import BASE_URL from '../utils/baseurl';
+import OrderCard from '../../components/Admin/OrderCard';
+import BASE_URL from '../../utils/baseurl';
 
 const AdminOrders = () => {
     const navigate = useNavigate();

@@ -1,15 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
-const Layout = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
+const MainLayout = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
     return (
-        <>
+        <div>
             <Navbar isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />
             <Outlet />
             <Footer />
-        </>
+        </div>
     );
 };
 
-export default Layout;
+export default MainLayout;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import BASE_URL from "../utils/baseurl";
+import BASE_URL from "../../utils/baseurl";
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();

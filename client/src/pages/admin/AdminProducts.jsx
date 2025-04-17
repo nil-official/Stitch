@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import decodeJWT from '../utils/decodeJWT';
+import decodeJWT from '../../utils/decodeJWT';
 import { toast } from 'react-toastify';
-import ProductRow from '../components/Admin/ProductRow';
-import BASE_URL from '../utils/baseurl';
+import ProductRow from '../../components/Admin/ProductRow';
+import BASE_URL from '../../utils/baseurl';
 
 const AdminProducts = () => {
     const navigate = useNavigate();

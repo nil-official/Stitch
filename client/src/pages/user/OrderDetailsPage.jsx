@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
-import { ShopContext } from '../context/ShopContext';
+import { ShopContext } from '../../context/ShopContext';
 import { ThreeDots } from 'react-loader-spinner';
 import axios from 'axios';
-import BASE_URL from '../utils/baseurl';
+import BASE_URL from '../../utils/baseurl';
 
-const OrdersDetails = () => {
+const OrderDetailsPage = () => {
   const { id } = useParams();
   const { currency } = useContext(ShopContext);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [order, setOrder] = useState(null);
 
-  console.log("got orderid as:", id);
+  // console.log("got orderid as:", id);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -22,7 +22,7 @@ const OrdersDetails = () => {
         const res = await axios.get(`${BASE_URL}/api/orders/${id}`,
           { headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` } })
         if (res) {
-          console.log("Order details fetched: ", res.data)
+          // console.log("Order details fetched: ", res.data)
           setOrder(res.data);
         }
       } catch (err) {
@@ -192,4 +192,4 @@ const OrdersDetails = () => {
   );
 };
 
-export default OrdersDetails;
+export default OrderDetailsPage;

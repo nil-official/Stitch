@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import BASE_URL from '../utils/baseurl';
-import AdminIssue from '../components/AdminIssue';
+import BASE_URL from '../../utils/baseurl';
+import AdminIssue from '../../components/Admin/AdminIssue';
 
 const AdminHelpSupport = () => {
 

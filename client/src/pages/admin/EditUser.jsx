@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import InputField2 from '../components/InputField2';
-import BASE_URL from '../utils/baseurl';
+import InputField2 from '../../components/Admin/InputField2';
+import BASE_URL from '../../utils/baseurl';
 
 const EditUser = () => {
 	const navigate = useNavigate();

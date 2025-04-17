@@ -7,10 +7,10 @@ import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { CiUser } from "react-icons/ci";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from '../redux/customer/cart/action';
-import decodeJWT from '../utils/decodeJWT';
-import axios from '../utils/axiosConfig';
-import { logout } from '../redux/auth/action';
+import { getCart } from '../../redux/customer/cart/action';
+import decodeJWT from '../../utils/decodeJWT';
+import axios from '../../utils/axiosConfig';
+import { logout } from '../../redux/auth/action';
 
 const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
@@ -76,7 +76,6 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
         { name: "Home", link: "/" },
         { name: "Account", link: "/user/account" },
         { name: "Orders", link: "/user/orders" },
-        { name: "Cart", link: "/user/cart" },
         { name: "Wishlist", link: "/user/wishlist" },
         { name: "Help & Support", link: "/help" },
         { name: "Log In", link: "/login" },

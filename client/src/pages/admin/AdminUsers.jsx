@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import decodeJWT from '../utils/decodeJWT';
+import decodeJWT from '../../utils/decodeJWT';
 import { useNavigate } from 'react-router-dom';
-import BASE_URL from '../utils/baseurl';
+import BASE_URL from '../../utils/baseurl';
 
 const AdminUsers = () => {
     const navigate = useNavigate();

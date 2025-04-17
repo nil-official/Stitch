@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import BASE_URL from '../utils/baseurl';
+import BASE_URL from '../../utils/baseurl';
 
 const AdminIssue = ({ issue }) => {
 	const [reply, setReply] = useState(issue.reply || '');
