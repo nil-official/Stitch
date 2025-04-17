@@ -1,5 +1,6 @@
 package com.ecommerce.controller;
 
+import com.ecommerce.dto.CartDto;
 import com.ecommerce.exception.CartException;
 import com.ecommerce.exception.CartItemException;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.ecommerce.exception.ProductException;
 import com.ecommerce.exception.UserException;
-import com.ecommerce.model.Cart;
 import com.ecommerce.model.User;
 import com.ecommerce.request.AddToCartRequest;
 import com.ecommerce.response.ApiResponse;
@@ -24,17 +24,16 @@ public class CartController {
     private UserService userService;
     private CartService cartService;
 
-    @GetMapping("/")
-    public ResponseEntity<Cart> findUserCartHandler(@RequestHeader("Authorization") String jwt)
-            throws UserException, CartException {
+    @GetMapping()
+    public ResponseEntity<CartDto> fetchUserCart(@RequestHeader("Authorization") String jwt) throws UserException, CartException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        Cart cart = cartService.findCart(user.getId());
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+        CartDto cartDto = cartService.fetchCart(user.getId());
+        return new ResponseEntity<>(cartDto, HttpStatus.OK);
 
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<ApiResponse> addItemToCart(@RequestHeader("Authorization") String jwt, @RequestBody AddToCartRequest req)
             throws UserException, ProductException, CartException, CartItemException {
 
@@ -45,9 +44,8 @@ public class CartController {
 
     }
 
-    @DeleteMapping("/clear")
-    public ResponseEntity<ApiResponse> clearCart(@RequestHeader("Authorization") String jwt)
-            throws UserException, CartException {
+    @DeleteMapping()
+    public ResponseEntity<ApiResponse> clearUserCart(@RequestHeader("Authorization") String jwt) throws UserException, CartException {
 
         User user = userService.findUserProfileByJwt(jwt);
         cartService.clearCart(user.getId());

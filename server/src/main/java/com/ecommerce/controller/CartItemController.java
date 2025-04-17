@@ -21,11 +21,23 @@ import com.ecommerce.service.UserService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/cart_items")
+@RequestMapping("/api/cart/item")
 public class CartItemController {
 
-    private CartItemService cartItemService;
     private UserService userService;
+    private CartItemService cartItemService;
+
+    @PutMapping("/{cartItemId}")
+    public ResponseEntity<ApiResponse> updateCartItemHandler(@RequestHeader("Authorization") String jwt,
+                                                             @PathVariable Long cartItemId, @RequestBody CartItem cartItem)
+            throws CartItemException, UserException {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        cartItemService.updateCartItem(user.getId(), cartItemId, cartItem);
+        ApiResponse res = new ApiResponse("Item updated from cart", true);
+        return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+
+    }
 
     @DeleteMapping("/{cartItemId}")
     public ResponseEntity<ApiResponse> deleteCartItemHandler(@RequestHeader("Authorization") String jwt, @PathVariable Long cartItemId)
@@ -33,19 +45,8 @@ public class CartItemController {
 
         User user = userService.findUserProfileByJwt(jwt);
         cartItemService.removeCartItem(user.getId(), cartItemId);
-        ApiResponse res = new ApiResponse("Item Remove From Cart", true);
+        ApiResponse res = new ApiResponse("Item removed from cart", true);
         return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
-
-    }
-
-    @PutMapping("/{cartItemId}")
-    public ResponseEntity<CartItem> updateCartItemHandler(@RequestHeader("Authorization") String jwt,
-                                                          @PathVariable Long cartItemId, @RequestBody CartItem cartItem)
-            throws CartItemException, UserException {
-
-        User user = userService.findUserProfileByJwt(jwt);
-        CartItem updatedCartItem = cartItemService.updateCartItem(user.getId(), cartItemId, cartItem);
-        return new ResponseEntity<>(updatedCartItem, HttpStatus.ACCEPTED);
 
     }
 

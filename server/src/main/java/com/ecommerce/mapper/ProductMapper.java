@@ -1,9 +1,6 @@
 package com.ecommerce.mapper;
 
-import com.ecommerce.dto.HomeProductDto;
-import com.ecommerce.dto.ProductDto;
-import com.ecommerce.dto.ProductMLDto;
-import com.ecommerce.dto.SearchDto;
+import com.ecommerce.dto.*;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.ProductES;
 import com.ecommerce.utility.SizeSortingUtil;
@@ -100,6 +97,19 @@ public class ProductMapper {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public static CartProductDto toCartProductDto(Product product) {
+        CartProductDto dto = new CartProductDto();
+        dto.setId(product.getId());
+        dto.setTitle(product.getTitle());
+        dto.setBrand(product.getBrand());
+        dto.setColor(product.getColor());
+        dto.setPrice(product.getPrice());
+        dto.setDiscountedPrice(product.getDiscountedPrice());
+        dto.setDiscountPercent(product.getDiscountPercent());
+        dto.setPreview(product.getPreview());
+        return dto;
     }
 
     public static ProductES toProductES(Product product) {

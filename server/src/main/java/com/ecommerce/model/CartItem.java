@@ -1,5 +1,6 @@
 package com.ecommerce.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,6 +39,8 @@ public class CartItem {
     private Integer discountedPrice;
 
     private Long userId;
+
+    private LocalDateTime createdAt;
 
     @Override
     public int hashCode() {

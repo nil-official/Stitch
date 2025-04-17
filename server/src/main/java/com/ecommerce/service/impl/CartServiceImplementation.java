@@ -1,8 +1,10 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dto.CartDto;
 import com.ecommerce.exception.CartException;
 import com.ecommerce.exception.CartItemException;
 import com.ecommerce.exception.UserException;
+import com.ecommerce.mapper.CartMapper;
 import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.service.CartItemService;
 import com.ecommerce.service.CartService;
@@ -20,6 +22,8 @@ import com.ecommerce.model.Product;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.CartRepository;
 import com.ecommerce.request.AddToCartRequest;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -76,6 +80,32 @@ public class CartServiceImplementation implements CartService {
     }
 
     @Override
+    public CartDto fetchCart(Long userId) throws CartException {
+
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            throw new CartException("Cart not found for user ID: " + userId);
+        }
+
+        int totalPrice = 0;
+        int totalDiscountedPrice = 0;
+        int totalItem = 0;
+        for (CartItem cartsItem : cart.getCartItems()) {
+            totalPrice += cartsItem.getPrice();
+            totalDiscountedPrice += cartsItem.getDiscountedPrice();
+            totalItem += cartsItem.getQuantity();
+        }
+        cart.setTotalPrice(totalPrice);
+        cart.setTotalItem(cart.getCartItems().size());
+        cart.setTotalDiscountedPrice(totalDiscountedPrice);
+        cart.setDiscount(totalPrice - totalDiscountedPrice);
+        cart.setTotalItem(totalItem);
+
+        return CartMapper.toCartDto(cartRepository.save(cart));
+
+    }
+
+    @Override
     public void addToCart(Long userId, AddToCartRequest req) throws ProductException, CartException, CartItemException {
 
         try {
@@ -106,11 +136,12 @@ public class CartServiceImplementation implements CartService {
             if (existingCartItem == null) {
                 // If the item is not in the cart, create a new CartItem
                 CartItem cartItem = new CartItem();
-                cartItem.setProduct(product);
                 cartItem.setCart(cart);
+                cartItem.setProduct(product);
+                cartItem.setSize(req.getSize());
                 cartItem.setQuantity(quantities);
                 cartItem.setUserId(userId);
-                cartItem.setSize(req.getSize());
+                cartItem.setCreatedAt(LocalDateTime.now());
 
                 // Set price for the new item
                 int price = quantities * product.getDiscountedPrice();
