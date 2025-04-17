@@ -1,5 +1,6 @@
 package com.ecommerce.mapper;
 
+import com.ecommerce.dto.UserProfileDto;
 import com.ecommerce.model.User;
 import com.ecommerce.dto.UserDto;
 
@@ -25,6 +26,22 @@ public class UserMapper {
         }
         userDto.setCreatedAt(user.getCreatedAt());
         return userDto;
+    }
+
+    public static UserProfileDto toUserProfileDto(User user) {
+        UserProfileDto userProfileDto = new UserProfileDto();
+        userProfileDto.setId(user.getId());
+        userProfileDto.setFirstName(user.getFirstName());
+        userProfileDto.setLastName(user.getLastName());
+        userProfileDto.setEmail(user.getEmail());
+        userProfileDto.setMobile(user.getMobile());
+        userProfileDto.setDob(user.getDob());
+        userProfileDto.setGender(user.getGender());
+        userProfileDto.setAge(user.getAge());
+        userProfileDto.setHeight(user.getHeight());
+        userProfileDto.setWeight(user.getWeight());
+        userProfileDto.setCreatedAt(user.getCreatedAt());
+        return userProfileDto;
     }
 
     public static void updateUser(User existingUserData, UserDto updatedUserData) {

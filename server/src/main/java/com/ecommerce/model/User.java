@@ -35,6 +35,16 @@ public class User {
 
     private Date dob;
 
+    private String gender;
+
+    private int age;
+
+    private int height;
+
+    private int weight;
+
+    private boolean promoConsent = true;
+
     private boolean isVerified = false;
 
     @Column(nullable = false, updatable = false)

@@ -6,9 +6,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.ecommerce.dto.UserDto;
+import com.ecommerce.dto.UserProfileDto;
 import com.ecommerce.mapper.UserMapper;
 import com.ecommerce.model.Role;
 import com.ecommerce.repository.*;
+import com.ecommerce.request.UserRequest;
 import com.ecommerce.service.UserService;
 import com.ecommerce.utility.DtoValidatorUtil;
 import jakarta.transaction.Transactional;
@@ -70,6 +72,45 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public UserProfileDto updateUser(Long userId, UserRequest userRequest) throws UserException {
+        DtoValidatorUtil.validate(userRequest);
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new UserException("User not found with id " + userId);
+        }
+
+        User user = optionalUser.get();
+
+        if (userRequest.getFirstName() != null) {
+            user.setFirstName(userRequest.getFirstName());
+        }
+        if (userRequest.getLastName() != null) {
+            user.setLastName(userRequest.getLastName());
+        }
+        if (userRequest.getEmail() != null) {
+            user.setEmail(userRequest.getEmail());
+        }
+        if (userRequest.getMobile() != null) {
+            user.setMobile(userRequest.getMobile());
+        }
+        if (userRequest.getDob() != null) {
+            user.setDob(userRequest.getDob());
+        }
+        if (userRequest.getGender() != null) {
+            user.setGender(userRequest.getGender());
+        }
+        if (userRequest.getHeight() != null) {
+            user.setHeight(userRequest.getHeight());
+        }
+        if (userRequest.getWeight() != null) {
+            user.setWeight(userRequest.getWeight());
+        }
+
+        return UserMapper.toUserProfileDto(userRepository.save(user));
+    }
+
+    @Override
     @Transactional
     public String deleteUserById(Long userId) {
 
@@ -107,7 +148,7 @@ public class UserServiceImplementation implements UserService {
             return userRepository.save(user);
         }
         throw new UserException("user not found with id " + userId);
-        
+
     }
 
 }

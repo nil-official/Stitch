@@ -16,54 +16,60 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/addresses")
 @AllArgsConstructor
+@RequestMapping("/api/user/address")
 public class AddressController {
 
     private final AddressService addressService;
     private final UserService userService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<AddressDto>> getAllAddressesHandler(@RequestHeader("Authorization") String jwt) throws UserException {
+    @GetMapping()
+    public ResponseEntity<List<AddressDto>> fetchUserAddressHandler(@RequestHeader("Authorization") String jwt) throws UserException {
+
         User user = userService.findUserProfileByJwt(jwt);
         List<AddressDto> addresses = addressService.getAllAddresses(user);
         return new ResponseEntity<>(addresses, HttpStatus.OK);
+
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AddressDto> getAddressByIdHandler(@PathVariable Long id,
-                                                            @RequestHeader("Authorization") String jwt)
-            throws UserException, AddressException {
+    @GetMapping("/{addressId}")
+    public ResponseEntity<AddressDto> fetchUserAddressByIdHandler(@PathVariable Long addressId,
+                                                                  @RequestHeader("Authorization") String jwt) throws UserException, AddressException {
+
         User user = userService.findUserProfileByJwt(jwt);
-        AddressDto address = addressService.getAddressById(id, user);
+        AddressDto address = addressService.getAddressById(addressId, user);
         return new ResponseEntity<>(address, HttpStatus.OK);
+
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<AddressDto> addAddressHandler(@RequestBody @Valid AddressDto addressDto,
-                                                        @RequestHeader("Authorization") String jwt) throws UserException {
+    @PostMapping()
+    public ResponseEntity<AddressDto> addUserAddressHandler(@RequestBody @Valid AddressDto addressDto,
+                                                            @RequestHeader("Authorization") String jwt) throws UserException {
+
         User user = userService.findUserProfileByJwt(jwt);
         AddressDto createdAddress = addressService.addAddress(addressDto, user);
         return new ResponseEntity<>(createdAddress, HttpStatus.CREATED);
+
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<AddressDto> updateAddressHandler(@PathVariable Long id,
-                                                           @RequestBody @Valid AddressDto addressDto,
-                                                           @RequestHeader("Authorization") String jwt)
-            throws UserException, AddressException {
+    @PutMapping("/{addressId}")
+    public ResponseEntity<AddressDto> updateUserAddressHandler(@PathVariable Long addressId, @RequestBody @Valid AddressDto addressDto,
+                                                               @RequestHeader("Authorization") String jwt) throws UserException, AddressException {
+
         User user = userService.findUserProfileByJwt(jwt);
-        AddressDto updatedAddress = addressService.updateAddress(id, addressDto, user);
+        AddressDto updatedAddress = addressService.updateAddress(addressId, addressDto, user);
         return new ResponseEntity<>(updatedAddress, HttpStatus.OK);
+
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponse> deleteAddressHandler(@PathVariable Long id,
-                                                            @RequestHeader("Authorization") String jwt)
-            throws UserException, AddressException {
+    @DeleteMapping("/{addressId}")
+    public ResponseEntity<ApiResponse> deleteUserAddressHandler(@PathVariable Long addressId,
+                                                                @RequestHeader("Authorization") String jwt) throws UserException, AddressException {
+
         User user = userService.findUserProfileByJwt(jwt);
-        addressService.deleteAddress(id, user);
+        addressService.deleteAddress(addressId, user);
         return new ResponseEntity<>(new ApiResponse("Address deleted successfully.", true), HttpStatus.OK);
+
     }
 
 }

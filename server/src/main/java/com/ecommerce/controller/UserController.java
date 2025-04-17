@@ -1,7 +1,8 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.dto.UserDto;
+import com.ecommerce.dto.UserProfileDto;
 import com.ecommerce.mapper.UserMapper;
+import com.ecommerce.request.UserRequest;
 import com.ecommerce.response.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,30 +15,30 @@ import com.ecommerce.service.UserService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     private UserService userService;
 
-    @GetMapping("/profile")
-    public ResponseEntity<UserDto> getUserProfileHandler(@RequestHeader("Authorization") String jwt) throws UserException {
+    @GetMapping()
+    public ResponseEntity<UserProfileDto> getUserProfileHandler(@RequestHeader("Authorization") String jwt) throws UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        return new ResponseEntity<>(UserMapper.toUserDto(user), HttpStatus.OK);
+        return new ResponseEntity<>(UserMapper.toUserProfileDto(user), HttpStatus.OK);
 
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity<UserDto> updateUserProfileHandler(@RequestBody UserDto userDto,
-                                                            @RequestHeader("Authorization") String jwt) throws UserException {
+    @PatchMapping()
+    public ResponseEntity<UserProfileDto> updateUserProfileHandler(@RequestBody UserRequest userRequest,
+                                                                   @RequestHeader("Authorization") String jwt) throws UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        User updatedUser = userService.updateUserById(user.getId(), userDto);
-        return new ResponseEntity<>(UserMapper.toUserDto(updatedUser), HttpStatus.OK);
+        UserProfileDto userProfileDto = userService.updateUser(user.getId(), userRequest);
+        return new ResponseEntity<>(userProfileDto, HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping()
     public ResponseEntity<ApiResponse> deleteUserHandler(@RequestHeader("Authorization") String jwt) throws UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
