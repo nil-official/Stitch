@@ -11,13 +11,13 @@ const Confirmation = ({ isOpen, onClose, onConfirm, title, message, confirmText 
                 <div className="flex justify-end space-x-3">
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition"
+                        className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-all duration-300"
                     >
                         {cancelText}
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+                        className="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800 transition-all duration-300"
                     >
                         {confirmText}
                     </button>

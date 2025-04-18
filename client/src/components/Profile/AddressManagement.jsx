@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pencil, Trash2, Plus, X } from 'lucide-react';
+import Loader from '../Loader';
+import ErrorPage from '../../pages/ErrorPage';
 import Confirmation from '../Confirmation';
 import { getAddress, addAddress, updateAddress, deleteAddress } from '../../redux/customer/address/action';
 
@@ -99,10 +101,10 @@ const AddressManagement = () => {
                 </button>
             </div>
 
-            {loading ? (
-                <div className="flex justify-center items-center h-40">
-                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-                </div>
+            {error ? (
+                <ErrorPage code={400} title='An Error Occurred!' description={error} />
+            ) : loading ? (
+                <Loader />
             ) : address && address.length > 0 ? (
                 <div className="space-y-4">
                     {address.map((address) => (

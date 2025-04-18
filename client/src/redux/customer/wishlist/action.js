@@ -55,7 +55,7 @@ const removeFromWishlistRejected = (error) => ({
 export const getWishlist = () => async (dispatch) => {
     dispatch(getWishlistPending());
     try {
-        const response = await axios.get("/api/wishlist/");
+        const response = await axios.get("/api/user/wishlist");
         dispatch(getWishlistFulfilled(response.data.wishlistItems));
     } catch (error) {
         dispatch(getWishlistRejected(error.response.data.error));
@@ -67,7 +67,7 @@ export const getWishlist = () => async (dispatch) => {
 export const addToWishlist = (productId) => async (dispatch) => {
     dispatch(addToWishlistPending());
     try {
-        const response = await axios.get(`/api/wishlist/add/id/${productId}`);
+        const response = await axios.post(`/api/user/wishlist/${productId}`);
         dispatch(addToWishlistFulfilled());
         dispatch(getWishlist());
         toast.success(response.data.message);
@@ -81,7 +81,21 @@ export const addToWishlist = (productId) => async (dispatch) => {
 export const removeFromWishlist = (productId) => async (dispatch) => {
     dispatch(removeFromWishlistPending());
     try {
-        const response = await axios.delete(`/api/wishlist/remove/id/${productId}`);
+        const response = await axios.delete(`/api/user/wishlist/${productId}`);
+        dispatch(removeFromWishlistFulfilled());
+        dispatch(getWishlist());
+        toast.success(response.data.message);
+    } catch (error) {
+        dispatch(removeFromWishlistRejected(error.response.data.error));
+        console.error("Error removing from wishlist:", error);
+        toast.error("Failed to remove product from wishlist");
+    }
+};
+
+export const removeItemFromWishlist = (itemId) => async (dispatch) => {
+    dispatch(removeFromWishlistPending());
+    try {
+        const response = await axios.delete(`/api/user/wishlist/id/${itemId}`);
         dispatch(removeFromWishlistFulfilled());
         dispatch(getWishlist());
         toast.success(response.data.message);
