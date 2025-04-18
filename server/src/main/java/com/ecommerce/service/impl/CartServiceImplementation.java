@@ -5,14 +5,11 @@ import com.ecommerce.exception.CartException;
 import com.ecommerce.exception.CartItemException;
 import com.ecommerce.exception.UserException;
 import com.ecommerce.mapper.CartMapper;
+import com.ecommerce.repository.CartItemRepository;
 import com.ecommerce.repository.ProductRepository;
-import com.ecommerce.service.CartItemService;
 import com.ecommerce.service.CartService;
-import com.ecommerce.service.ProductService;
+import com.ecommerce.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ProductException;
@@ -21,21 +18,19 @@ import com.ecommerce.model.CartItem;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.CartRepository;
-import com.ecommerce.request.AddToCartRequest;
+import com.ecommerce.request.CartRequest;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-@Slf4j
 @Service
 @AllArgsConstructor
 public class CartServiceImplementation implements CartService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CartServiceImplementation.class);
-
+    private UserService userService;
     private CartRepository cartRepository;
-    private CartItemService cartItemService;
-    private ProductService productService;
     private ProductRepository productRepository;
+    private CartItemRepository cartItemRepository;
 
     @Override
     public void createCart(User user) throws CartException {
@@ -106,7 +101,7 @@ public class CartServiceImplementation implements CartService {
     }
 
     @Override
-    public void addToCart(Long userId, AddToCartRequest req) throws ProductException, CartException, CartItemException {
+    public void addToCart(Long userId, CartRequest req) throws ProductException, CartException, CartItemException {
 
         try {
             // Validate inputs
@@ -131,7 +126,7 @@ public class CartServiceImplementation implements CartService {
             checkSizeAvailability(product, req.getSize(), quantities);
 
             // Check if the cart already contains the item
-            CartItem existingCartItem = cartItemService.isCartItemExist(cart, product, req.getSize(), userId);
+            CartItem existingCartItem = cartItemRepository.isCartItemExist(cart, product, req.getSize(), userId);
 
             if (existingCartItem == null) {
                 // If the item is not in the cart, create a new CartItem
@@ -148,7 +143,7 @@ public class CartServiceImplementation implements CartService {
                 cartItem.setPrice(price);
 
                 // Save and add the new CartItem to the cart
-                CartItem createdCartItem = cartItemService.createCartItem(cartItem);
+                CartItem createdCartItem = createCartItem(cartItem);
                 cart.getCartItems().add(createdCartItem);
             } else {
                 // If the item is already in the cart, update its quantity and price
@@ -163,7 +158,7 @@ public class CartServiceImplementation implements CartService {
                 existingCartItem.setPrice(updatedPrice);
 
                 // Call the existing updateCartItem method
-                cartItemService.updateCartItem(userId, existingCartItem.getId(), existingCartItem);
+                updateCartItem(userId, existingCartItem.getId(), req);
             }
 
         } catch (CartException e) {
@@ -200,6 +195,81 @@ public class CartServiceImplementation implements CartService {
         cart.setTotalDiscountedPrice(0);
         cart.setDiscount(0);
         cartRepository.save(cart);
+
+    }
+
+    @Override
+    public CartItem findCartItemById(Long cartItemId) throws CartItemException {
+
+        Optional<CartItem> opt = cartItemRepository.findById(cartItemId);
+
+        if (opt.isEmpty()) {
+            throw new CartItemException("cartItem not found with id : " + cartItemId);
+        }
+        return opt.get();
+
+    }
+
+    @Override
+    public CartItem createCartItem(CartItem cartItem) {
+
+        cartItem.setPrice(cartItem.getProduct().getPrice() * cartItem.getQuantity());
+        cartItem.setDiscountedPrice(cartItem.getProduct().getDiscountedPrice() * cartItem.getQuantity());
+        return cartItemRepository.save(cartItem);
+
+    }
+
+    @Override
+    public void updateCartItem(Long userId, Long cartItemId, CartRequest cartRequest) throws UserException, ProductException, CartItemException {
+
+        CartItem item = findCartItemById(cartItemId);
+        User user = userService.findUserById(item.getUserId());
+
+        // Authorize that the requesting user owns this cart item
+        if (!user.getId().equals(userId)) {
+            throw new CartItemException("You can't update another user's cart item");
+        }
+
+        // Only update size if it's present in the request
+        if (cartRequest.getSize() != null) {
+            // Check size availability only if updating size or quantity
+            int quantityToCheck = cartRequest.getQuantity() != null ? cartRequest.getQuantity() : item.getQuantity();
+            checkSizeAvailability(item.getProduct(), cartRequest.getSize(), quantityToCheck);
+            item.setSize(cartRequest.getSize());
+        }
+
+        // Only update quantity if it's present in the request
+        if (cartRequest.getQuantity() != null) {
+            // If only quantity is changing, check availability with current size
+            if (cartRequest.getSize() == null) {
+                checkSizeAvailability(item.getProduct(), item.getSize(), cartRequest.getQuantity());
+            }
+            item.setQuantity(cartRequest.getQuantity());
+        }
+
+        // Recalculate prices based on the updated quantity
+        item.setPrice(item.getQuantity() * item.getProduct().getPrice());
+        item.setDiscountedPrice(item.getQuantity() * item.getProduct().getDiscountedPrice());
+
+        // Save the updated cart item
+        cartItemRepository.save(item);
+    }
+
+    @Override
+    public void removeCartItem(Long userId, Long cartItemId) throws CartItemException, UserException {
+
+        System.out.println("userId- " + userId + " cartItemId " + cartItemId);
+
+        CartItem cartItem = findCartItemById(cartItemId);
+
+        User user = userService.findUserById(cartItem.getUserId());
+        User reqUser = userService.findUserById(userId);
+
+        if (user.getId().equals(reqUser.getId())) {
+            cartItemRepository.deleteById(cartItem.getId());
+        } else {
+            throw new UserException("you can't remove another users item");
+        }
 
     }
 
