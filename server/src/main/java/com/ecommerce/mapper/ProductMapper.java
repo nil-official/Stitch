@@ -105,6 +105,7 @@ public class ProductMapper {
         dto.setTitle(product.getTitle());
         dto.setBrand(product.getBrand());
         dto.setColor(product.getColor());
+        dto.setSizes(SizeSortingUtil.sortSizes(product.getSizes()));
         dto.setPrice(product.getPrice());
         dto.setDiscountedPrice(product.getDiscountedPrice());
         dto.setDiscountPercent(product.getDiscountPercent());

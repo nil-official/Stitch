@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/wishlist")
+@RequestMapping("/api/user/wishlist")
 public class WishlistController {
 
     private UserService userService;
     private WishlistService wishlistService;
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<WishlistDto> getUserWishlist(@RequestHeader("Authorization") String jwt) throws UserException, ProductException {
 
         User user = userService.findUserProfileByJwt(jwt);
@@ -29,7 +29,7 @@ public class WishlistController {
 
     }
 
-    @GetMapping("/add/id/{productId}")
+    @PostMapping("/{productId}")
     public ResponseEntity<ApiResponse> addToWishlist(@RequestHeader("Authorization") String jwt,
                                                      @PathVariable Long productId) throws UserException, ProductException {
 
@@ -40,7 +40,7 @@ public class WishlistController {
 
     }
 
-    @DeleteMapping("/remove/id/{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<ApiResponse> removeFromWishlist(@RequestHeader("Authorization") String jwt,
                                                           @PathVariable Long productId) throws UserException, ProductException {
 
@@ -51,7 +51,7 @@ public class WishlistController {
 
     }
 
-    @DeleteMapping("/remove/{wishlistItemId}")
+    @DeleteMapping("/id/{wishlistItemId}")
     public ResponseEntity<ApiResponse> removeWishlistItem(@RequestHeader("Authorization") String jwt,
                                                           @PathVariable Long wishlistItemId) throws UserException, ProductException {
 
