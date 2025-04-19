@@ -14,7 +14,7 @@ import {
 } from './type';
 
 const initialState = {
-    address: [],
+    address: null,
     loading: false,
     error: null,
 };

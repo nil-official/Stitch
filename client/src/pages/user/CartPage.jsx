@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PlusIcon, MinusIcon, TrashIcon, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
+import { PlusIcon, MinusIcon, TrashIcon, ShieldCheck } from 'lucide-react';
 import EmptyPage from '../EmptyPage';
 import Loader from '../../components/Loader';
 import ErrorPage from '../ErrorPage';
 import SizeDropdown from '../../components/Cart/SizeDropdown';
+import Confirmation from '../../components/Confirmation';
 import { addToWishlist } from '../../redux/customer/wishlist/action';
 import { getCart, updateCart, removeFromCart, clearCart } from '../../redux/customer/cart/action';
-import Confirmation from '../../components/Confirmation';
 
 const CartPage = () => {
 
@@ -22,8 +22,8 @@ const CartPage = () => {
     const { cart, loading, error } = useSelector((state) => state.cart);
 
     useEffect(() => {
-        dispatch(getCart());
-    }, [dispatch]);
+        if (!cart) dispatch(getCart());
+    }, [dispatch, cart]);
 
     const handleQuantityChange = (cartItemId, quantity, currentQuantity) => {
         if (quantity > 5) return;
@@ -260,7 +260,7 @@ const CartPage = () => {
                                 </div>
                             </div>
 
-                            <Link to="/checkout/init">
+                            <Link to="/checkout/shipping">
                                 <button
                                     className='block w-full bg-gray-700 text-white py-2 rounded hover:bg-gray-800 transition-all duration-300'
                                 >

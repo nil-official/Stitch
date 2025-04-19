@@ -19,6 +19,7 @@ import ResetPassword from '../pages/auth/ResetPassword';
 import MainLayout from '../components/Layout/MainLayout';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import OrdersDetailsPage from '../pages/user/OrderDetailsPage';
+import ShippingPage from '../pages/user/ShippingPage';
 
 const UserRoutes = () => {
 
@@ -42,8 +43,9 @@ const UserRoutes = () => {
                 <Route path="/user/orders" element={<OrdersPage />} />
                 <Route path="/user/orders/:id" element={<OrdersDetailsPage />} />
                 {/* Checkout */}
-                <Route path="/checkout/init" element={<OrderAddress />} />
-                <Route path="/checkout/pay" element={<OrderSummary />} />
+                {/* <Route path="/checkout/init" element={<OrderAddress />} /> */}
+                <Route path="/checkout/shipping" element={<ShippingPage />} />
+                <Route path="/checkout/summary" element={<OrderSummary />} />
                 {/* Product */}
                 <Route path="/product/:id" element={<ProductPage />} />
                 {/* Others */}
