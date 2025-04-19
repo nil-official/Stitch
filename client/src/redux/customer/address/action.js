@@ -99,7 +99,6 @@ export const updateAddress = (addressId, address) => async (dispatch) => {
         await axios.patch(`/api/user/address/${addressId}`, address);
         dispatch(updateAddressFulfilled());
         dispatch(getAddress());
-        toast.success("Address updated successfully!");
     } catch (error) {
         dispatch(updateAddressRejected(error.response.data.error));
         console.log("Failed to update address", error);
@@ -113,7 +112,6 @@ export const deleteAddress = (addressId) => async (dispatch) => {
         await axios.delete(`/api/user/address/${addressId}`);
         dispatch(deleteAddressFulfilled());
         dispatch(getAddress());
-        toast.success("Address deleted successfully!");
     } catch (error) {
         dispatch(deleteAddressRejected(error.response.data.error));
         console.log("Failed to delete address", error);
