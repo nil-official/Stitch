@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PlusIcon, MinusIcon, TrashIcon, ShieldCheck } from 'lucide-react';
 import EmptyPage from '../EmptyPage';
-import Loader from '../../components/Loader';
 import ErrorPage from '../ErrorPage';
-import SizeDropdown from '../../components/Cart/SizeDropdown';
+import Loader from '../../components/Loader';
 import Confirmation from '../../components/Confirmation';
+import SizeDropdown from '../../components/Cart/SizeDropdown';
+import CheckoutSteps from '../../components/CheckoutSteps';
 import { addToWishlist } from '../../redux/customer/wishlist/action';
 import { getCart, updateCart, removeFromCart, clearCart } from '../../redux/customer/cart/action';
 
@@ -14,12 +15,16 @@ const CartPage = () => {
 
     const dispatch = useDispatch();
     const [currency, setCurrency] = useState('INR');
-    const [itemToRemove, setItemToRemove] = useState(null);
-    const [removeConfirmation, setRemoveConfirmation] = useState(false);
-    const [itemToMove, setItemToMove] = useState(null);
-    const [moveConfirmation, setMoveConfirmation] = useState(false);
-    const [clearConfirmation, setClearConfirmation] = useState(false);
     const { cart, loading, error } = useSelector((state) => state.cart);
+
+    const [confirmation, setConfirmation] = useState({
+        isOpen: false,
+        title: '',
+        message: '',
+        onConfirm: () => { },
+        confirmText: 'Confirm',
+        cancelText: 'Cancel'
+    });
 
     useEffect(() => {
         if (!cart) dispatch(getCart());
@@ -39,39 +44,50 @@ const CartPage = () => {
     };
 
     const handleRemoveItem = (cartItemId) => {
-        setRemoveConfirmation(true);
-        setItemToRemove(cartItemId);
-    };
-
-    const handleRemoveConfirmation = () => {
-        if (itemToRemove) {
-            dispatch(removeFromCart(itemToRemove));
-            setItemToRemove(null);
-            setRemoveConfirmation(false);
-        }
+        setConfirmation({
+            isOpen: true,
+            onConfirm: () => {
+                dispatch(removeFromCart(cartItemId));
+                closeConfirmation();
+            },
+            title: "Remove Product",
+            message: "Are you sure you want to remove this product? This action cannot be undone.",
+            confirmText: "Remove",
+            cancelText: "Cancel",
+        });
     };
 
     const handleWishlistItem = (cartItemId, productId) => {
-        setMoveConfirmation(true);
-        setItemToMove({ cartItemId, productId });
-    };
-
-    const handleMoveConfirmation = () => {
-        if (itemToMove) {
-            dispatch(addToWishlist(itemToMove.productId));
-            dispatch(removeFromCart(itemToMove.cartItemId));
-            setItemToMove(null);
-            setMoveConfirmation(false);
-        }
+        setConfirmation({
+            isOpen: true,
+            onConfirm: () => {
+                dispatch(addToWishlist(productId));
+                dispatch(removeFromCart(cartItemId));
+                closeConfirmation();
+            },
+            title: "Move to Wishlist",
+            message: "Are you sure you want to move this product to your wishlist? This action cannot be undone.",
+            confirmText: "Move",
+            cancelText: "Cancel",
+        });
     };
 
     const handleClearCart = () => {
-        setClearConfirmation(true);
+        setConfirmation({
+            isOpen: true,
+            onConfirm: () => {
+                dispatch(clearCart());
+                closeConfirmation();
+            },
+            title: "Clear Cart",
+            message: "Are you sure you want to clear your cart? This action cannot be undone.",
+            confirmText: "Clear",
+            cancelText: "Cancel",
+        });
     };
 
-    const handleClearConfirmation = () => {
-        dispatch(clearCart());
-        setClearConfirmation(false);
+    const closeConfirmation = () => {
+        setConfirmation(prev => ({ ...prev, isOpen: false }));
     };
 
     if (loading && !cart) {
@@ -95,6 +111,7 @@ const CartPage = () => {
     return (
         <div className="min-h-[60vh] flex justify-center">
             <div className="w-11/12 xl:w-5/6 2xl:w-3/4 py-8">
+                {/* <CheckoutSteps activeStep={1} /> */}
                 <p className="text-2xl font-semibold mb-6">Shopping Cart ({cart.totalItem} items)</p>
                 <div className="flex flex-col lg:flex-row gap-6">
                     {/* Cart Items */}
@@ -278,33 +295,13 @@ const CartPage = () => {
             </div>
 
             <Confirmation
-                isOpen={removeConfirmation}
-                onClose={() => setRemoveConfirmation(false)}
-                onConfirm={handleRemoveConfirmation}
-                title="Remove Product"
-                message="Are you sure you want to remove this product? This action cannot be undone."
-                confirmText="Remove"
-                cancelText="Cancel"
-            />
-
-            <Confirmation
-                isOpen={moveConfirmation}
-                onClose={() => setMoveConfirmation(false)}
-                onConfirm={handleMoveConfirmation}
-                title="Move to Wishlist"
-                message="Are you sure you want to move this product to your wishlist? This action cannot be undone."
-                confirmText="Move"
-                cancelText="Cancel"
-            />
-
-            <Confirmation
-                isOpen={clearConfirmation}
-                onClose={() => setClearConfirmation(false)}
-                onConfirm={handleClearConfirmation}
-                title="Clear Cart"
-                message="Are you sure you want to clear your cart? This action cannot be undone."
-                confirmText="Clear"
-                cancelText="Cancel"
+                isOpen={confirmation.isOpen}
+                onClose={closeConfirmation}
+                onConfirm={confirmation.onConfirm}
+                title={confirmation.title}
+                message={confirmation.message}
+                confirmText={confirmation.confirmText}
+                cancelText={confirmation.cancelText}
             />
         </div>
     );
