@@ -1,10 +1,12 @@
 package com.ecommerce.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,25 +16,31 @@ public class AddressDto {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "First name must not be blank")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last name must not be blank")
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Street address must not be blank")
     private String streetAddress;
 
-    @NotBlank
+    @NotBlank(message = "City must not be blank")
     private String city;
 
-    @NotBlank
+    @NotBlank(message = "State must not be blank")
     private String state;
 
-    @NotBlank
+    @NotBlank(message = "Zip code must not be blank")
     private String zipCode;
 
-    @NotBlank
+    @NotBlank(message = "Mobile number must not be blank")
     private String mobile;
+
+    private String type;
+
+    private Boolean isDefault;
+
+    private LocalDateTime createdAt;
 
 }

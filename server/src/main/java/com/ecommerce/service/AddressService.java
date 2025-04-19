@@ -10,12 +10,12 @@ public interface AddressService {
 
     List<AddressDto> getAllAddresses(User user);
 
-    AddressDto getAddressById(Long id, User user) throws AddressException;
+    AddressDto getAddressById(Long addressId, User user) throws AddressException;
 
-    AddressDto addAddress(AddressDto addressDto, User user);
+    AddressDto addAddress(AddressDto addressDto, User user) throws AddressException;
 
-    AddressDto updateAddress(Long id, AddressDto addressDto, User user) throws AddressException;
+    AddressDto updateAddress(Long addressId, AddressDto addressDto, User user) throws AddressException;
 
-    void deleteAddress(Long id, User user) throws AddressException;
+    void deleteAddress(Long addressId, User user) throws AddressException;
 
 }

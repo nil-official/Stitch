@@ -1,14 +1,12 @@
 package com.ecommerce.model;
 
+import com.ecommerce.user.domain.AddressType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -33,11 +31,18 @@ public class Address {
 
     private String zipCode;
 
+    private String mobile;
+
+    @Enumerated(EnumType.STRING)
+    private AddressType type;
+
+    private boolean isDefault = false;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    private String mobile;
+    private LocalDateTime createdAt;
 
 }

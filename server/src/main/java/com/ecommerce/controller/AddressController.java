@@ -43,8 +43,8 @@ public class AddressController {
     }
 
     @PostMapping()
-    public ResponseEntity<AddressDto> addUserAddressHandler(@RequestBody @Valid AddressDto addressDto,
-                                                            @RequestHeader("Authorization") String jwt) throws UserException {
+    public ResponseEntity<AddressDto> addUserAddressHandler(@Valid @RequestBody AddressDto addressDto,
+                                                            @RequestHeader("Authorization") String jwt) throws UserException, AddressException {
 
         User user = userService.findUserProfileByJwt(jwt);
         AddressDto createdAddress = addressService.addAddress(addressDto, user);
@@ -52,8 +52,8 @@ public class AddressController {
 
     }
 
-    @PutMapping("/{addressId}")
-    public ResponseEntity<AddressDto> updateUserAddressHandler(@PathVariable Long addressId, @RequestBody @Valid AddressDto addressDto,
+    @PatchMapping("/{addressId}")
+    public ResponseEntity<AddressDto> updateUserAddressHandler(@PathVariable Long addressId, @RequestBody AddressDto addressDto,
                                                                @RequestHeader("Authorization") String jwt) throws UserException, AddressException {
 
         User user = userService.findUserProfileByJwt(jwt);
