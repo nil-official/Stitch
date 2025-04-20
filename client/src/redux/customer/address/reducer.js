@@ -11,10 +11,13 @@ import {
     DELETE_ADDRESS_PENDING,
     DELETE_ADDRESS_FULFILLED,
     DELETE_ADDRESS_REJECTED,
+    SET_SELECTED_ADDRESS,
+    CLEAR_SELECTED_ADDRESS,
 } from './type';
 
 const initialState = {
     address: null,
+    selectedAddress: null,
     loading: false,
     error: null,
 };
@@ -45,6 +48,10 @@ const addressReducer = (state = initialState, action) => {
             return { ...state, loading: false };
         case DELETE_ADDRESS_REJECTED:
             return { ...state, loading: false, error: action.error };
+        case SET_SELECTED_ADDRESS:
+            return { ...state, selectedAddress: action.payload };
+        case CLEAR_SELECTED_ADDRESS:
+            return { ...state, selectedAddress: null };
         default:
             return state;
     }

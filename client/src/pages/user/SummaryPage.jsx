@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { CreditCardIcon, CircleDollarSignIcon, WalletIcon, ChevronLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
+import ErrorPage from '../ErrorPage';
+import Loader from '../../components/Loader';
 import CheckoutSteps from '../../components/CheckoutSteps';
 import OrderSummary from '../../components/Order/OrderSummary';
 import { getCart } from '../../redux/customer/cart/action';
@@ -15,10 +17,8 @@ const SummaryPage = () => {
     const [currency, setCurrency] = useState('INR');
     const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
     const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
-    const { address: addresses, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
+    const { address, selectedAddress, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
 
-    const [selectedAddressId, setSelectedAddressId] = useState(null);
-    const [selectedAddress, setSelectedAddress] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -27,36 +27,24 @@ const SummaryPage = () => {
     }, [cart, dispatch]);
 
     useEffect(() => {
-        if (!addresses) dispatch(getAddress());
-    }, [addresses, dispatch]);
+        if (!address) dispatch(getAddress());
+    }, [address, dispatch]);
 
     useEffect(() => {
         if (!profile) dispatch(getProfile());
     }, [profile, dispatch]);
 
     useEffect(() => {
-        // dispatch(getCart());
-        // dispatch(getAddress());
-
-        // Get selectedAddressId from sessionStorage
-        const storedAddressId = sessionStorage.getItem('selectedAddressId');
-        if (storedAddressId) {
-            setSelectedAddressId(Number(storedAddressId));
+        if (cart && cart.totalItem === 0) {
+            navigate('/user/cart');
         }
-    }, [dispatch]);
+    }, [cart, navigate]);
 
     useEffect(() => {
-        if (addresses && addresses.length > 0 && selectedAddressId) {
-            const address = addresses.find(addr => addr.id === selectedAddressId);
-            if (address) {
-                setSelectedAddress(address);
-            } else if (!selectedAddressId && addresses.length > 0) {
-                // If no address is selected yet, use the first one
-                setSelectedAddressId(addresses[0].id);
-                setSelectedAddress(addresses[0]);
-            }
+        if (!selectedAddress) {
+            navigate('/checkout/shipping');
         }
-    }, [addresses, selectedAddressId]);
+    }, [selectedAddress, navigate]);
 
     const handlePaymentMethodChange = (method) => {
         setPaymentMethod(method);
@@ -79,49 +67,13 @@ const SummaryPage = () => {
         }, 1500);
     };
 
-    if ((cartLoading && !cart) || (addressLoading && !addresses)) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-            </div>
-        );
-    }
+    if (cartError || addressError || profileError) {
+        return <ErrorPage code={400} title='An Error Occurred!' description={cartError || addressError || profileError} />;
+    };
 
-    if (cartError || addressError) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-red-500 text-center">
-                    <p className="text-xl font-semibold">Something went wrong</p>
-                    <p className="mt-2">{cartError || addressError}</p>
-                    <button
-                        className="mt-4 bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700"
-                        onClick={() => {
-                            dispatch(getCart());
-                            dispatch(getAddress());
-                        }}
-                    >
-                        Try Again
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (!cart || !cart.cartItems || cart.cartItems.length === 0) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <p className="text-xl font-semibold">Your cart is empty</p>
-                    <Link
-                        to="/products"
-                        className="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-                    >
-                        Continue Shopping
-                    </Link>
-                </div>
-            </div>
-        );
-    }
+    if ((!cart && cartLoading) || (!address && addressLoading) || (!profile && profileLoading)) {
+        return <Loader />;
+    };
 
     return (
         <div className="min-h-[60vh] flex flex-col justify-center items-center gap-8 py-8 lg:py-12">
@@ -146,7 +98,7 @@ const SummaryPage = () => {
                             <div className="flex justify-between items-start mb-4">
                                 <h2 className="text-lg font-semibold">Delivery Address</h2>
                                 <Link
-                                    to="/checkout/address"
+                                    to="/checkout/shipping"
                                     className="text-sm text-blue-600 hover:text-blue-800"
                                 >
                                     Change
@@ -170,7 +122,7 @@ const SummaryPage = () => {
                             <div className="flex justify-between items-start mb-4">
                                 <h2 className="text-lg font-semibold">Order Items ({cart.totalItem})</h2>
                                 <Link
-                                    to="/cart"
+                                    to="/user/cart"
                                     className="text-sm text-blue-600 hover:text-blue-800"
                                 >
                                     Edit
@@ -178,7 +130,7 @@ const SummaryPage = () => {
                             </div>
 
                             <div className="space-y-4">
-                                {cart.cartItems.map((item) => (
+                                {cart && cart.cartItems && cart.cartItems.map((item) => (
                                     <div key={item.id} className="flex items-start border-b border-gray-200 pb-4 last:border-0 last:pb-0">
                                         <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
                                             <img
@@ -279,10 +231,10 @@ const SummaryPage = () => {
                             <OrderSummary
                                 cart={cart}
                                 currency={currency}
-                                selectedAddressId={selectedAddressId}
+                                selectedAddressId={selectedAddress}
                                 checkoutPath="/checkout/payment"
-                                disableCheckoutButton={!selectedAddressId}
-                                customButtonText={selectedAddressId ? "Continue to Payment" : "Select Address to Continue"}
+                                disableCheckoutButton={!selectedAddress}
+                                customButtonText={selectedAddress ? "Continue to Payment" : "Select Address to Continue"}
                             />
                         </div>
                     )}

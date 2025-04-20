@@ -13,6 +13,8 @@ import {
     DELETE_ADDRESS_PENDING,
     DELETE_ADDRESS_FULFILLED,
     DELETE_ADDRESS_REJECTED,
+    SET_SELECTED_ADDRESS,
+    CLEAR_SELECTED_ADDRESS,
 } from './type';
 
 const getAddressPending = () => ({
@@ -66,6 +68,15 @@ const deleteAddressFulfilled = () => ({
 const deleteAddressRejected = (error) => ({
     type: DELETE_ADDRESS_REJECTED,
     error: error,
+});
+
+export const setSelectedAddress = (address) => ({
+    type: SET_SELECTED_ADDRESS,
+    payload: address,
+});
+
+export const clearSelectedAddress = () => ({
+    type: CLEAR_SELECTED_ADDRESS,
 });
 
 export const getAddress = () => async (dispatch) => {

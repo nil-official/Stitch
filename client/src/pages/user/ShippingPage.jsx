@@ -12,19 +12,17 @@ import AddressList from '../../components/Address/AddressList';
 import OrderSummary from '../../components/Order/OrderSummary';
 import { getCart } from '../../redux/customer/cart/action';
 import { getProfile } from '../../redux/customer/profile/action';
-import { getAddress, addAddress, updateAddress, deleteAddress } from '../../redux/customer/address/action';
+import { getAddress, addAddress, updateAddress, deleteAddress, setSelectedAddress, clearSelectedAddress } from '../../redux/customer/address/action';
 
 const ShippingPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [currency, setCurrency] = useState('INR');
-    const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
-    const { address, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
-    const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
-
     const [showAddForm, setShowAddForm] = useState(false);
     const [editAddressId, setEditAddressId] = useState(null);
-    const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
+    const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
+    const { address, selectedAddress, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
 
     const [newAddress, setNewAddress] = useState({
         firstName: '',
@@ -68,8 +66,8 @@ const ShippingPage = () => {
     useEffect(() => {
         if (address && address.length > 0) {
             const defaultAddress = address.find(addr => addr.isDefault === true);
-            if (defaultAddress) {
-                setSelectedAddressId(defaultAddress.id);
+            if (defaultAddress && (!selectedAddress || selectedAddress.id !== defaultAddress.id)) {
+                dispatch(setSelectedAddress(defaultAddress));
             }
         }
         if (profile && !showAddForm) {
@@ -87,7 +85,11 @@ const ShippingPage = () => {
     };
 
     const handleAddressSelect = (id) => {
-        setSelectedAddressId(id);
+        if (selectedAddress && selectedAddress.id === id) return;
+        const selected = address.find(addr => addr.id === id);
+        if (selected) {
+            dispatch(setSelectedAddress(selected));
+        }
     };
 
     const handleAddNewAddress = () => {
@@ -128,7 +130,7 @@ const ShippingPage = () => {
             title: "Remove Address",
             message: "Are you sure you want to remove this address? This action cannot be undone.",
             onConfirm: () => {
-                if (selectedAddressId === addressId) setSelectedAddressId(null);
+                if (selectedAddress && selectedAddress.id === addressId) dispatch(clearSelectedAddress());
                 dispatch(deleteAddress(addressId));
                 closeConfirmation();
             },
@@ -147,7 +149,7 @@ const ShippingPage = () => {
         if (editAddressId) {
             dispatch(updateAddress(editAddressId, updatedAddress));
             if (updatedAddress.isDefault) {
-                setSelectedAddressId(editAddressId);
+                dispatch(setSelectedAddress(updatedAddress));
             }
         } else {
             dispatch(addAddress(updatedAddress));
@@ -171,7 +173,7 @@ const ShippingPage = () => {
         <div className="min-h-[60vh] flex flex-col justify-center items-center gap-8 py-8 lg:py-12">
             <CheckoutSteps
                 currentStep={2}
-                disabledSteps={selectedAddressId ? [4] : [3, 4]}
+                disabledSteps={selectedAddress ? [4] : [3, 4]}
             />
 
             <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
@@ -220,7 +222,7 @@ const ShippingPage = () => {
                                 {address && address.length > 0 ? (
                                     <AddressList
                                         addresses={address}
-                                        selectedAddressId={selectedAddressId}
+                                        selectedAddressId={selectedAddress ? selectedAddress.id : null}
                                         onAddressSelect={handleAddressSelect}
                                         onEditAddress={handleEditAddress}
                                         onDeleteAddress={handleDeleteAddress}
@@ -239,10 +241,10 @@ const ShippingPage = () => {
                             <OrderSummary
                                 cart={cart}
                                 currency={currency}
-                                selectedAddressId={selectedAddressId}
+                                selectedAddressId={selectedAddress}
                                 checkoutPath="/checkout/summary"
-                                disableCheckoutButton={!selectedAddressId}
-                                customButtonText={selectedAddressId ? "Continue to Checkout" : "Select Address to Continue"}
+                                disableCheckoutButton={!selectedAddress}
+                                customButtonText={selectedAddress ? "Continue to Checkout" : "Select Address to Continue"}
                             />
                         </div>
                     )}
