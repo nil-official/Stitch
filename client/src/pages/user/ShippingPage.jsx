@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, Plus } from 'lucide-react';
 import ErrorPage from '../ErrorPage';
 import Loader from '../../components/Loader';
 import Confirmation from '../../components/Confirmation';
+import CheckoutSteps from '../../components/CheckoutSteps';
 import AccountDetails from '../../components/Shipping/AccountDetails';
 import AddressForm from '../../components/Address/AddressForm';
 import AddressList from '../../components/Address/AddressList';
@@ -167,9 +168,20 @@ const ShippingPage = () => {
     };
 
     return (
-        <div className="min-h-[60vh] flex justify-center">
-            <div className="w-11/12 xl:w-5/6 2xl:w-3/4 py-8">
-                <p className="text-2xl font-semibold mb-6">Shipping Details</p>
+        <div className="min-h-[60vh] flex flex-col justify-center items-center gap-8 py-8 lg:py-12">
+            <CheckoutSteps
+                currentStep={2}
+                disabledSteps={selectedAddressId ? [4] : [3, 4]}
+            />
+
+            <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
+                <div className='flex items-center gap-4 mb-6'>
+                    <Link to='/user/cart' className="text-gray-600 hover:text-gray-800 transition-all duration-300">
+                        <ChevronLeft size={32} />
+                    </Link>
+                    <p className="text-2xl font-semibold">Shipping Details</p>
+                </div>
+
                 <div className="flex flex-col lg:flex-row gap-6">
                     <div className="w-full lg:w-2/3">
                         {profile && (

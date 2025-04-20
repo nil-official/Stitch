@@ -1,95 +1,115 @@
 import React from 'react';
-import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
 
-const CheckoutSteps = ({ activeStep }) => {
-    const steps = [
-        { id: 0, name: 'Cart', link: '/user/cart' },
-        { id: 1, name: 'Address', link: '/checkout/shipping' },
-        { id: 2, name: 'Summary', link: '/checkout/summary' },
-        { id: 3, name: 'Payment', link: '/checkout/payment' }
-    ];
+const steps = [
+    { id: 1, name: 'Cart', path: '/user/cart' },
+    { id: 2, name: 'Shipping', path: '/checkout/shipping' },
+    { id: 3, name: 'Summary', path: '/checkout/summary' },
+    { id: 4, name: 'Payment', path: '/checkout/payment' }
+];
+
+const CheckoutSteps = ({ currentStep, disabledSteps = [], className = '' }) => {
+    const getStepStatus = (stepId) => {
+        if (stepId < currentStep) return 'completed';
+        if (stepId === currentStep) return 'current';
+        return 'upcoming';
+    };
+
+    const isStepDisabled = (stepId) => {
+        return disabledSteps.includes(stepId);
+    };
+
+    const renderStepCircle = (step) => {
+        const status = getStepStatus(step.id);
+
+        let bgColor = 'bg-gray-200';
+        let textColor = 'text-gray-600';
+        let hoverColor = '';
+
+        if (status === 'completed' || status === 'current') {
+            bgColor = 'bg-gray-700';
+            textColor = 'text-white';
+            hoverColor = 'hover:bg-gray-800';
+        }
+
+        return (
+            <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full ${bgColor} ${textColor} ${hoverColor} flex items-center justify-center transition-colors duration-200`}>
+                {step.id}
+            </div>
+        );
+    };
+
+    const renderStepName = (step) => {
+        const status = getStepStatus(step.id);
+
+        let textColor = 'text-gray-400';
+        let hoverColor = '';
+
+        if (status === 'completed' || status === 'current') {
+            textColor = 'text-gray-700';
+            hoverColor = 'hover:text-gray-800';
+        }
+
+        return (
+            <span className={`ml-2 text-xl ${textColor} ${hoverColor} transition-colors duration-200`}>
+                {step.name}
+            </span>
+        );
+    };
+
+    const renderDivider = (index) => {
+        if (index < steps.length - 1) {
+            let dividerColor = 'text-gray-400';
+
+            if (index < currentStep - 1) {
+                dividerColor = 'text-gray-700';
+            }
+
+            return (
+                <ChevronRight
+                    size={16}
+                    className={`hidden sm:block ${dividerColor} transition-colors duration-200`}
+                />
+            );
+        }
+        return null;
+    };
+
+    const renderStep = (step, index) => {
+        const StepWrapper = isStepDisabled(step.id)
+            ? ({ children }) => <div className="flex items-center">{children}</div>
+            : ({ children }) => (
+                <Link
+                    to={step.path}
+                    className="flex items-center"
+                >
+                    {children}
+                </Link>
+            );
+
+        return (
+            <React.Fragment key={step.id}>
+                <StepWrapper>
+                    {renderStepCircle(step)}
+                    {renderStepName(step)}
+                </StepWrapper>
+                {renderDivider(index)}
+            </React.Fragment>
+        );
+    };
 
     return (
-        <div className="w-full">
-            <div className="hidden sm:block">
-                <nav aria-label="Progress">
-                    <ol className="flex items-center justify-between">
-                        {steps.map((step, index) => (
-                            <li key={step.id} className={`relative ${index < steps.length - 1 ? 'pr-8 sm:pr-20' : ''}`}>
-                                <div className="flex items-center">
-                                    {step.id < activeStep ? (
-                                        <>
-                                            <div className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-700">
-                                                <Check className="w-5 h-5 text-white" aria-hidden="true" />
-                                            </div>
-                                            <Link to={step.link} className="ml-3 text-sm font-medium text-gray-700">
-                                                {step.name}
-                                            </Link>
-                                        </>
-                                    ) : step.id === activeStep ? (
-                                        <>
-                                            <div className="h-8 w-8 flex items-center justify-center rounded-full border-2 border-gray-700 bg-white">
-                                                <span className="text-gray-700 font-medium">{step.id + 1}</span>
-                                            </div>
-                                            <span className="ml-3 text-sm font-medium text-gray-700">{step.name}</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="h-8 w-8 flex items-center justify-center rounded-full border-2 border-gray-300 bg-white">
-                                                <span className="text-gray-500">{step.id + 1}</span>
-                                            </div>
-                                            <span className="ml-3 text-sm font-medium text-gray-500">{step.name}</span>
-                                        </>
-                                    )}
-                                </div>
-                                {index < steps.length - 1 && (
-                                    <div className="hidden sm:block absolute top-4 left-0 w-full">
-                                        <div className="h-0.5 bg-gray-200" style={{ marginLeft: '2rem', marginRight: '1rem' }}>
-                                            <div
-                                                className={`h-0.5 ${step.id < activeStep ? 'bg-gray-700' : 'bg-gray-200'}`}
-                                                style={{ width: step.id < activeStep ? '100%' : '0%' }}
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-                            </li>
-                        ))}
-                    </ol>
-                </nav>
-            </div>
+        <div className={`hidden lg:block ${className}`}>
+            <div className="flex justify-between items-center">
+                <div className="flex-1 px-2 md:px-6">
+                    <div className="flex items-center justify-center space-x-1 sm:space-x-2 md:space-x-4">
+                        {steps.map((step, index) => renderStep(step, index))}
+                    </div>
+                </div>
 
-            {/* Mobile view */}
-            <div className="sm:hidden">
-                <div className="flex items-center justify-between mt-2">
-                    {steps.map((step) => (
-                        <div
-                            key={step.id}
-                            className={`flex flex-col items-center ${step.id === activeStep
-                                ? 'text-gray-700 font-medium'
-                                : step.id < activeStep
-                                    ? 'text-gray-700'
-                                    : 'text-gray-400'
-                                }`}
-                        >
-                            <div className={`
-                h-8 w-8 flex items-center justify-center rounded-full mb-1
-                ${step.id < activeStep
-                                    ? 'bg-gray-700 text-white'
-                                    : step.id === activeStep
-                                        ? 'border-2 border-gray-700 bg-white'
-                                        : 'border-2 border-gray-300 bg-white'
-                                }
-              `}>
-                                {step.id < activeStep ? (
-                                    <Check className="w-5 h-5" />
-                                ) : (
-                                    <span>{step.id + 1}</span>
-                                )}
-                            </div>
-                            <span className="text-xs">{step.name}</span>
-                        </div>
-                    ))}
+                <div className="w-5">
+                    {/* Spacer for layout balance */}
                 </div>
             </div>
         </div>

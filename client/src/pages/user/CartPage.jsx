@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { TrashIcon } from 'lucide-react';
+import { ChevronLeft, TrashIcon } from 'lucide-react';
 import EmptyPage from '../EmptyPage';
 import ErrorPage from '../ErrorPage';
 import Loader from '../../components/Loader';
 import Confirmation from '../../components/Confirmation';
+import CheckoutSteps from '../../components/CheckoutSteps';
 import CartItemList from '../../components/Cart/CartItemList';
 import OrderSummary from '../../components/Order/OrderSummary';
 import { addToWishlist } from '../../redux/customer/wishlist/action';
@@ -108,10 +109,21 @@ const CartPage = () => {
     };
 
     return (
-        <div className="min-h-[60vh] flex justify-center">
+        <div className="min-h-[60vh] flex flex-col justify-center items-center gap-8 py-8 lg:py-12">
+            <CheckoutSteps
+                currentStep={1}
+                disabledSteps={cart && cart.totalItem > 0 ? [3, 4] : [2, 3, 4]}
+            />
+
             {cart && cart.totalItem > 0 && (
-                <div className="w-11/12 xl:w-5/6 2xl:w-3/4 py-8">
-                    <p className="text-2xl font-semibold mb-6">Shopping Cart ({cart.totalItem} items)</p>
+                <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
+                    <div className='flex items-center gap-4 mb-6'>
+                        <Link to='/' className="text-gray-600 hover:text-gray-800 transition-all duration-300">
+                            <ChevronLeft size={32} />
+                        </Link>
+                        <p className="text-2xl font-semibold">Shopping Cart ({cart.totalItem} items)</p>
+                    </div>
+
                     <div className="flex flex-col lg:flex-row gap-6">
                         {/* Cart Items */}
                         <div className="w-full lg:w-2/3">

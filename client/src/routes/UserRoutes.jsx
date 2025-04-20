@@ -5,21 +5,20 @@ import Login from '../components/Auth/Login';
 import HomePage from '../pages/user/HomePage';
 import CartPage from '../pages/user/CartPage';
 import HelpPage from '../pages/user/HelpPage';
-import OrderSummary from '../pages/OrderSummary';
-import OrderAddress from '../pages/OrderAddress';
 import SearchPage from '../pages/user/SearchPage';
 import OrdersPage from '../pages/user/OrdersPage';
 import Register from '../components/Auth/Register';
 import VerifyEmail from '../pages/auth/VerifyEmail';
 import ProductPage from '../pages/user/ProductPage';
 import ProfilePage from '../pages/user/ProfilePage';
+import SummaryPage from '../pages/user/SummaryPage';
 import WishlistPage from '../pages/user/WishlistPage';
+import ShippingPage from '../pages/user/ShippingPage';
 import MaintenancePage from '../pages/MaintenancePage';
 import ResetPassword from '../pages/auth/ResetPassword';
 import MainLayout from '../components/Layout/MainLayout';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import OrdersDetailsPage from '../pages/user/OrderDetailsPage';
-import ShippingPage from '../pages/user/ShippingPage';
 
 const UserRoutes = () => {
 
@@ -43,9 +42,8 @@ const UserRoutes = () => {
                 <Route path="/user/orders" element={<OrdersPage />} />
                 <Route path="/user/orders/:id" element={<OrdersDetailsPage />} />
                 {/* Checkout */}
-                {/* <Route path="/checkout/init" element={<OrderAddress />} /> */}
                 <Route path="/checkout/shipping" element={<ShippingPage />} />
-                <Route path="/checkout/summary" element={<OrderSummary />} />
+                <Route path="/checkout/summary" element={<SummaryPage />} />
                 {/* Product */}
                 <Route path="/product/:id" element={<ProductPage />} />
                 {/* Others */}
