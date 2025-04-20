@@ -1,25 +1,26 @@
 import React from 'react';
 import { Pencil, CheckCircle, TrashIcon } from 'lucide-react';
 
-const AddressList = ({ addresses, selectedAddressId, onAddressSelect, onEditAddress, onDeleteAddress }) => {
+const AddressList = ({ addresses, selectedAddressId = '', onAddressSelect = null, onEditAddress, onDeleteAddress }) => {
     return (
         <div className="space-y-4">
             {addresses.map((addr) => (
                 <div
                     key={addr.id}
-                    className={`bg-white border rounded-lg p-4 cursor-pointer ${selectedAddressId === addr.id ? 'border-gray-700' : 'border-gray-200'
-                        }`}
-                    onClick={() => onAddressSelect(addr.id)}
+                    className={`bg-white border rounded-lg p-4 ${selectedAddressId != '' && 'cursor-pointer'} ${selectedAddressId && selectedAddressId === addr.id ? 'border-gray-700' : 'border-gray-200'}`}
+                    onClick={() => onAddressSelect && onAddressSelect(addr.id)}
                 >
                     <div className="flex flex-col sm:flex-row justify-between items-start gap-3">
                         <div className="flex items-start gap-3 w-full">
-                            <div className="mt-1">
-                                {selectedAddressId === addr.id ? (
-                                    <CheckCircle size={20} className="text-gray-700" />
-                                ) : (
-                                    <div className="w-5 h-5 border-2 border-gray-400 rounded-full" />
-                                )}
-                            </div>
+                            {selectedAddressId != '' && (
+                                <div className="mt-1">
+                                    {selectedAddressId === addr.id ? (
+                                        <CheckCircle size={20} className="text-gray-700" />
+                                    ) : (
+                                        <div className="w-5 h-5 border-2 border-gray-400 rounded-full" />
+                                    )}
+                                </div>
+                            )}
                             <div className="flex flex-col gap-2 w-full">
                                 <div className="flex flex-wrap gap-2">
                                     {addr.isDefault && (

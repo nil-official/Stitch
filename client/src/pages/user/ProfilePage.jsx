@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from '../../redux/customer/profile/action';
-import navigation from '../../components/Profile/navigation.json';
 import ErrorPage from '../../pages/ErrorPage';
 import Loader from '../../components/Loader';
+import navigation from '../../components/Profile/navigation.json';
 import NavSidebar from '../../components/Profile/NavSidebar';
-import ProfileInformation from '../../components/Profile/ProfileInformation';
 import AddressManagement from '../../components/Profile/AddressManagement';
+import ProfileInformation from '../../components/Profile/ProfileInformation';
+import { getProfile } from '../../redux/customer/profile/action';
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
-    const { profile, loading, error } = useSelector((state) => state.profile);
     const [activeItem, setActiveItem] = useState('profile-information');
+    const { profile, loading, error } = useSelector((state) => state.profile);
 
     useEffect(() => {
-        dispatch(getProfile());
-    }, [dispatch]);
+        if (!profile) dispatch(getProfile());
+    }, [profile, dispatch]);
 
     const renderContent = () => {
         switch (activeItem) {
