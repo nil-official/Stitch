@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-hot-toast';
 import axios from "../../../utils/axiosConfig";
 import { logout } from "../../auth/action";
 import {

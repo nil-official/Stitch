@@ -1,5 +1,5 @@
+import { toast } from 'react-hot-toast';
 import axios from '../../../utils/axiosConfig';
-import { toast } from 'react-toastify';
 import {
     GET_CART_PENDING,
     GET_CART_FULFILLED,

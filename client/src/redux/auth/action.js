@@ -1,5 +1,5 @@
+import { toast } from 'react-hot-toast';
 import axios from '../../utils/axiosConfig';
-import { toast } from 'react-toastify';
 import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,

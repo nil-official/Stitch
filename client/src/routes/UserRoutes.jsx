@@ -12,6 +12,7 @@ import VerifyEmail from '../pages/auth/VerifyEmail';
 import ProductPage from '../pages/user/ProductPage';
 import ProfilePage from '../pages/user/ProfilePage';
 import SummaryPage from '../pages/user/SummaryPage';
+import PaymentPage from '../pages/user/PaymentPage';
 import WishlistPage from '../pages/user/WishlistPage';
 import ShippingPage from '../pages/user/ShippingPage';
 import MaintenancePage from '../pages/MaintenancePage';
@@ -36,14 +37,15 @@ const UserRoutes = () => {
             <Route element={<MainLayout isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />}>
                 <Route path="/" element={<HomePage isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
                 {/* User */}
-                <Route path="/user/cart" element={<CartPage />} />
                 <Route path="/user/account" element={<ProfilePage />} />
                 <Route path="/user/wishlist" element={<WishlistPage />} />
                 <Route path="/user/orders" element={<OrdersPage />} />
                 <Route path="/user/orders/:id" element={<OrdersDetailsPage />} />
                 {/* Checkout */}
+                <Route path="/checkout/cart" element={<CartPage />} />
                 <Route path="/checkout/shipping" element={<ShippingPage />} />
                 <Route path="/checkout/summary" element={<SummaryPage />} />
+                <Route path="/checkout/payment" element={<PaymentPage />} />
                 {/* Product */}
                 <Route path="/product/:id" element={<ProductPage />} />
                 {/* Others */}

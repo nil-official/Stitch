@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from 'react-hot-toast';
 import axios from "../../../utils/axiosConfig";
 import {
     GET_WISHLIST_PENDING,

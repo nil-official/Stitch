@@ -11,6 +11,7 @@ import searchReducer from './customer/search/reducer';
 import filterReducer from './customer/filter/reducer';
 import profileReducer from './customer/profile/reducer';
 import addressReducer from './customer/address/reducer';
+import orderReducer from './customer/order/reducer';
 
 const rootReducers = combineReducers({
     auth: authReducer,
@@ -23,6 +24,7 @@ const rootReducers = combineReducers({
     filter: filterReducer,
     profile: profileReducer,
     address: addressReducer,
+    order: orderReducer,
 });
 
 const middlewares = [thunk];
