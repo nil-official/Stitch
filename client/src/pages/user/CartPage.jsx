@@ -118,7 +118,7 @@ const CartPage = () => {
             {cart && cart.totalItem > 0 && (
                 <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
                     <div className='flex items-center gap-4 mb-6'>
-                        <Link to='/' className="text-gray-600 hover:text-gray-800 transition-all duration-300">
+                        <Link to='/' className="text-primary hover:text-primary-dark transition-all duration-300">
                             <ChevronLeft size={32} />
                         </Link>
                         <p className="text-2xl font-semibold">Shopping Cart ({cart.totalItem} items)</p>
@@ -127,8 +127,8 @@ const CartPage = () => {
                     <div className="flex flex-col lg:flex-row gap-6">
                         {/* Cart Items */}
                         <div className="w-full lg:w-2/3">
-                            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                                <div className="hidden md:grid grid-cols-12 gap-4 p-4 bg-gray-50 border-b border-gray-200">
+                            <div className="rounded-lg shadow-md border border-primary-lighter overflow-hidden">
+                                <div className="hidden md:grid grid-cols-12 gap-4 p-4 bg-primary-lightest border-b border-primary-lighter">
                                     <div className="col-span-4">
                                         <h3 className="font-medium">Product</h3>
                                     </div>
@@ -155,17 +155,16 @@ const CartPage = () => {
                                     onMoveToWishlist={handleWishlistItem}
                                 />
 
-                                <div className="p-4 flex justify-between gap-4 border-t bg-gray-50 border-gray-200">
+                                <div className="p-4 flex justify-end gap-4 bg-primary-lightest">
                                     <button
                                         onClick={handleClearCart}
-                                        className="flex items-center gap-2 px-4 py-2 text-white bg-gray-700 hover:bg-gray-800 rounded transition duration-300"
+                                        className="px-4 py-2 font-semibold border border-primary-light-2x text-primary hover:bg-primary-lighter rounded transition-all duration-300"
                                     >
-                                        <TrashIcon size={14} className="mr-1" />
                                         Clear Cart
                                     </button>
                                     <Link to="/products" >
                                         <button
-                                            className='px-4 py-2 text-white bg-gray-700 hover:bg-gray-800 rounded transition duration-300'
+                                            className='px-4 py-2 font-semibold text-white bg-primary hover:bg-primary-dark rounded transition-all duration-300'
                                         >
                                             Continue Shopping
                                         </button>
