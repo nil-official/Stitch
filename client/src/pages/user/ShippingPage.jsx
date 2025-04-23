@@ -59,7 +59,7 @@ const ShippingPage = () => {
 
     useEffect(() => {
         if (cart && cart.totalItem === 0) {
-            navigate('/user/cart');
+            navigate('/checkout/cart');
         }
     }, [cart, navigate]);
 
@@ -170,7 +170,7 @@ const ShippingPage = () => {
     };
 
     return (
-        <div className="min-h-[60vh] flex flex-col justify-center items-center gap-8 py-8 lg:py-12">
+        <div className="min-h-[60vh] flex flex-col items-center gap-8 py-8 lg:py-12">
             <CheckoutSteps
                 currentStep={2}
                 disabledSteps={selectedAddress ? [4] : [3, 4]}
@@ -178,7 +178,7 @@ const ShippingPage = () => {
 
             <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
                 <div className='flex items-center gap-4 mb-6'>
-                    <Link to='/user/cart' className="text-gray-600 hover:text-gray-800 transition-all duration-300">
+                    <Link to='/checkout/cart' className="text-gray-600 hover:text-gray-800 transition-all duration-300">
                         <ChevronLeft size={32} />
                     </Link>
                     <p className="text-2xl font-semibold">Shipping Details</p>

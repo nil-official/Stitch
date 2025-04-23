@@ -100,16 +100,17 @@ const CartPage = () => {
 
     if (!cart || cart.totalItem === 0) {
         return <EmptyPage
+            heading={"Shopping Cart"}
             image={"/empty-trolley.jpg"}
             title={"Your Cart is Empty!"}
             description={"Looks like you haven't added anything to your cart yet. Explore our collection and add your favorite items!"}
             button={"Shop Now"}
-            navigation={"/"}
+            forwardNav={"/products"}
         />;
     };
 
     return (
-        <div className="min-h-[60vh] flex flex-col justify-center items-center gap-8 py-8 lg:py-12">
+        <div className="min-h-[60vh] flex flex-col items-center gap-8 py-8 lg:py-12">
             <CheckoutSteps
                 currentStep={1}
                 disabledSteps={cart && cart.totalItem > 0 ? [3, 4] : [2, 3, 4]}

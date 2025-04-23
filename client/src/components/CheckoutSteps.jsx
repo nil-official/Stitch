@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
 const steps = [
-    { id: 1, name: 'Cart', path: '/user/cart' },
+    { id: 1, name: 'Cart', path: '/checkout/cart' },
     { id: 2, name: 'Shipping', path: '/checkout/shipping' },
     { id: 3, name: 'Summary', path: '/checkout/summary' },
     { id: 4, name: 'Payment', path: '/checkout/payment' }
@@ -23,18 +23,18 @@ const CheckoutSteps = ({ currentStep, disabledSteps = [], className = '' }) => {
     const renderStepCircle = (step) => {
         const status = getStepStatus(step.id);
 
-        let bgColor = 'bg-gray-200';
-        let textColor = 'text-gray-600';
+        let bgColor = 'bg-primary-light-3x';
+        let textColor = 'text-primary-light-1x';
         let hoverColor = '';
 
         if (status === 'completed' || status === 'current') {
-            bgColor = 'bg-gray-700';
+            bgColor = 'bg-primary';
             textColor = 'text-white';
-            hoverColor = 'hover:bg-gray-800';
+            hoverColor = 'hover:bg-primary-dark';
         }
 
         return (
-            <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full ${bgColor} ${textColor} ${hoverColor} flex items-center justify-center transition-colors duration-200`}>
+            <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full ${bgColor} ${textColor} ${hoverColor} flex items-center justify-center transition-all duration-300`}>
                 {step.id}
             </div>
         );
@@ -43,16 +43,16 @@ const CheckoutSteps = ({ currentStep, disabledSteps = [], className = '' }) => {
     const renderStepName = (step) => {
         const status = getStepStatus(step.id);
 
-        let textColor = 'text-gray-400';
+        let textColor = 'text-primary-light-1x';
         let hoverColor = '';
 
         if (status === 'completed' || status === 'current') {
-            textColor = 'text-gray-700';
-            hoverColor = 'hover:text-gray-800';
+            textColor = 'text-primary';
+            hoverColor = 'hover:text-primary-dark';
         }
 
         return (
-            <span className={`ml-2 text-xl ${textColor} ${hoverColor} transition-colors duration-200`}>
+            <span className={`ml-2 text-xl ${textColor} ${hoverColor} transition-all duration-300`}>
                 {step.name}
             </span>
         );
@@ -60,16 +60,16 @@ const CheckoutSteps = ({ currentStep, disabledSteps = [], className = '' }) => {
 
     const renderDivider = (index) => {
         if (index < steps.length - 1) {
-            let dividerColor = 'text-gray-400';
+            let dividerColor = 'text-primary-light-1x';
 
             if (index < currentStep - 1) {
-                dividerColor = 'text-gray-700';
+                dividerColor = 'text-primary';
             }
 
             return (
                 <ChevronRight
                     size={16}
-                    className={`hidden sm:block ${dividerColor} transition-colors duration-200`}
+                    className={`hidden sm:block ${dividerColor} transition-all duration-300`}
                 />
             );
         }

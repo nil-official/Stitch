@@ -2,7 +2,7 @@ import React from 'react'
 import decodeJWT from '../../utils/decodeJWT'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import InputField2 from '../../components/Admin/InputField2';
 import BASE_URL from '../../utils/baseurl';

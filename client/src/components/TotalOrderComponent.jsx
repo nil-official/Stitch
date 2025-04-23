@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "../utils/axiosConfig";
 import { IoStar } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-hot-toast';
 import { FiEdit } from "react-icons/fi";
 import BASE_URL from "../utils/baseurl";
 

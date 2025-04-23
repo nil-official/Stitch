@@ -131,7 +131,7 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                             </Link>
                         )}
                         {isLoggedIn && (
-                            <Link to="/user/cart" className="text-gray-600 hover:text-gray-900 relative">
+                            <Link to="/checkout/cart" className="text-gray-600 hover:text-gray-900 relative">
                                 <PiShoppingCartSimpleLight className="text-2xl" />
                                 {cart.totalItem > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-gray-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">

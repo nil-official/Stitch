@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { IoMdClose } from "react-icons/io";
-import 'react-toastify/dist/ReactToastify.css';
 import { removeFromWishlist } from '../../redux/customer/wishlist/action';
 import { FaStar } from 'react-icons/fa';
 

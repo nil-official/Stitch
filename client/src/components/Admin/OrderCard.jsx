@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import format from 'date-fns/format';
 import BASE_URL from '../../utils/baseurl';

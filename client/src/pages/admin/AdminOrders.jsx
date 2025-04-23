@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import decodeJWT from '../../utils/decodeJWT';
 import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/Admin/OrderCard';

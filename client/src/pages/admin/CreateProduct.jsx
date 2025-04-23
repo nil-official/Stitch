@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import decodeJWT from "../../utils/decodeJWT";
-import { toast } from "react-toastify";
+import { toast } from 'react-hot-toast';
 import axios from "axios";
 import InputField2 from "../../components/Admin/InputField2";
 import BASE_URL from "../../utils/baseurl";

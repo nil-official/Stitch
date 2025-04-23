@@ -3,7 +3,7 @@ import PostIssue from "../../components/Help/PostIssue";
 import IssueList from "../../components/Help/IssueList";
 import BASE_URL from "../../utils/baseurl";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from 'react-hot-toast';
 
 const HelpPage = () => {
     const [activeTab, setActiveTab] = useState('post-issue')

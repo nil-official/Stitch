@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { CreditCardIcon, CircleDollarSignIcon, WalletIcon, ChevronLeft } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { CreditCardIcon, CircleDollarSignIcon, WalletIcon, ChevronLeft, MapPin, Truck, ShoppingBag, User } from 'lucide-react';
 import ErrorPage from '../ErrorPage';
 import Loader from '../../components/Loader';
 import CheckoutSteps from '../../components/CheckoutSteps';
@@ -10,6 +9,7 @@ import OrderSummary from '../../components/Order/OrderSummary';
 import { getCart } from '../../redux/customer/cart/action';
 import { getProfile } from '../../redux/customer/profile/action';
 import { getAddress } from '../../redux/customer/address/action';
+import { setOrderData } from '../../redux/customer/order/action';
 
 const SummaryPage = () => {
     const dispatch = useDispatch();
@@ -20,7 +20,6 @@ const SummaryPage = () => {
     const { address, selectedAddress, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
 
     const [paymentMethod, setPaymentMethod] = useState('card');
-    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
         if (!cart) dispatch(getCart());
@@ -36,7 +35,7 @@ const SummaryPage = () => {
 
     useEffect(() => {
         if (cart && cart.totalItem === 0) {
-            navigate('/user/cart');
+            navigate('/checkout/cart');
         }
     }, [cart, navigate]);
 
@@ -50,21 +49,15 @@ const SummaryPage = () => {
         setPaymentMethod(method);
     };
 
-    const handlePlaceOrder = () => {
-        if (!selectedAddress) {
-            toast.error('Please select a delivery address');
-            return;
-        }
+    const handleProceedToPayment = () => {
+        dispatch(setOrderData({
+            user: profile,
+            cart: cart,
+            address: selectedAddress,
+            paymentMethod: paymentMethod === 'cod' ? "COD" : "RAZORPAY",
+        }));
 
-        setIsProcessing(true);
-
-        // Simulate API call for placing order
-        setTimeout(() => {
-            setIsProcessing(false);
-            toast.success('Order placed successfully!');
-            // Redirect to order confirmation page (in a real app)
-            navigate('/order-confirmation');
-        }, 1500);
+        navigate('/checkout/payment');
     };
 
     if (cartError || addressError || profileError) {
@@ -76,10 +69,10 @@ const SummaryPage = () => {
     };
 
     return (
-        <div className="min-h-[60vh] flex flex-col justify-center items-center gap-8 py-8 lg:py-12">
+        <div className="min-h-[60vh] flex flex-col items-center gap-8 py-8 lg:py-12">
             <CheckoutSteps
                 currentStep={3}
-                disabledSteps={[]}
+                disabledSteps={[4]}
             />
 
             <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
@@ -93,24 +86,67 @@ const SummaryPage = () => {
                 <div className="flex flex-col lg:flex-row gap-6">
                     {/* Order Details */}
                     <div className="w-full lg:w-2/3">
+                        {/* Customer Information */}
+                        <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-100">
+                            <div className="flex justify-between items-center mb-4">
+                                <div className="flex items-center">
+                                    <div className="bg-blue-50 p-2 rounded-full mr-3">
+                                        <User size={20} className="text-blue-600" />
+                                    </div>
+                                    <h2 className="text-lg font-semibold">Account Information</h2>
+                                </div>
+                            </div>
+
+                            {profile && (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <p className="text-sm text-gray-500">Name</p>
+                                        <p className="font-medium">{profile.firstName} {profile.lastName}</p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-sm text-gray-500">Contact</p>
+                                        <p className="font-medium">{profile.mobile}</p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-sm text-gray-500">Email</p>
+                                        <p className="font-medium">{profile.email}</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         {/* Delivery Address */}
-                        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                            <div className="flex justify-between items-start mb-4">
-                                <h2 className="text-lg font-semibold">Delivery Address</h2>
+                        <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-100">
+                            <div className="flex justify-between items-center mb-4">
+                                <div className="flex items-center">
+                                    <div className="bg-green-50 p-2 rounded-full mr-3">
+                                        <MapPin size={20} className="text-green-600" />
+                                    </div>
+                                    <h2 className="text-lg font-semibold">Delivery Address</h2>
+                                </div>
                                 <Link
                                     to="/checkout/shipping"
-                                    className="text-sm text-blue-600 hover:text-blue-800"
+                                    className="text-sm text-white bg-primary hover:bg-primary-light px-3 py-1 rounded-full transition duration-300"
                                 >
                                     Change
                                 </Link>
                             </div>
 
                             {selectedAddress ? (
-                                <div>
-                                    <p className="font-medium">{selectedAddress.firstName} {selectedAddress.lastName}</p>
-                                    <p className="text-gray-600 mt-1">{selectedAddress.streetAddress}</p>
-                                    <p className="text-gray-600">{selectedAddress.city}, {selectedAddress.state} - {selectedAddress.zipCode}</p>
-                                    <p className="text-gray-600 mt-1">Mobile: {selectedAddress.mobile}</p>
+                                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                    <div className="flex items-start">
+                                        <div className="flex-1">
+                                            <div className="flex items-center">
+                                                <p className="font-medium">{selectedAddress.firstName} {selectedAddress.lastName}</p>
+                                                <span className="ml-2 text-xs font-medium bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">
+                                                    {selectedAddress.type}
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-700 mt-1">{selectedAddress.streetAddress}</p>
+                                            <p className="text-gray-700">{selectedAddress.city}, {selectedAddress.state} - {selectedAddress.zipCode}</p>
+                                            <p className="text-gray-700 mt-1">Mobile: {selectedAddress.mobile}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             ) : (
                                 <p className="text-gray-500">No address selected. Please go back and select a delivery address.</p>
@@ -118,54 +154,91 @@ const SummaryPage = () => {
                         </div>
 
                         {/* Order Items */}
-                        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                            <div className="flex justify-between items-start mb-4">
-                                <h2 className="text-lg font-semibold">Order Items ({cart.totalItem})</h2>
+                        <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-100">
+                            <div className="flex justify-between items-center mb-4">
+                                <div className="flex items-center">
+                                    <div className="bg-purple-50 p-2 rounded-full mr-3">
+                                        <Truck size={20} className="text-purple-600" />
+                                    </div>
+                                    <h2 className="text-lg font-semibold">Order Items ({cart.totalItem})</h2>
+                                </div>
                                 <Link
-                                    to="/user/cart"
-                                    className="text-sm text-blue-600 hover:text-blue-800"
+                                    to="/checkout/cart"
+                                    className="text-sm text-white bg-primary hover:bg-primary-light px-3 py-1 rounded-full transition duration-300"
                                 >
-                                    Edit
+                                    Edit Cart
                                 </Link>
                             </div>
 
                             <div className="space-y-4">
                                 {cart && cart.cartItems && cart.cartItems.map((item) => (
-                                    <div key={item.id} className="flex items-start border-b border-gray-200 pb-4 last:border-0 last:pb-0">
-                                        <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                                    <div key={item.id} className="flex items-start border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors">
+                                        <div className="w-20 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
                                             <img
                                                 src={item.product.preview}
                                                 alt={item.product.title}
-                                                className="w-full h-full object-cover"
+                                                className="w-full object-cover"
                                             />
                                         </div>
                                         <div className="ml-4 flex-grow">
-                                            <h3 className="font-medium text-gray-800">{item.product.title}</h3>
-                                            <p className="text-sm text-gray-500">{item.product.brand}</p>
-                                            <div className="flex items-center mt-1">
-                                                <span className="text-sm text-gray-500 mr-3">Size: {item.size}</span>
-                                                <span className="text-sm text-gray-500">Qty: {item.quantity}</span>
+                                            <h3 className="font-medium text-gray-800 line-clamp-1">{item.product.title}</h3>
+                                            <p className="text-sm text-gray-500">{item.product.brand} | {item.product.color}</p>
+                                            <div className="flex items-center mt-2">
+                                                <span className="text-xs font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full mr-2">
+                                                    Size: {item.size}
+                                                </span>
+                                                <span className="text-xs font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
+                                                    Qty: {item.quantity}
+                                                </span>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="font-medium">₹{item.discountedPrice * item.quantity}</p>
+                                            <p className="font-medium text-lg">₹{item.discountedPrice * item.quantity}</p>
                                             {item.discountedPrice < item.price && (
-                                                <p className="text-sm text-gray-500 line-through">₹{item.price * item.quantity}</p>
+                                                <div className="flex items-center text-sm mt-1">
+                                                    <p className="text-gray-500 line-through mr-2">₹{item.price * item.quantity}</p>
+                                                    <span className="bg-green-50 text-green-600 px-1.5 py-0.5 rounded text-xs font-medium">
+                                                        {item.product.discountPercent}% OFF
+                                                    </span>
+                                                </div>
                                             )}
                                         </div>
                                     </div>
                                 ))}
                             </div>
+
+                            {/* <div className="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                                <div className="flex justify-between text-sm mb-1">
+                                    <span className="text-gray-600">Total Items:</span>
+                                    <span className="font-medium">{cart.totalItem}</span>
+                                </div>
+                                <div className="flex justify-between text-sm mb-1">
+                                    <span className="text-gray-600">Total MRP:</span>
+                                    <span className="font-medium">₹{cart.totalPrice.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between text-sm mb-1">
+                                    <span className="text-gray-600">Discount:</span>
+                                    <span className="font-medium text-green-600">-₹{cart.discount.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between font-medium mt-2 pt-2 border-t border-gray-200">
+                                    <span>Total Amount:</span>
+                                    <span>₹{cart.totalDiscountedPrice.toFixed(2)}</span>
+                                </div>
+                            </div> */}
                         </div>
 
                         {/* Payment Methods */}
-                        <div className="bg-white rounded-lg shadow-sm p-6">
-                            <h2 className="text-lg font-semibold mb-4">Payment Method</h2>
+                        <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100">
+                            <div className="flex items-center mb-4">
+                                <div className="bg-orange-50 p-2 rounded-full mr-3">
+                                    <CreditCardIcon size={20} className="text-orange-600" />
+                                </div>
+                                <h2 className="text-lg font-semibold">Payment Method</h2>
+                            </div>
 
                             <div className="space-y-3">
                                 <div
-                                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${paymentMethod === 'card' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
-                                        }`}
+                                    className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'card' ? 'border-primary bg-primary-lightest shadow-sm' : 'border-gray-200 hover:border-gray-300'}`}
                                     onClick={() => handlePaymentMethodChange('card')}
                                 >
                                     <div className="flex items-center">
@@ -174,38 +247,27 @@ const SummaryPage = () => {
                                             name="paymentMethod"
                                             checked={paymentMethod === 'card'}
                                             onChange={() => handlePaymentMethodChange('card')}
-                                            className="h-4 w-4 text-blue-600 border-gray-300"
+                                            className="h-4 w-4 accent-primary"
                                         />
-                                        <div className="ml-3 flex items-center">
-                                            <CreditCardIcon size={20} className="text-gray-600 mr-2" />
-                                            <span className="font-medium">Credit / Debit Card</span>
+                                        <div className="ml-3 flex flex-col sm:flex-row sm:items-center justify-between w-full">
+                                            <div className="flex items-center">
+                                                <CreditCardIcon size={20} className="text-gray-600 mr-2" />
+                                                <span className="font-medium">Razorpay (Credit / Debit Card / UPI)</span>
+                                            </div>
+                                            <div className="ml-7 sm:ml-0 mt-2 sm:mt-0">
+                                                <span className="text-xs bg-primary-lighter text-primary px-2 py-1 rounded">Recommended</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    {paymentMethod === 'card' && (
+                                        <div className="ml-7 mt-2 text-sm text-gray-600">
+                                            Pay securely using Razorpay's payment gateway with Credit/Debit cards, UPI, or net banking.
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div
-                                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${paymentMethod === 'upi' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
-                                        }`}
-                                    onClick={() => handlePaymentMethodChange('upi')}
-                                >
-                                    <div className="flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="paymentMethod"
-                                            checked={paymentMethod === 'upi'}
-                                            onChange={() => handlePaymentMethodChange('upi')}
-                                            className="h-4 w-4 text-blue-600 border-gray-300"
-                                        />
-                                        <div className="ml-3 flex items-center">
-                                            <CircleDollarSignIcon size={20} className="text-gray-600 mr-2" />
-                                            <span className="font-medium">UPI Payment</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${paymentMethod === 'cod' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
-                                        }`}
+                                    className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'cod' ? 'border-primary bg-primary-lightest shadow-sm' : 'border-gray-200 hover:border-gray-300'}`}
                                     onClick={() => handlePaymentMethodChange('cod')}
                                 >
                                     <div className="flex items-center">
@@ -214,13 +276,18 @@ const SummaryPage = () => {
                                             name="paymentMethod"
                                             checked={paymentMethod === 'cod'}
                                             onChange={() => handlePaymentMethodChange('cod')}
-                                            className="h-4 w-4 text-blue-600 border-gray-300"
+                                            className="h-4 w-4 accent-primary"
                                         />
                                         <div className="ml-3 flex items-center">
                                             <WalletIcon size={20} className="text-gray-600 mr-2" />
                                             <span className="font-medium">Cash on Delivery</span>
                                         </div>
                                     </div>
+                                    {paymentMethod === 'cod' && (
+                                        <div className="ml-7 mt-2 text-sm text-gray-600">
+                                            Pay with cash when your order is delivered.
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -234,7 +301,8 @@ const SummaryPage = () => {
                                 selectedAddressId={selectedAddress}
                                 checkoutPath="/checkout/payment"
                                 disableCheckoutButton={!selectedAddress}
-                                customButtonText={selectedAddress ? "Continue to Payment" : "Select Address to Continue"}
+                                customButtonText={selectedAddress ? "Place Order" : "Select Address to Continue"}
+                                onClick={handleProceedToPayment}
                             />
                         </div>
                     )}
