@@ -1,6 +1,5 @@
 package com.ecommerce.model;
 
-import com.ecommerce.dto.AddressDto;
 import com.ecommerce.user.domain.OrderStatus;
 
 import jakarta.persistence.*;
@@ -51,9 +50,9 @@ public class Order {
 
     private int totalItem;
 
-    private LocalDateTime createdAt;
-
     @Column(name = "razorpay_order_id", unique = true)
     private String razorpayOrderId;
+
+    private LocalDateTime createdAt;
 
 }

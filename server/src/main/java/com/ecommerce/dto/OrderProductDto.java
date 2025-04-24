@@ -1,25 +1,23 @@
 package com.ecommerce.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 
-import java.time.LocalDateTime;
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItemDto {
+public class OrderProductDto {
 
     private Long id;
-    private CartProductDto product;
+    private String title;
+    private String brand;
+    private String color;
     private String size;
     private int quantity;
     private int price;
     private int discountedPrice;
     private int discountPercent;
-    private LocalDateTime createdAt;
+    private String preview;
 
 }

@@ -38,6 +38,8 @@ public class CartItem {
 
     private Integer discountedPrice;
 
+    private Integer discountPercent;
+
     private Long userId;
 
     private LocalDateTime createdAt;

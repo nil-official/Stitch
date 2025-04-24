@@ -136,6 +136,7 @@ public class CartServiceImplementation implements CartService {
                 cartItem.setSize(req.getSize());
                 cartItem.setQuantity(quantities);
                 cartItem.setUserId(userId);
+                cartItem.setDiscountPercent(product.getDiscountPercent());
                 cartItem.setCreatedAt(LocalDateTime.now());
 
                 // Set price for the new item

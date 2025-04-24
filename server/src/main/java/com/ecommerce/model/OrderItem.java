@@ -37,6 +37,8 @@ public class OrderItem {
 
     private Integer discountedPrice;
 
+    private Integer discountPercent;
+
     private Long userId;
 
     @Override

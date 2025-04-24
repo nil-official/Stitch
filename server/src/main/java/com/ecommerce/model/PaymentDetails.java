@@ -1,22 +1,32 @@
 package com.ecommerce.model;
 
-import com.ecommerce.user.domain.PaymentMethod;
-import com.ecommerce.user.domain.PaymentStatus;
-import lombok.*;
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+import java.time.LocalDateTime;
+
+@Embeddable
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDetails {
 
-    private String razorpayAccountId;
-    private String razorpayPaymentId;
-    private PaymentMethod razorpayPaymentMethod;
-    private String razorpayPaymentDescription;
-    private PaymentStatus razorpayPaymentStatus;
+    private String paymentMethod;
+    private String status;
+    private String paymentId;
+    private String signature;
+    private LocalDateTime paymentDate;
 
-    private String razorpayPaymentLinkId;
-    private String razorpayPaymentLinkUrl;
+//    private String razorpayAccountId;
+//    private String razorpayPaymentId;
+//    private PaymentMethod razorpayPaymentMethod;
+//    private String razorpayPaymentDescription;
+//    private PaymentStatus razorpayPaymentStatus;
+//    private String razorpayPaymentLinkId;
+//    private String razorpayPaymentLinkUrl;
 
 }

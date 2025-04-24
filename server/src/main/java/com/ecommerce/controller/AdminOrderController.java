@@ -31,23 +31,23 @@ public class AdminOrderController {
         return new ResponseEntity<>(orders, HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("/{orderId}/confirmed")
-    public ResponseEntity<OrderDto> ConfirmedOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") String jwt) throws OrderException {
-        OrderDto order = orderService.confirmedOrder(orderId);
-        return new ResponseEntity<>(order, HttpStatus.ACCEPTED);
-    }
-
-    @PutMapping("/{orderId}/ship")
-    public ResponseEntity<OrderDto> shippedOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") String jwt) throws OrderException {
-        OrderDto order = orderService.shippedOrder(orderId);
-        return new ResponseEntity<>(order, HttpStatus.ACCEPTED);
-    }
-
-    @PutMapping("/{orderId}/deliver")
-    public ResponseEntity<OrderDto> deliveredOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") String jwt) throws OrderException {
-        OrderDto order = orderService.deliveredOrder(orderId);
-        return new ResponseEntity<>(order, HttpStatus.ACCEPTED);
-    }
+//    @PutMapping("/{orderId}/confirmed")
+//    public ResponseEntity<OrderDto> ConfirmedOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") String jwt) throws OrderException {
+//        OrderDto order = orderService.confirmedOrder(orderId);
+//        return new ResponseEntity<>(order, HttpStatus.ACCEPTED);
+//    }
+//
+//    @PutMapping("/{orderId}/ship")
+//    public ResponseEntity<OrderDto> shippedOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") String jwt) throws OrderException {
+//        OrderDto order = orderService.shippedOrder(orderId);
+//        return new ResponseEntity<>(order, HttpStatus.ACCEPTED);
+//    }
+//
+//    @PutMapping("/{orderId}/deliver")
+//    public ResponseEntity<OrderDto> deliveredOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") String jwt) throws OrderException {
+//        OrderDto order = orderService.deliveredOrder(orderId);
+//        return new ResponseEntity<>(order, HttpStatus.ACCEPTED);
+//    }
 
     @PutMapping("/{orderId}/cancel")
     public ResponseEntity<OrderDto> canceledOrderHandler(@PathVariable Long orderId, @RequestHeader("Authorization") String jwt) throws OrderException {
