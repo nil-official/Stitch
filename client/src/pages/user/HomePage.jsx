@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetJustLoggedIn } from '../../redux/auth/action'
-import { getHomeProducts } from '../../redux/customer/home/action'
 import UserInfoDialog from '../../components/Home/UserInfoDialog'
 import HeroSection from '../../components/Home/HeroSection'
 import ProductSection from '../../components/Home/ProductSection'
+import { resetJustLoggedIn } from '../../redux/auth/action'
+import { getProfile } from '../../redux/customer/profile/action'
+import { getHomeProducts } from '../../redux/customer/home/action'
 
 const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
   const dispatch = useDispatch();
+  const { profile } = useSelector((state) => state.profile);
   const { justLoggedIn } = useSelector((state) => state.auth);
   const { products, loading, error } = useSelector((state) => state.home);
   const [showPopup, setShowPopup] = useState(false);
@@ -22,7 +24,11 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
   ];
 
   useEffect(() => {
-    if (justLoggedIn) {
+    if (!profile) dispatch(getProfile());
+  }, [profile, dispatch]);
+
+  useEffect(() => {
+    if (justLoggedIn && (!profile.gender || !profile.dob || !profile.height || !profile.weight)) {
       setShowPopup(true);
       dispatch(resetJustLoggedIn());
     }
@@ -36,6 +42,7 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
     <div className="min-h-screen bg-gray-100 text-gray-900">
       {showPopup &&
         <UserInfoDialog
+          profile={profile}
           onClose={() => setShowPopup(false)}
         />
       }

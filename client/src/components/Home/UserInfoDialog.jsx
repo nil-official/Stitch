@@ -1,22 +1,39 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import InputBox from "./InputBox";
 import SelectBox from "./SelectBox";
+import { updateProfile } from "../../redux/customer/profile/action";
 
-const UserInfoDialog = ({ onClose }) => {
+const UserInfoDialog = ({ profile, onClose }) => {
+
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
-        height: "",
-        weight: "",
-        age: "",
-        gender: ""
+        gender: profile.gender || '',
+        dob: profile.dob || '',
+        height: profile.height || '',
+        weight: profile.weight || '',
     });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const getChangedFields = () => {
+        const changed = {};
+        for (const key in formData) {
+            if (formData[key] !== profile[key]) {
+                changed[key] = formData[key];
+            }
+        }
+        return changed;
+    };
+
     const handleSubmit = () => {
-        console.log("User Info:", formData);
+        const updatedData = getChangedFields();
+        if (Object.keys(updatedData).length > 0) dispatch(updateProfile(updatedData));
         handleClose();
     };
 
@@ -50,6 +67,7 @@ const UserInfoDialog = ({ onClose }) => {
                                 label="Gender"
                                 name="gender"
                                 placeholder="Pick your identity"
+                                selectedValue={formData.gender || ''}
                                 onChange={handleChange}
                                 options={[
                                     { value: "male", label: "Male" },
@@ -58,15 +76,40 @@ const UserInfoDialog = ({ onClose }) => {
                                 ]}
                             />
 
-                            <InputBox label="Height (cm)" name="height" type="number" placeholder="How tall are you?" onChange={handleChange} />
-                            <InputBox label="Weight (kg)" name="weight" type="number" placeholder="Your weight in kg?" onChange={handleChange} />
-                            <InputBox label="Age" name="age" type="number" placeholder="Enter your age (in years)" onChange={handleChange} />
+                            <InputBox
+                                label="Date of Birth"
+                                name="dob"
+                                type="date"
+                                value={formData.dob && format(new Date(formData.dob), "yyyy-MM-dd")}
+                                onChange={handleChange}
+                            />
+
+                            <InputBox
+                                label="Height (cm)"
+                                name="height"
+                                type="number"
+                                placeholder="How tall are you?"
+                                value={formData.height || ''}
+                                onChange={handleChange}
+                            />
+
+                            <InputBox
+                                label="Weight (kg)"
+                                name="weight"
+                                type="number"
+                                placeholder="Your weight in kg?"
+                                value={formData.weight || ''}
+                                onChange={handleChange}
+                            />
 
                             <div className="flex justify-end gap-6 pt-4">
                                 <button className="text-white" onClick={handleClose}>
                                     Skip for now
                                 </button>
-                                <button className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700" onClick={handleSubmit}>
+                                <button
+                                    className="bg-gray-800 text-white py-2 px-6 rounded-md hover:bg-gray-700"
+                                    onClick={handleSubmit}
+                                >
                                     Submit
                                 </button>
                             </div>
