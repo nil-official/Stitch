@@ -7,7 +7,7 @@ const EmptyPage = ({ heading, image, title, description, button, forwardNav = '/
         <div className='min-h-[60vh] flex flex-col items-center gap-8 py-8 lg:py-12'>
             <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
                 <div className='flex items-center gap-4 mb-6'>
-                    <Link to={backwardNav} className="text-primary hover:text-primary-dark transition-all duration-300">
+                    <Link to={backwardNav} className="text-primary-700 hover:text-primary-800 transition-all duration-300">
                         <ChevronLeft size={32} />
                     </Link>
                     <p className="text-2xl font-semibold">{heading} (0 items)</p>
@@ -19,14 +19,14 @@ const EmptyPage = ({ heading, image, title, description, button, forwardNav = '/
                         alt={title}
                         className="h-40 object-contain"
                     />
-                    <h2 className="text-2xl font-bold text-primary mb-2">
+                    <h2 className="text-2xl font-bold text-primary-700 mb-2">
                         {title}
                     </h2>
-                    <p className="text-primary-light mb-10">
+                    <p className="text-primary-600 mb-10">
                         {description}
                     </p>
                     <Link to={forwardNav}>
-                        <button className="py-2 px-6 text-white rounded-md bg-primary hover:bg-primary-dark transition-all duration-300">
+                        <button className="py-2 px-6 text-white rounded-md bg-primary-700 hover:bg-primary-800 transition-all duration-300">
                             {button}
                         </button>
                     </Link>
