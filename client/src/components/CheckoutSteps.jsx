@@ -23,14 +23,14 @@ const CheckoutSteps = ({ currentStep, disabledSteps = [], className = '' }) => {
     const renderStepCircle = (step) => {
         const status = getStepStatus(step.id);
 
-        let bgColor = 'bg-primary-light-3x';
-        let textColor = 'text-primary-light-1x';
+        let bgColor = 'bg-primary-200';
+        let textColor = 'text-primary-400';
         let hoverColor = '';
 
         if (status === 'completed' || status === 'current') {
-            bgColor = 'bg-primary';
+            bgColor = 'bg-primary-700';
             textColor = 'text-white';
-            hoverColor = 'hover:bg-primary-dark';
+            hoverColor = 'hover:bg-primary-800';
         }
 
         return (
@@ -43,12 +43,12 @@ const CheckoutSteps = ({ currentStep, disabledSteps = [], className = '' }) => {
     const renderStepName = (step) => {
         const status = getStepStatus(step.id);
 
-        let textColor = 'text-primary-light-1x';
+        let textColor = 'text-primary-400';
         let hoverColor = '';
 
         if (status === 'completed' || status === 'current') {
-            textColor = 'text-primary';
-            hoverColor = 'hover:text-primary-dark';
+            textColor = 'text-primary-700';
+            hoverColor = 'hover:text-primary-800';
         }
 
         return (
@@ -60,10 +60,10 @@ const CheckoutSteps = ({ currentStep, disabledSteps = [], className = '' }) => {
 
     const renderDivider = (index) => {
         if (index < steps.length - 1) {
-            let dividerColor = 'text-primary-light-1x';
+            let dividerColor = 'text-primary-400';
 
             if (index < currentStep - 1) {
-                dividerColor = 'text-primary';
+                dividerColor = 'text-primary-700';
             }
 
             return (
