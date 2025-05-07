@@ -14,7 +14,7 @@ const HelpPage = () => {
 
     const addIssue = async (newIssue) => {
         try {
-            const response = await axios.post(`${BASE_URL}/api/issues/create`, newIssue, {
+            const response = await axios.post(`${BASE_URL}/api/issues`, newIssue, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
                 },
