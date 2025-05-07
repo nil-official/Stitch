@@ -11,7 +11,7 @@ export default function IssueList() {
     useEffect(() => {
         const fetchIssues = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}/api/issues/`, {
+                const response = await axios.get(`${BASE_URL}/api/issues`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
                     }
