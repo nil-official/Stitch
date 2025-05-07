@@ -30,7 +30,7 @@ const WishlistPage = () => {
     <div className='min-h-[60vh] flex flex-col items-center gap-8 py-8 lg:py-12'>
       <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
         <div className='flex items-center gap-4 mb-6'>
-          <Link to='/' className="text-primary hover:text-primary-dark transition-all duration-300">
+          <Link to='/' className="text-primary-700 hover:text-primary-800 transition-all duration-300">
             <ChevronLeft size={32} />
           </Link>
           <p className="text-2xl font-semibold">My Wishlist ({wishlist.length} items)</p>
