@@ -51,13 +51,10 @@ const SummaryPage = () => {
 
     const handleProceedToPayment = () => {
         dispatch(setOrderData({
-            user: profile,
-            cart: cart,
+            orderItems: cart.cartItems,
             address: selectedAddress,
             paymentMethod: paymentMethod === 'cod' ? "COD" : "RAZORPAY",
         }));
-
-        navigate('/checkout/payment');
     };
 
     if (cartError || addressError || profileError) {
@@ -126,7 +123,7 @@ const SummaryPage = () => {
                                 </div>
                                 <Link
                                     to="/checkout/shipping"
-                                    className="text-sm text-white bg-primary hover:bg-primary-light px-3 py-1 rounded-full transition duration-300"
+                                    className="text-sm text-white bg-primary-700 hover:bg-primary-600 px-3 py-1 rounded-full transition duration-300"
                                 >
                                     Change
                                 </Link>
@@ -164,7 +161,7 @@ const SummaryPage = () => {
                                 </div>
                                 <Link
                                     to="/checkout/cart"
-                                    className="text-sm text-white bg-primary hover:bg-primary-light px-3 py-1 rounded-full transition duration-300"
+                                    className="text-sm text-white bg-primary-700 hover:bg-primary-600 px-3 py-1 rounded-full transition duration-300"
                                 >
                                     Edit Cart
                                 </Link>
@@ -197,7 +194,7 @@ const SummaryPage = () => {
                                             {item.discountedPrice < item.price && (
                                                 <div className="flex items-center text-sm mt-1">
                                                     <p className="text-gray-500 line-through mr-2">₹{item.price * item.quantity}</p>
-                                                    <span className="bg-green-50 text-green-600 px-1.5 py-0.5 rounded text-xs font-medium">
+                                                    <span className="text-xs font-medium bg-success-50 text-success-600 px-2 py-1 rounded-md">
                                                         {item.product.discountPercent}% OFF
                                                     </span>
                                                 </div>
@@ -238,7 +235,7 @@ const SummaryPage = () => {
 
                             <div className="space-y-3">
                                 <div
-                                    className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'card' ? 'border-primary bg-primary-lightest shadow-sm' : 'border-gray-200 hover:border-gray-300'}`}
+                                    className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'card' ? 'border-primary-700 bg-primary-50 shadow-sm' : 'border-primary-200 hover:border-primary-300'}`}
                                     onClick={() => handlePaymentMethodChange('card')}
                                 >
                                     <div className="flex items-center">
@@ -247,7 +244,7 @@ const SummaryPage = () => {
                                             name="paymentMethod"
                                             checked={paymentMethod === 'card'}
                                             onChange={() => handlePaymentMethodChange('card')}
-                                            className="h-4 w-4 accent-primary"
+                                            className="h-4 w-4 accent-primary-700"
                                         />
                                         <div className="ml-3 flex flex-col sm:flex-row sm:items-center justify-between w-full">
                                             <div className="flex items-center">
@@ -255,7 +252,9 @@ const SummaryPage = () => {
                                                 <span className="font-medium">Razorpay (Credit / Debit Card / UPI)</span>
                                             </div>
                                             <div className="ml-7 sm:ml-0 mt-2 sm:mt-0">
-                                                <span className="text-xs bg-primary-lighter text-primary px-2 py-1 rounded">Recommended</span>
+                                                <span className="text-xs font-medium bg-success-50 text-success-600 px-2 py-1 rounded-md">
+                                                    Recommended
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -267,7 +266,7 @@ const SummaryPage = () => {
                                 </div>
 
                                 <div
-                                    className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'cod' ? 'border-primary bg-primary-lightest shadow-sm' : 'border-gray-200 hover:border-gray-300'}`}
+                                    className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'cod' ? 'border-primary-700 bg-primary-50 shadow-sm' : 'border-primary-200 hover:border-primary-300'}`}
                                     onClick={() => handlePaymentMethodChange('cod')}
                                 >
                                     <div className="flex items-center">
@@ -276,7 +275,7 @@ const SummaryPage = () => {
                                             name="paymentMethod"
                                             checked={paymentMethod === 'cod'}
                                             onChange={() => handlePaymentMethodChange('cod')}
-                                            className="h-4 w-4 accent-primary"
+                                            className="h-4 w-4 accent-primary-700"
                                         />
                                         <div className="ml-3 flex items-center">
                                             <WalletIcon size={20} className="text-gray-600 mr-2" />
