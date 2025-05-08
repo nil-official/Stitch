@@ -25,7 +25,7 @@ const TotalOrderComponent = ({ orderData, totalDetails, status }) => {
 
     const sendReview = async () => {
         try {
-            const res = await axios.post('/api/reviews/create', { productId, rating, review });
+            const res = await axios.post('/api/reviews', { productId, rating, review });
             if (res) {
                 setIsEditing(!isEditing);
                 toast.success('Review Added!')
