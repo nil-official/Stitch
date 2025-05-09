@@ -20,7 +20,7 @@ const ShippingPage = () => {
     const [currency, setCurrency] = useState('INR');
     const [showAddForm, setShowAddForm] = useState(false);
     const [editAddressId, setEditAddressId] = useState(null);
-    const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
+    const { cart, selectedItems, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
     const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
     const { address, selectedAddress, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
 
@@ -58,7 +58,7 @@ const ShippingPage = () => {
     }, [profile, dispatch]);
 
     useEffect(() => {
-        if (cart && cart.totalItem === 0) {
+        if ((cart && cart.totalItem === 0) || (selectedItems && selectedItems.length === 0)) {
             navigate('/checkout/cart');
         }
     }, [cart, navigate]);
@@ -193,7 +193,7 @@ const ShippingPage = () => {
                             />
                         )}
 
-                        <div className="rounded-lg shadow-sm">
+                        <div className="rounded-lg shadow-md mb-6 border border-primary-100">
                             <div className='p-4 bg-gray-50 border-b border-gray-200 rounded-t-md'>
                                 <h2 className="font-semibold">Select Delivery Address</h2>
                             </div>
