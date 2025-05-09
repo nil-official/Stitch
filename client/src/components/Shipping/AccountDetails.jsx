@@ -4,8 +4,8 @@ const AccountDetails = ({ profile, onChangeClick }) => {
     if (!profile) return null;
 
     return (
-        <div className="rounded-lg shadow-md mb-6 border border-primary-lighter">
-            <div className='p-4 bg-primary-lightest border-b border-primary-lighter rounded-t-md'>
+        <div className="rounded-lg shadow-md mb-6 border border-primary-100">
+            <div className='p-4 bg-primary-50 border-b border-primary-100 rounded-t-md'>
                 <h2 className="font-semibold">Account Information</h2>
             </div>
             <div className="flex justify-between items-center p-4">
@@ -15,7 +15,7 @@ const AccountDetails = ({ profile, onChangeClick }) => {
                 </div>
                 <button
                     onClick={onChangeClick}
-                    className="border border-gray-300 rounded px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-all duration-300"
+                    className="border border-primary-300 rounded px-4 py-2 text-sm font-medium text-primary-700 hover:bg-primary-100 transition-all duration-300"
                 >
                     Change
                 </button>
