@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 import Loader from '../Loader';
 import ErrorPage from '../../pages/ErrorPage';
 import ImageCarousel from './ImageCarousel'
 import StarRating from './StarRating';
 import { addToCart } from '../../redux/customer/cart/action';
+import { getProfile } from '../../redux/customer/profile/action';
 import { getProduct } from '../../redux/customer/product/action';
+import { PencilRuler, Ruler } from 'lucide-react';
+import { LiaTapeSolid } from "react-icons/lia";
 
 const ProductSection = ({ productId, scrollToReviews }) => {
 
@@ -13,6 +17,8 @@ const ProductSection = ({ productId, scrollToReviews }) => {
     const [size, setSize] = useState('');
     const [currency, setCurrency] = useState('INR');
     const [quantity, setQuantity] = useState(1);
+    const { cart } = useSelector((state) => state.cart);
+    const { profile } = useSelector((state) => state.profile);
     const { product, loading, error } = useSelector((state) => state.product);
     const isOutOfStock = product.quantity === 0 || false;
 
@@ -20,14 +26,37 @@ const ProductSection = ({ productId, scrollToReviews }) => {
         dispatch(getProduct(productId));
     }, [dispatch, productId]);
 
+    useEffect(() => {
+        if (!profile) dispatch(getProfile());
+    }, [profile, dispatch]);
+
+    const isRecommendedSize = (sizeName) => {
+        return profile?.predictedSizes?.includes(sizeName);
+    };
+
+    const getRecommendedSize = () => {
+        const recommendedSizes = profile?.predictedSizes?.filter(size => product?.sizes?.map(s => s.name).includes(size));
+        return recommendedSizes?.length > 0 ? recommendedSizes.join(', ') : null;
+    };
+
     const handleQuantityChange = (e) => {
         const value = e.target.value;
-        if (value !== '' && value !== 0) {
+        if (value > 5) {
+            toast.error("Maximum five units allowed per item.");
+        }
+        else if (value !== '' && value !== 0) {
             setQuantity(parseInt(value));
         }
     };
 
     const handleAddToCart = (productId, size, quantity) => {
+        const existingItem = cart.cartItems.find(
+            (item) => item.product.id === productId && item.size === size
+        );
+        if (existingItem && (existingItem.quantity + quantity > 5)) {
+            toast.error("You already have the maximum units allowed for this item in your cart.");
+            return;
+        }
         dispatch(addToCart(productId, size, quantity));
     };
 
@@ -85,18 +114,34 @@ const ProductSection = ({ productId, scrollToReviews }) => {
                                 type="button"
                                 onClick={() => setSize(item.name)}
                                 disabled={item.quantity === 0}
-                                className={`border rounded-md py-2 px-4 text-sm font-medium transition-all
+                                className={`border-2 rounded-md py-2 px-4 text-sm font-medium transition-all
                                     ${item.quantity === 0
                                         ? 'opacity-40'
                                         : item.name === size
-                                            ? 'bg-black text-white hover:bg-gray-800'
-                                            : 'border-gray-200 hover:bg-gray-100'}`}
+                                            ? 'bg-black border-black text-white hover:bg-gray-800'
+                                            : isRecommendedSize(item.name)
+                                                ? 'border-green-500 border-2 hover:bg-gray-100'
+                                                : 'border-gray-200 hover:bg-gray-100'
+                                    }`}
                             >
                                 {item.name}
                             </button>
                         ))}
                     </div>
                 </div>
+
+                {getRecommendedSize() && (
+                    <div className="flex items-center gap-2 mt-4 text-success-600">
+                        <PencilRuler className="h-4 w-4" />
+                        <span>
+                            We recommend size <span className="font-semibold">
+                                {getRecommendedSize()}
+                            </span> for <span className="font-semibold">
+                                {profile.firstName} {profile.lastName}
+                            </span>
+                        </span>
+                    </div>
+                )}
 
                 <div className="mt-10 flex sm:flex-col1 space-x-4">
                     <div className="w-24">
