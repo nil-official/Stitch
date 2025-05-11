@@ -110,6 +110,7 @@ public class ProductMapper {
         dto.setDiscountedPrice(product.getDiscountedPrice());
         dto.setDiscountPercent(product.getDiscountPercent());
         dto.setPreview(product.getPreview());
+        dto.setQuantity(product.getQuantity());
         return dto;
     }
 

@@ -23,5 +23,6 @@ public class CartProductDto {
     private int discountedPrice;
     private int discountPercent;
     private String preview;
+    private int quantity;
 
 }

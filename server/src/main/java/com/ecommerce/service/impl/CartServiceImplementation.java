@@ -116,10 +116,12 @@ public class CartServiceImplementation implements CartService {
 
             // Handle quantities
             int quantities = req.getQuantity();
-            if (quantities < 0) {
-                throw new ProductException("Quantity cannot be negative.");
-            } else if (quantities == 0) {
+            if (quantities == 0) {
                 quantities = 1;
+            } else if (quantities < 0) {
+                throw new ProductException("Quantity cannot be negative!");
+            } else if (quantities > 5) {
+                throw new ProductException("Maximum five units are allowed!");
             }
 
             // Check if the requested size is available
@@ -150,6 +152,10 @@ public class CartServiceImplementation implements CartService {
                 // If the item is already in the cart, update its quantity and price
                 int updatedQuantity = existingCartItem.getQuantity() + quantities;
 
+                if (updatedQuantity > 5) {
+                    throw new ProductException("Maximum five units are allowed!");
+                }
+
                 // Check if the requested size is available
                 checkSizeAvailability(product, req.getSize(), updatedQuantity);
 
@@ -158,16 +164,12 @@ public class CartServiceImplementation implements CartService {
                 int updatedPrice = updatedQuantity * product.getDiscountedPrice();
                 existingCartItem.setPrice(updatedPrice);
 
-                // Call the existing updateCartItem method
-                updateCartItem(userId, existingCartItem.getId(), req);
+                // Saving the cart item
+                cartItemRepository.save(existingCartItem);
             }
 
-        } catch (CartException e) {
+        } catch (Exception e) {
             throw new ProductException("Failed to process the cart: " + e.getMessage());
-        } catch (CartItemException e) {
-            throw new ProductException("Failed to process the cart item: " + e.getMessage());
-        } catch (UserException e) {
-            throw new ProductException("User not found or invalid: " + e.getMessage());
         }
 
     }
@@ -241,6 +243,9 @@ public class CartServiceImplementation implements CartService {
 
         // Only update quantity if it's present in the request
         if (cartRequest.getQuantity() != null) {
+            if (cartRequest.getQuantity() > 5) {
+                throw new CartItemException("Maximum five units are allowed!");
+            }
             // If only quantity is changing, check availability with current size
             if (cartRequest.getSize() == null) {
                 checkSizeAvailability(item.getProduct(), item.getSize(), cartRequest.getQuantity());
