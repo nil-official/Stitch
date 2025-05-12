@@ -6,5 +6,4 @@ router = APIRouter()
 
 @router.post("/rank")
 def rank_endpoint(request: ReviewRequest):
-    score = compute_rank_score(request.review, request.rating, request.totalRatings, request.avgRating)
-    return {"rankScore": score}
+    return compute_rank_score(request.review, request.rating, request.totalRatings, request.avgRating)

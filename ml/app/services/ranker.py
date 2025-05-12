@@ -17,4 +17,5 @@ def compute_rank_score(review, rating, totalRatings, avgRating):
     adjusted = (adjusted * totalRatings + rating) / (totalRatings + 1)
     norm_rating = adjusted * 2
     norm_sentiment = (sentiment_score + 1) * 5
-    return round((0.7 * norm_rating) + (0.3 * norm_sentiment), 4)
+    score = round((0.7 * norm_rating) + (0.3 * norm_sentiment), 4)
+    return {"rankScore": score}
