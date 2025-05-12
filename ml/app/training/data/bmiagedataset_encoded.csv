@@ -1,0 +1,2001 @@
+Height,Weight,Age,BodyType,BodyTypeIndex
+145,51,75,Overweight,4
+172,149,66,Extreme Obesity,0
+104,49,5,Extreme Obesity,0
+145,43,28,Normal,2
+133,189,57,Extreme Obesity,0
+108,48,10,Extreme Obesity,0
+182,125,53,Extreme Obesity,0
+174,61,46,Normal,2
+153,47,29,Normal,2
+119,52,17,Extreme Obesity,0
+165,50,6,Weak,5
+195,101,42,Overweight,4
+208,117,30,Overweight,4
+157,151,38,Extreme Obesity,0
+129,68,21,Extreme Obesity,0
+157,68,78,Overweight,4
+123,64,65,Extreme Obesity,0
+152,108,30,Extreme Obesity,0
+114,73,17,Extreme Obesity,0
+148,89,62,Extreme Obesity,0
+193,41,26,Extremely Weak,1
+183,93,74,Overweight,4
+139,124,36,Extreme Obesity,0
+145,64,78,Obesity,3
+125,58,15,Extreme Obesity,0
+201,162,60,Extreme Obesity,0
+129,84,29,Extreme Obesity,0
+197,143,26,Extreme Obesity,0
+182,89,51,Overweight,4
+120,177,25,Extreme Obesity,0
+127,115,20,Extreme Obesity,0
+192,73,70,Normal,2
+180,176,54,Extreme Obesity,0
+205,193,59,Extreme Obesity,0
+120,21,15,Extremely Weak,1
+127,92,19,Extreme Obesity,0
+137,90,29,Extreme Obesity,0
+120,94,50,Extreme Obesity,0
+180,52,28,Weak,5
+128,124,27,Extreme Obesity,0
+180,90,67,Overweight,4
+193,48,33,Extremely Weak,1
+184,122,47,Extreme Obesity,0
+149,68,21,Obesity,3
+209,126,23,Overweight,4
+188,174,29,Extreme Obesity,0
+137,190,24,Extreme Obesity,0
+166,48,14,Weak,5
+192,110,27,Overweight,4
+208,155,67,Extreme Obesity,0
+209,188,23,Extreme Obesity,0
+166,77,15,Overweight,4
+198,163,59,Extreme Obesity,0
+142,180,28,Extreme Obesity,0
+120,157,65,Extreme Obesity,0
+145,104,41,Extreme Obesity,0
+178,172,36,Extreme Obesity,0
+206,190,80,Extreme Obesity,0
+149,45,10,Normal,2
+144,184,61,Extreme Obesity,0
+116,29,15,Normal,2
+170,76,12,Overweight,4
+188,65,50,Weak,5
+144,182,22,Extreme Obesity,0
+160,162,60,Extreme Obesity,0
+140,35,14,Weak,5
+204,52,52,Extremely Weak,1
+152,143,50,Extreme Obesity,0
+134,123,18,Extreme Obesity,0
+190,112,20,Obesity,3
+204,122,74,Obesity,3
+193,46,36,Extremely Weak,1
+148,44,39,Normal,2
+164,41,26,Extremely Weak,1
+192,142,51,Extreme Obesity,0
+210,144,20,Obesity,3
+177,192,61,Extreme Obesity,0
+126,143,67,Extreme Obesity,0
+125,186,56,Extreme Obesity,0
+183,47,77,Extremely Weak,1
+154,168,63,Extreme Obesity,0
+183,172,47,Extreme Obesity,0
+178,175,59,Extreme Obesity,0
+195,143,21,Extreme Obesity,0
+115,79,13,Extreme Obesity,0
+142,70,11,Obesity,3
+205,107,28,Overweight,4
+174,103,54,Obesity,3
+196,140,79,Extreme Obesity,0
+122,73,16,Extreme Obesity,0
+141,26,15,Extremely Weak,1
+166,132,66,Extreme Obesity,0
+146,87,74,Extreme Obesity,0
+129,156,78,Extreme Obesity,0
+201,55,28,Extremely Weak,1
+140,137,77,Extreme Obesity,0
+195,146,78,Extreme Obesity,0
+159,100,31,Extreme Obesity,0
+120,80,57,Extreme Obesity,0
+121,137,46,Extreme Obesity,0
+104,37,13,Obesity,3
+129,104,20,Extreme Obesity,0
+206,160,60,Extreme Obesity,0
+176,85,41,Overweight,4
+170,113,44,Extreme Obesity,0
+170,59,53,Normal,2
+179,122,79,Extreme Obesity,0
+142,103,76,Extreme Obesity,0
+153,43,14,Weak,5
+127,160,78,Extreme Obesity,0
+127,81,63,Extreme Obesity,0
+210,124,78,Overweight,4
+133,45,12,Normal,2
+170,49,64,Weak,5
+155,193,38,Extreme Obesity,0
+163,160,72,Extreme Obesity,0
+166,58,6,Normal,2
+142,128,26,Extreme Obesity,0
+126,49,80,Obesity,3
+123,102,58,Extreme Obesity,0
+181,46,57,Extremely Weak,1
+132,131,73,Extreme Obesity,0
+208,100,54,Normal,2
+154,64,10,Overweight,4
+165,181,22,Extreme Obesity,0
+176,42,77,Extremely Weak,1
+199,141,19,Extreme Obesity,0
+175,20,16,Extremely Weak,1
+142,145,45,Extreme Obesity,0
+148,40,30,Weak,5
+153,164,26,Extreme Obesity,0
+156,131,63,Extreme Obesity,0
+178,67,8,Normal,2
+128,27,11,Extremely Weak,1
+174,164,62,Extreme Obesity,0
+130,166,31,Extreme Obesity,0
+157,66,77,Overweight,4
+179,53,46,Weak,5
+163,30,13,Extremely Weak,1
+210,166,29,Extreme Obesity,0
+121,79,19,Extreme Obesity,0
+170,44,35,Extremely Weak,1
+185,85,57,Normal,2
+199,163,31,Extreme Obesity,0
+139,44,15,Normal,2
+177,70,75,Normal,2
+124,63,6,Extreme Obesity,0
+177,37,11,Extremely Weak,1
+131,105,54,Extreme Obesity,0
+145,91,79,Extreme Obesity,0
+199,125,26,Obesity,3
+103,56,12,Extreme Obesity,0
+203,96,50,Normal,2
+191,66,37,Weak,5
+158,67,20,Overweight,4
+151,75,61,Obesity,3
+122,57,58,Extreme Obesity,0
+187,96,60,Overweight,4
+131,69,17,Extreme Obesity,0
+190,51,41,Extremely Weak,1
+205,72,37,Weak,5
+147,144,20,Extreme Obesity,0
+210,114,68,Overweight,4
+163,82,72,Obesity,3
+122,157,27,Extreme Obesity,0
+206,116,57,Overweight,4
+123,184,32,Extreme Obesity,0
+170,76,72,Overweight,4
+208,80,31,Weak,5
+201,145,25,Extreme Obesity,0
+155,155,62,Extreme Obesity,0
+174,97,49,Obesity,3
+172,133,66,Extreme Obesity,0
+155,76,54,Obesity,3
+169,141,33,Extreme Obesity,0
+170,184,66,Extreme Obesity,0
+128,173,43,Extreme Obesity,0
+139,118,64,Extreme Obesity,0
+157,188,50,Extreme Obesity,0
+128,158,34,Extreme Obesity,0
+149,64,8,Overweight,4
+178,144,59,Extreme Obesity,0
+181,44,52,Extremely Weak,1
+143,184,18,Extreme Obesity,0
+141,47,16,Normal,2
+152,74,19,Obesity,3
+160,54,37,Normal,2
+186,67,28,Normal,2
+124,78,9,Extreme Obesity,0
+193,82,57,Normal,2
+193,107,46,Overweight,4
+128,31,6,Weak,5
+185,76,48,Normal,2
+133,67,53,Extreme Obesity,0
+131,73,60,Extreme Obesity,0
+204,174,43,Extreme Obesity,0
+142,99,19,Extreme Obesity,0
+136,130,60,Extreme Obesity,0
+150,152,77,Extreme Obesity,0
+113,59,16,Extreme Obesity,0
+129,99,24,Extreme Obesity,0
+159,199,70,Extreme Obesity,0
+174,145,31,Extreme Obesity,0
+202,199,27,Extreme Obesity,0
+158,88,28,Extreme Obesity,0
+199,116,29,Overweight,4
+161,111,59,Extreme Obesity,0
+135,74,26,Extreme Obesity,0
+135,156,18,Extreme Obesity,0
+180,64,51,Normal,2
+143,63,33,Obesity,3
+141,64,20,Obesity,3
+131,146,69,Extreme Obesity,0
+195,87,52,Normal,2
+199,193,63,Extreme Obesity,0
+149,159,46,Extreme Obesity,0
+148,186,32,Extreme Obesity,0
+134,162,39,Extreme Obesity,0
+205,157,41,Extreme Obesity,0
+131,69,71,Extreme Obesity,0
+177,59,71,Normal,2
+197,99,73,Overweight,4
+128,188,21,Extreme Obesity,0
+148,113,73,Extreme Obesity,0
+114,73,11,Extreme Obesity,0
+176,154,66,Extreme Obesity,0
+185,194,67,Extreme Obesity,0
+182,64,49,Normal,2
+131,61,40,Extreme Obesity,0
+123,68,51,Extreme Obesity,0
+183,96,45,Overweight,4
+203,54,45,Extremely Weak,1
+177,175,50,Extreme Obesity,0
+198,158,25,Extreme Obesity,0
+156,62,7,Normal,2
+175,185,80,Extreme Obesity,0
+177,42,80,Extremely Weak,1
+200,173,70,Extreme Obesity,0
+130,174,48,Extreme Obesity,0
+185,62,26,Weak,5
+144,80,74,Extreme Obesity,0
+201,137,76,Obesity,3
+128,177,64,Extreme Obesity,0
+184,168,36,Extreme Obesity,0
+181,128,37,Extreme Obesity,0
+158,65,73,Overweight,4
+142,71,16,Obesity,3
+200,60,66,Weak,5
+127,58,19,Extreme Obesity,0
+146,132,39,Extreme Obesity,0
+119,26,8,Weak,5
+177,72,65,Normal,2
+143,83,69,Extreme Obesity,0
+179,118,48,Extreme Obesity,0
+146,88,21,Extreme Obesity,0
+207,162,49,Extreme Obesity,0
+133,54,20,Obesity,3
+136,52,11,Overweight,4
+167,44,63,Weak,5
+198,139,62,Extreme Obesity,0
+178,113,68,Extreme Obesity,0
+197,87,60,Normal,2
+122,108,24,Extreme Obesity,0
+154,104,76,Extreme Obesity,0
+165,199,26,Extreme Obesity,0
+206,82,27,Normal,2
+140,121,29,Extreme Obesity,0
+206,109,49,Overweight,4
+138,148,52,Extreme Obesity,0
+195,160,70,Extreme Obesity,0
+128,89,21,Extreme Obesity,0
+147,77,64,Extreme Obesity,0
+148,54,16,Normal,2
+165,62,11,Normal,2
+134,180,52,Extreme Obesity,0
+194,146,63,Extreme Obesity,0
+147,75,47,Obesity,3
+196,40,48,Extremely Weak,1
+188,195,32,Extreme Obesity,0
+154,195,50,Extreme Obesity,0
+195,120,19,Obesity,3
+145,199,24,Extreme Obesity,0
+130,76,78,Extreme Obesity,0
+147,166,33,Extreme Obesity,0
+110,39,14,Obesity,3
+170,75,17,Normal,2
+178,162,61,Extreme Obesity,0
+161,129,80,Extreme Obesity,0
+178,51,26,Weak,5
+167,133,28,Extreme Obesity,0
+160,53,17,Normal,2
+148,41,34,Normal,2
+146,51,7,Normal,2
+125,80,41,Extreme Obesity,0
+152,99,48,Extreme Obesity,0
+210,47,18,Extremely Weak,1
+187,107,53,Obesity,3
+204,149,64,Extreme Obesity,0
+198,85,29,Normal,2
+138,57,66,Obesity,3
+150,133,29,Extreme Obesity,0
+155,41,9,Weak,5
+152,55,69,Normal,2
+134,45,78,Overweight,4
+123,73,15,Extreme Obesity,0
+166,143,37,Extreme Obesity,0
+207,70,80,Weak,5
+179,95,71,Obesity,3
+132,197,31,Extreme Obesity,0
+147,155,25,Extreme Obesity,0
+180,111,65,Extreme Obesity,0
+155,91,71,Extreme Obesity,0
+128,180,68,Extreme Obesity,0
+159,35,17,Extremely Weak,1
+104,33,7,Overweight,4
+176,48,8,Extremely Weak,1
+133,151,71,Extreme Obesity,0
+180,148,71,Extreme Obesity,0
+177,61,22,Normal,2
+164,182,33,Extreme Obesity,0
+144,56,15,Overweight,4
+139,64,68,Obesity,3
+126,106,76,Extreme Obesity,0
+191,48,44,Extremely Weak,1
+189,63,74,Normal,2
+163,108,38,Extreme Obesity,0
+132,109,80,Extreme Obesity,0
+140,187,53,Extreme Obesity,0
+143,152,28,Extreme Obesity,0
+125,73,5,Extreme Obesity,0
+198,123,51,Obesity,3
+143,160,25,Extreme Obesity,0
+199,123,24,Obesity,3
+143,80,77,Extreme Obesity,0
+130,68,48,Extreme Obesity,0
+159,115,58,Extreme Obesity,0
+127,51,12,Obesity,3
+171,182,50,Extreme Obesity,0
+172,57,26,Normal,2
+177,168,47,Extreme Obesity,0
+148,193,67,Extreme Obesity,0
+180,125,68,Extreme Obesity,0
+197,54,53,Extremely Weak,1
+195,85,72,Normal,2
+209,138,34,Obesity,3
+165,150,67,Extreme Obesity,0
+126,130,64,Extreme Obesity,0
+161,60,21,Normal,2
+195,65,71,Weak,5
+172,96,26,Obesity,3
+193,146,64,Extreme Obesity,0
+167,64,42,Normal,2
+186,120,23,Obesity,3
+163,176,20,Extreme Obesity,0
+203,63,31,Extremely Weak,1
+168,67,67,Normal,2
+140,58,64,Obesity,3
+125,172,70,Extreme Obesity,0
+127,111,44,Extreme Obesity,0
+169,99,72,Extreme Obesity,0
+182,108,24,Obesity,3
+127,159,25,Extreme Obesity,0
+209,188,44,Extreme Obesity,0
+145,22,12,Extremely Weak,1
+177,199,24,Extreme Obesity,0
+191,45,57,Extremely Weak,1
+155,56,27,Normal,2
+125,192,52,Extreme Obesity,0
+134,75,70,Extreme Obesity,0
+111,44,13,Obesity,3
+147,107,36,Extreme Obesity,0
+210,173,67,Extreme Obesity,0
+127,105,61,Extreme Obesity,0
+124,24,13,Extremely Weak,1
+102,35,15,Obesity,3
+183,58,46,Weak,5
+176,76,51,Normal,2
+192,73,48,Normal,2
+148,42,9,Weak,5
+183,46,62,Extremely Weak,1
+127,199,30,Extreme Obesity,0
+169,70,5,Normal,2
+148,51,40,Normal,2
+188,126,32,Extreme Obesity,0
+209,148,65,Obesity,3
+145,117,21,Extreme Obesity,0
+184,194,56,Extreme Obesity,0
+198,79,49,Normal,2
+157,78,48,Obesity,3
+141,73,15,Extreme Obesity,0
+195,93,40,Normal,2
+150,158,56,Extreme Obesity,0
+143,76,14,Extreme Obesity,0
+130,58,78,Extreme Obesity,0
+204,167,30,Extreme Obesity,0
+173,96,53,Obesity,3
+145,126,33,Extreme Obesity,0
+166,43,42,Extremely Weak,1
+121,193,49,Extreme Obesity,0
+185,90,59,Overweight,4
+170,90,42,Obesity,3
+150,122,60,Extreme Obesity,0
+170,52,40,Weak,5
+208,48,33,Extremely Weak,1
+140,35,16,Weak,5
+130,122,53,Extreme Obesity,0
+157,67,9,Overweight,4
+151,36,12,Extremely Weak,1
+141,179,35,Extreme Obesity,0
+153,68,48,Overweight,4
+164,197,19,Extreme Obesity,0
+149,77,31,Obesity,3
+209,158,61,Extreme Obesity,0
+151,160,70,Extreme Obesity,0
+127,139,19,Extreme Obesity,0
+175,121,66,Extreme Obesity,0
+150,128,60,Extreme Obesity,0
+138,68,71,Extreme Obesity,0
+123,130,23,Extreme Obesity,0
+159,35,8,Extremely Weak,1
+199,109,68,Overweight,4
+148,116,53,Extreme Obesity,0
+101,45,17,Extreme Obesity,0
+209,71,67,Weak,5
+116,75,9,Extreme Obesity,0
+160,21,14,Extremely Weak,1
+152,88,70,Extreme Obesity,0
+151,64,30,Overweight,4
+135,140,77,Extreme Obesity,0
+159,20,6,Extremely Weak,1
+160,168,56,Extreme Obesity,0
+162,44,67,Weak,5
+178,27,17,Extremely Weak,1
+159,155,56,Extreme Obesity,0
+146,181,56,Extreme Obesity,0
+137,47,15,Normal,2
+176,188,19,Extreme Obesity,0
+197,40,71,Extremely Weak,1
+137,110,29,Extreme Obesity,0
+113,34,15,Overweight,4
+100,53,5,Extreme Obesity,0
+179,84,78,Overweight,4
+165,25,14,Extremely Weak,1
+157,78,67,Obesity,3
+199,114,56,Overweight,4
+157,90,74,Extreme Obesity,0
+200,84,38,Normal,2
+124,136,66,Extreme Obesity,0
+175,89,64,Obesity,3
+155,178,50,Extreme Obesity,0
+127,55,37,Obesity,3
+142,183,60,Extreme Obesity,0
+158,146,37,Extreme Obesity,0
+107,64,15,Extreme Obesity,0
+170,94,19,Obesity,3
+198,52,79,Extremely Weak,1
+135,75,64,Extreme Obesity,0
+172,186,66,Extreme Obesity,0
+145,66,7,Obesity,3
+126,39,6,Normal,2
+151,64,17,Overweight,4
+193,135,60,Extreme Obesity,0
+129,60,10,Extreme Obesity,0
+164,60,71,Normal,2
+120,45,19,Obesity,3
+120,97,23,Extreme Obesity,0
+182,124,53,Extreme Obesity,0
+178,106,40,Obesity,3
+120,172,52,Extreme Obesity,0
+154,53,53,Normal,2
+156,31,14,Extremely Weak,1
+198,143,57,Extreme Obesity,0
+175,27,11,Extremely Weak,1
+135,112,74,Extreme Obesity,0
+125,168,22,Extreme Obesity,0
+112,60,16,Extreme Obesity,0
+122,162,43,Extreme Obesity,0
+171,80,8,Overweight,4
+170,109,63,Extreme Obesity,0
+167,106,25,Extreme Obesity,0
+191,151,73,Extreme Obesity,0
+180,189,65,Extreme Obesity,0
+138,174,47,Extreme Obesity,0
+189,83,80,Normal,2
+169,166,37,Extreme Obesity,0
+152,100,77,Extreme Obesity,0
+176,159,57,Extreme Obesity,0
+134,110,47,Extreme Obesity,0
+118,69,9,Extreme Obesity,0
+148,138,37,Extreme Obesity,0
+169,70,30,Normal,2
+180,180,60,Extreme Obesity,0
+173,137,43,Extreme Obesity,0
+121,77,14,Extreme Obesity,0
+208,53,62,Extremely Weak,1
+132,94,20,Extreme Obesity,0
+180,84,41,Overweight,4
+174,150,43,Extreme Obesity,0
+141,64,9,Obesity,3
+156,113,75,Extreme Obesity,0
+182,161,49,Extreme Obesity,0
+145,183,49,Extreme Obesity,0
+150,52,34,Normal,2
+170,78,59,Overweight,4
+201,106,39,Overweight,4
+172,164,23,Extreme Obesity,0
+133,167,44,Extreme Obesity,0
+134,92,47,Extreme Obesity,0
+126,126,69,Extreme Obesity,0
+163,114,64,Extreme Obesity,0
+142,41,10,Normal,2
+202,110,70,Overweight,4
+163,50,33,Normal,2
+199,197,68,Extreme Obesity,0
+203,172,39,Extreme Obesity,0
+169,170,67,Extreme Obesity,0
+154,42,7,Weak,5
+177,26,12,Extremely Weak,1
+134,117,59,Extreme Obesity,0
+146,140,80,Extreme Obesity,0
+143,48,67,Normal,2
+152,144,42,Extreme Obesity,0
+176,68,22,Normal,2
+191,196,38,Extreme Obesity,0
+149,179,18,Extreme Obesity,0
+184,194,50,Extreme Obesity,0
+137,50,47,Overweight,4
+141,65,66,Obesity,3
+168,183,47,Extreme Obesity,0
+163,121,33,Extreme Obesity,0
+142,55,60,Overweight,4
+132,79,21,Extreme Obesity,0
+121,180,60,Extreme Obesity,0
+138,96,62,Extreme Obesity,0
+178,65,16,Normal,2
+202,151,70,Extreme Obesity,0
+152,169,57,Extreme Obesity,0
+119,26,16,Weak,5
+154,108,26,Extreme Obesity,0
+133,37,12,Normal,2
+203,70,28,Weak,5
+166,146,67,Extreme Obesity,0
+140,103,67,Extreme Obesity,0
+188,48,27,Extremely Weak,1
+209,163,80,Extreme Obesity,0
+168,46,37,Weak,5
+155,66,62,Overweight,4
+139,200,64,Extreme Obesity,0
+175,168,68,Extreme Obesity,0
+176,173,49,Extreme Obesity,0
+131,125,48,Extreme Obesity,0
+207,44,42,Extremely Weak,1
+193,190,64,Extreme Obesity,0
+169,140,18,Extreme Obesity,0
+126,161,46,Extreme Obesity,0
+190,133,41,Extreme Obesity,0
+126,162,39,Extreme Obesity,0
+201,42,72,Extremely Weak,1
+153,165,36,Extreme Obesity,0
+157,86,65,Extreme Obesity,0
+125,102,49,Extreme Obesity,0
+121,84,60,Extreme Obesity,0
+187,191,26,Extreme Obesity,0
+100,78,7,Extreme Obesity,0
+201,113,53,Overweight,4
+194,104,47,Overweight,4
+180,62,74,Normal,2
+174,121,73,Extreme Obesity,0
+180,23,11,Extremely Weak,1
+129,177,40,Extreme Obesity,0
+173,63,74,Normal,2
+192,127,24,Obesity,3
+156,147,80,Extreme Obesity,0
+195,152,50,Extreme Obesity,0
+171,40,8,Extremely Weak,1
+135,135,45,Extreme Obesity,0
+175,73,17,Normal,2
+127,67,11,Extreme Obesity,0
+155,55,7,Normal,2
+128,124,76,Extreme Obesity,0
+161,178,30,Extreme Obesity,0
+126,54,16,Obesity,3
+170,105,78,Extreme Obesity,0
+179,54,15,Extremely Weak,1
+137,188,36,Extreme Obesity,0
+148,165,41,Extreme Obesity,0
+186,86,47,Normal,2
+177,72,65,Normal,2
+176,154,47,Extreme Obesity,0
+143,114,65,Extreme Obesity,0
+133,168,30,Extreme Obesity,0
+157,52,20,Normal,2
+191,108,47,Overweight,4
+151,195,40,Extreme Obesity,0
+193,85,55,Normal,2
+136,182,39,Extreme Obesity,0
+168,81,45,Overweight,4
+165,105,29,Extreme Obesity,0
+162,129,25,Extreme Obesity,0
+207,186,56,Extreme Obesity,0
+178,108,47,Obesity,3
+141,110,18,Extreme Obesity,0
+166,51,53,Normal,2
+201,96,57,Normal,2
+129,29,11,Weak,5
+120,130,48,Extreme Obesity,0
+116,55,17,Extreme Obesity,0
+155,60,22,Normal,2
+205,165,74,Extreme Obesity,0
+181,151,29,Extreme Obesity,0
+161,125,19,Extreme Obesity,0
+209,59,25,Extremely Weak,1
+178,141,67,Extreme Obesity,0
+134,149,76,Extreme Obesity,0
+129,104,48,Extreme Obesity,0
+181,196,20,Extreme Obesity,0
+174,123,54,Extreme Obesity,0
+209,97,21,Normal,2
+166,178,80,Extreme Obesity,0
+126,175,45,Extreme Obesity,0
+207,163,59,Extreme Obesity,0
+160,160,62,Extreme Obesity,0
+183,126,50,Extreme Obesity,0
+105,21,12,Weak,5
+167,141,34,Extreme Obesity,0
+120,58,8,Extreme Obesity,0
+145,172,47,Extreme Obesity,0
+158,118,53,Extreme Obesity,0
+190,184,33,Extreme Obesity,0
+187,95,27,Overweight,4
+210,182,39,Extreme Obesity,0
+157,156,20,Extreme Obesity,0
+186,40,27,Extremely Weak,1
+148,99,67,Extreme Obesity,0
+204,190,32,Extreme Obesity,0
+142,102,23,Extreme Obesity,0
+164,105,47,Extreme Obesity,0
+170,185,46,Extreme Obesity,0
+177,78,64,Overweight,4
+165,61,10,Normal,2
+143,136,60,Extreme Obesity,0
+155,45,23,Normal,2
+177,94,61,Obesity,3
+183,118,51,Extreme Obesity,0
+129,157,52,Extreme Obesity,0
+156,133,47,Extreme Obesity,0
+153,121,63,Extreme Obesity,0
+187,158,28,Extreme Obesity,0
+170,20,15,Extremely Weak,1
+195,56,45,Extremely Weak,1
+162,77,16,Overweight,4
+142,85,40,Extreme Obesity,0
+152,38,16,Extremely Weak,1
+185,67,58,Normal,2
+194,104,28,Overweight,4
+195,44,48,Extremely Weak,1
+158,54,11,Normal,2
+129,197,42,Extreme Obesity,0
+173,134,40,Extreme Obesity,0
+207,167,50,Extreme Obesity,0
+134,70,74,Extreme Obesity,0
+154,188,29,Extreme Obesity,0
+196,150,48,Extreme Obesity,0
+168,83,58,Overweight,4
+153,20,5,Extremely Weak,1
+165,70,74,Overweight,4
+133,116,37,Extreme Obesity,0
+192,86,27,Normal,2
+186,138,47,Extreme Obesity,0
+208,79,53,Weak,5
+165,39,15,Extremely Weak,1
+169,80,54,Overweight,4
+186,138,49,Extreme Obesity,0
+165,171,66,Extreme Obesity,0
+175,50,40,Weak,5
+153,79,17,Obesity,3
+141,139,42,Extreme Obesity,0
+129,146,40,Extreme Obesity,0
+172,129,25,Extreme Obesity,0
+172,46,12,Extremely Weak,1
+126,135,54,Extreme Obesity,0
+154,51,36,Normal,2
+175,81,31,Overweight,4
+175,124,49,Extreme Obesity,0
+140,67,6,Obesity,3
+171,197,66,Extreme Obesity,0
+187,93,32,Overweight,4
+137,158,73,Extreme Obesity,0
+168,145,26,Extreme Obesity,0
+102,24,11,Normal,2
+172,79,23,Overweight,4
+159,161,57,Extreme Obesity,0
+125,64,26,Extreme Obesity,0
+160,31,11,Extremely Weak,1
+158,63,24,Overweight,4
+184,154,57,Extreme Obesity,0
+191,91,28,Normal,2
+164,81,31,Obesity,3
+126,112,55,Extreme Obesity,0
+169,23,8,Extremely Weak,1
+165,101,22,Extreme Obesity,0
+117,39,13,Overweight,4
+102,23,13,Normal,2
+146,63,77,Obesity,3
+188,173,60,Extreme Obesity,0
+141,140,42,Extreme Obesity,0
+166,161,54,Extreme Obesity,0
+127,41,64,Overweight,4
+153,136,29,Extreme Obesity,0
+104,33,6,Overweight,4
+178,114,41,Extreme Obesity,0
+125,67,75,Extreme Obesity,0
+161,60,10,Normal,2
+170,186,31,Extreme Obesity,0
+172,169,35,Extreme Obesity,0
+153,79,46,Obesity,3
+179,160,22,Extreme Obesity,0
+122,61,38,Extreme Obesity,0
+204,57,18,Extremely Weak,1
+110,59,5,Extreme Obesity,0
+153,123,21,Extreme Obesity,0
+129,193,32,Extreme Obesity,0
+199,74,62,Normal,2
+148,64,15,Overweight,4
+154,101,38,Extreme Obesity,0
+202,63,24,Extremely Weak,1
+132,157,70,Extreme Obesity,0
+139,51,63,Overweight,4
+139,42,7,Normal,2
+187,72,80,Normal,2
+177,168,68,Extreme Obesity,0
+152,106,33,Extreme Obesity,0
+161,55,48,Normal,2
+160,27,6,Extremely Weak,1
+135,137,22,Extreme Obesity,0
+202,129,31,Obesity,3
+142,200,73,Extreme Obesity,0
+167,26,17,Extremely Weak,1
+207,181,72,Extreme Obesity,0
+155,129,61,Extreme Obesity,0
+170,36,15,Extremely Weak,1
+192,120,37,Obesity,3
+178,35,8,Extremely Weak,1
+142,93,49,Extreme Obesity,0
+106,58,7,Extreme Obesity,0
+198,198,66,Extreme Obesity,0
+208,106,51,Normal,2
+132,132,32,Extreme Obesity,0
+167,32,15,Extremely Weak,1
+154,105,30,Extreme Obesity,0
+181,171,44,Extreme Obesity,0
+162,61,17,Normal,2
+170,103,44,Extreme Obesity,0
+206,151,39,Extreme Obesity,0
+125,66,59,Extreme Obesity,0
+140,47,30,Normal,2
+165,86,80,Obesity,3
+116,20,6,Extremely Weak,1
+162,112,59,Extreme Obesity,0
+172,155,46,Extreme Obesity,0
+138,186,35,Extreme Obesity,0
+135,60,44,Obesity,3
+132,68,17,Extreme Obesity,0
+101,75,6,Extreme Obesity,0
+171,73,65,Overweight,4
+205,54,78,Extremely Weak,1
+181,104,61,Obesity,3
+176,49,9,Extremely Weak,1
+195,197,58,Extreme Obesity,0
+177,104,54,Obesity,3
+157,96,80,Extreme Obesity,0
+137,51,41,Overweight,4
+139,144,66,Extreme Obesity,0
+136,78,64,Extreme Obesity,0
+198,193,53,Extreme Obesity,0
+186,184,35,Extreme Obesity,0
+194,108,43,Overweight,4
+180,64,60,Normal,2
+209,166,22,Extreme Obesity,0
+156,89,80,Extreme Obesity,0
+200,150,21,Extreme Obesity,0
+172,64,11,Normal,2
+118,47,5,Obesity,3
+162,30,15,Extremely Weak,1
+209,154,52,Extreme Obesity,0
+144,72,8,Obesity,3
+146,79,15,Extreme Obesity,0
+191,57,52,Extremely Weak,1
+128,84,61,Extreme Obesity,0
+195,143,37,Extreme Obesity,0
+120,71,53,Extreme Obesity,0
+167,129,40,Extreme Obesity,0
+193,177,35,Extreme Obesity,0
+166,191,57,Extreme Obesity,0
+150,69,68,Obesity,3
+162,56,60,Normal,2
+141,181,69,Extreme Obesity,0
+205,157,57,Extreme Obesity,0
+167,60,44,Normal,2
+184,135,38,Extreme Obesity,0
+156,181,78,Extreme Obesity,0
+179,95,18,Overweight,4
+121,180,70,Extreme Obesity,0
+120,159,57,Extreme Obesity,0
+172,84,55,Overweight,4
+162,84,20,Obesity,3
+142,146,71,Extreme Obesity,0
+160,159,46,Extreme Obesity,0
+122,52,61,Extreme Obesity,0
+155,78,38,Obesity,3
+152,32,9,Extremely Weak,1
+148,65,43,Overweight,4
+156,121,65,Extreme Obesity,0
+140,90,62,Extreme Obesity,0
+188,169,59,Extreme Obesity,0
+137,140,75,Extreme Obesity,0
+147,99,32,Extreme Obesity,0
+202,90,31,Normal,2
+136,54,10,Overweight,4
+165,73,7,Overweight,4
+121,81,65,Extreme Obesity,0
+196,160,45,Extreme Obesity,0
+163,193,78,Extreme Obesity,0
+148,93,58,Extreme Obesity,0
+175,147,74,Extreme Obesity,0
+179,108,48,Obesity,3
+200,161,24,Extreme Obesity,0
+157,100,67,Extreme Obesity,0
+162,29,8,Extremely Weak,1
+197,68,48,Weak,5
+206,86,59,Normal,2
+144,42,48,Normal,2
+149,36,6,Extremely Weak,1
+194,69,69,Normal,2
+183,112,26,Obesity,3
+159,122,27,Extreme Obesity,0
+205,173,29,Extreme Obesity,0
+141,86,51,Extreme Obesity,0
+178,114,18,Extreme Obesity,0
+201,180,43,Extreme Obesity,0
+175,40,10,Extremely Weak,1
+155,191,55,Extreme Obesity,0
+144,63,31,Obesity,3
+155,97,30,Extreme Obesity,0
+177,168,69,Extreme Obesity,0
+196,96,71,Overweight,4
+129,193,24,Extreme Obesity,0
+185,169,38,Extreme Obesity,0
+186,50,63,Extremely Weak,1
+183,102,79,Obesity,3
+171,126,49,Extreme Obesity,0
+203,188,38,Extreme Obesity,0
+208,57,25,Extremely Weak,1
+195,92,59,Normal,2
+151,139,44,Extreme Obesity,0
+192,112,37,Obesity,3
+179,137,22,Extreme Obesity,0
+192,109,58,Overweight,4
+118,57,11,Extreme Obesity,0
+157,60,8,Normal,2
+201,118,54,Overweight,4
+185,83,22,Normal,2
+198,103,42,Overweight,4
+159,80,35,Obesity,3
+133,64,11,Extreme Obesity,0
+127,89,59,Extreme Obesity,0
+122,26,11,Weak,5
+163,24,13,Extremely Weak,1
+153,73,5,Obesity,3
+147,23,7,Extremely Weak,1
+152,44,14,Weak,5
+130,105,49,Extreme Obesity,0
+150,185,74,Extreme Obesity,0
+143,159,73,Extreme Obesity,0
+207,55,26,Extremely Weak,1
+189,50,19,Extremely Weak,1
+155,90,80,Extreme Obesity,0
+198,124,66,Obesity,3
+175,66,17,Normal,2
+141,40,17,Normal,2
+140,61,53,Obesity,3
+129,60,54,Extreme Obesity,0
+195,70,79,Normal,2
+115,71,11,Extreme Obesity,0
+120,147,44,Extreme Obesity,0
+173,175,80,Extreme Obesity,0
+156,178,23,Extreme Obesity,0
+167,123,31,Extreme Obesity,0
+111,27,14,Normal,2
+188,104,19,Overweight,4
+178,31,13,Extremely Weak,1
+123,144,76,Extreme Obesity,0
+147,45,21,Normal,2
+151,65,7,Overweight,4
+143,55,80,Overweight,4
+135,59,76,Obesity,3
+170,152,34,Extreme Obesity,0
+150,142,30,Extreme Obesity,0
+172,130,51,Extreme Obesity,0
+111,67,6,Extreme Obesity,0
+151,75,8,Obesity,3
+125,198,29,Extreme Obesity,0
+182,47,60,Extremely Weak,1
+173,68,80,Normal,2
+155,141,34,Extreme Obesity,0
+150,190,34,Extreme Obesity,0
+182,62,45,Normal,2
+206,173,54,Extreme Obesity,0
+210,86,73,Normal,2
+152,183,25,Extreme Obesity,0
+191,114,79,Obesity,3
+194,68,36,Weak,5
+125,123,78,Extreme Obesity,0
+174,152,38,Extreme Obesity,0
+173,52,52,Weak,5
+129,121,20,Extreme Obesity,0
+174,60,31,Normal,2
+195,43,33,Extremely Weak,1
+150,170,34,Extreme Obesity,0
+152,52,6,Normal,2
+140,60,59,Obesity,3
+196,71,35,Weak,5
+163,79,72,Obesity,3
+134,28,10,Extremely Weak,1
+171,44,30,Extremely Weak,1
+160,56,30,Normal,2
+154,145,43,Extreme Obesity,0
+107,52,17,Extreme Obesity,0
+136,95,46,Extreme Obesity,0
+180,186,55,Extreme Obesity,0
+127,200,23,Extreme Obesity,0
+156,139,41,Extreme Obesity,0
+128,174,65,Extreme Obesity,0
+198,170,21,Extreme Obesity,0
+133,98,32,Extreme Obesity,0
+188,189,69,Extreme Obesity,0
+138,132,24,Extreme Obesity,0
+138,158,33,Extreme Obesity,0
+189,80,74,Normal,2
+157,62,32,Overweight,4
+174,100,47,Obesity,3
+121,42,32,Overweight,4
+135,133,71,Extreme Obesity,0
+143,158,75,Extreme Obesity,0
+204,176,54,Extreme Obesity,0
+195,46,28,Extremely Weak,1
+152,193,79,Extreme Obesity,0
+177,156,38,Extreme Obesity,0
+174,166,26,Extreme Obesity,0
+176,71,18,Normal,2
+140,89,52,Extreme Obesity,0
+193,43,34,Extremely Weak,1
+159,154,59,Extreme Obesity,0
+127,166,75,Extreme Obesity,0
+149,56,16,Normal,2
+179,80,47,Normal,2
+158,77,49,Obesity,3
+201,86,80,Normal,2
+149,55,55,Normal,2
+124,172,63,Extreme Obesity,0
+210,160,60,Extreme Obesity,0
+148,137,29,Extreme Obesity,0
+154,157,73,Extreme Obesity,0
+149,126,20,Extreme Obesity,0
+176,91,80,Obesity,3
+155,190,69,Extreme Obesity,0
+155,133,27,Extreme Obesity,0
+203,161,67,Extreme Obesity,0
+177,124,40,Extreme Obesity,0
+176,42,13,Extremely Weak,1
+154,51,67,Normal,2
+122,95,45,Extreme Obesity,0
+145,121,28,Extreme Obesity,0
+184,126,48,Extreme Obesity,0
+140,77,50,Extreme Obesity,0
+168,104,62,Extreme Obesity,0
+188,69,40,Normal,2
+185,198,35,Extreme Obesity,0
+128,78,71,Extreme Obesity,0
+140,25,5,Extremely Weak,1
+188,83,55,Normal,2
+176,42,22,Extremely Weak,1
+185,151,59,Extreme Obesity,0
+115,75,5,Extreme Obesity,0
+121,60,79,Extreme Obesity,0
+154,65,10,Overweight,4
+152,154,28,Extreme Obesity,0
+123,95,65,Extreme Obesity,0
+197,60,25,Extremely Weak,1
+168,127,51,Extreme Obesity,0
+183,193,29,Extreme Obesity,0
+180,61,79,Normal,2
+179,66,17,Normal,2
+201,106,53,Overweight,4
+144,126,34,Extreme Obesity,0
+174,186,60,Extreme Obesity,0
+171,164,64,Extreme Obesity,0
+135,152,73,Extreme Obesity,0
+174,183,20,Extreme Obesity,0
+136,42,8,Normal,2
+121,97,24,Extreme Obesity,0
+173,154,71,Extreme Obesity,0
+173,94,64,Obesity,3
+143,102,54,Extreme Obesity,0
+146,50,58,Normal,2
+107,76,13,Extreme Obesity,0
+154,143,53,Extreme Obesity,0
+154,93,50,Extreme Obesity,0
+198,119,74,Obesity,3
+137,146,30,Extreme Obesity,0
+130,77,12,Extreme Obesity,0
+196,174,40,Extreme Obesity,0
+190,196,76,Extreme Obesity,0
+204,128,54,Obesity,3
+122,99,62,Extreme Obesity,0
+194,175,47,Extreme Obesity,0
+204,196,53,Extreme Obesity,0
+137,33,16,Weak,5
+135,170,47,Extreme Obesity,0
+136,47,34,Overweight,4
+130,20,14,Extremely Weak,1
+136,119,77,Extreme Obesity,0
+178,122,69,Extreme Obesity,0
+154,51,15,Normal,2
+133,150,78,Extreme Obesity,0
+122,179,78,Extreme Obesity,0
+150,69,6,Overweight,4
+127,43,16,Overweight,4
+173,45,61,Weak,5
+130,103,59,Extreme Obesity,0
+200,47,44,Extremely Weak,1
+178,78,77,Overweight,4
+207,79,41,Weak,5
+180,172,41,Extreme Obesity,0
+202,84,74,Normal,2
+210,160,69,Extreme Obesity,0
+152,76,49,Obesity,3
+175,167,32,Extreme Obesity,0
+102,47,17,Extreme Obesity,0
+208,196,49,Extreme Obesity,0
+171,47,18,Weak,5
+160,143,62,Extreme Obesity,0
+204,117,61,Overweight,4
+172,132,52,Extreme Obesity,0
+156,62,60,Overweight,4
+199,151,49,Extreme Obesity,0
+163,88,46,Obesity,3
+147,145,71,Extreme Obesity,0
+167,148,28,Extreme Obesity,0
+155,66,41,Overweight,4
+204,178,47,Extreme Obesity,0
+150,147,77,Extreme Obesity,0
+192,83,73,Normal,2
+189,185,56,Extreme Obesity,0
+188,59,75,Weak,5
+149,41,16,Weak,5
+131,53,8,Overweight,4
+100,75,8,Extreme Obesity,0
+162,185,35,Extreme Obesity,0
+191,92,18,Overweight,4
+129,174,43,Extreme Obesity,0
+167,63,15,Normal,2
+189,194,76,Extreme Obesity,0
+122,80,31,Extreme Obesity,0
+154,158,77,Extreme Obesity,0
+197,135,76,Extreme Obesity,0
+142,58,18,Overweight,4
+111,66,7,Extreme Obesity,0
+157,122,79,Extreme Obesity,0
+137,62,70,Obesity,3
+137,48,9,Normal,2
+192,156,19,Extreme Obesity,0
+122,195,18,Extreme Obesity,0
+207,103,62,Overweight,4
+167,177,73,Extreme Obesity,0
+123,119,64,Extreme Obesity,0
+122,195,40,Extreme Obesity,0
+160,105,43,Extreme Obesity,0
+175,147,22,Extreme Obesity,0
+165,53,74,Normal,2
+159,86,50,Obesity,3
+175,125,64,Extreme Obesity,0
+157,46,57,Normal,2
+147,40,64,Normal,2
+127,69,32,Extreme Obesity,0
+207,193,24,Extreme Obesity,0
+177,148,48,Extreme Obesity,0
+189,174,24,Extreme Obesity,0
+121,87,50,Extreme Obesity,0
+122,80,54,Extreme Obesity,0
+197,187,26,Extreme Obesity,0
+166,188,64,Extreme Obesity,0
+201,194,52,Extreme Obesity,0
+123,188,28,Extreme Obesity,0
+157,79,10,Obesity,3
+130,71,42,Extreme Obesity,0
+120,54,6,Extreme Obesity,0
+106,45,13,Extreme Obesity,0
+168,113,43,Extreme Obesity,0
+145,110,68,Extreme Obesity,0
+159,195,50,Extreme Obesity,0
+191,124,22,Obesity,3
+197,57,21,Extremely Weak,1
+189,109,71,Obesity,3
+166,56,69,Normal,2
+170,143,25,Extreme Obesity,0
+195,91,35,Normal,2
+172,118,42,Extreme Obesity,0
+142,69,13,Obesity,3
+121,63,76,Extreme Obesity,0
+157,184,26,Extreme Obesity,0
+147,187,71,Extreme Obesity,0
+129,99,32,Extreme Obesity,0
+136,129,37,Extreme Obesity,0
+167,80,8,Overweight,4
+194,143,46,Extreme Obesity,0
+196,126,53,Obesity,3
+207,107,29,Normal,2
+179,174,22,Extreme Obesity,0
+125,181,70,Extreme Obesity,0
+147,187,42,Extreme Obesity,0
+146,37,5,Weak,5
+202,176,27,Extreme Obesity,0
+186,121,46,Obesity,3
+133,187,65,Extreme Obesity,0
+181,40,31,Extremely Weak,1
+132,164,70,Extreme Obesity,0
+155,111,57,Extreme Obesity,0
+127,119,44,Extreme Obesity,0
+147,179,73,Extreme Obesity,0
+190,167,64,Extreme Obesity,0
+125,156,57,Extreme Obesity,0
+153,136,42,Extreme Obesity,0
+169,101,60,Extreme Obesity,0
+139,115,21,Extreme Obesity,0
+117,66,8,Extreme Obesity,0
+210,120,31,Overweight,4
+132,157,65,Extreme Obesity,0
+189,106,57,Overweight,4
+127,159,48,Extreme Obesity,0
+183,141,41,Extreme Obesity,0
+103,59,5,Extreme Obesity,0
+182,160,46,Extreme Obesity,0
+156,81,19,Obesity,3
+137,77,9,Extreme Obesity,0
+169,179,57,Extreme Obesity,0
+136,152,58,Extreme Obesity,0
+187,169,40,Extreme Obesity,0
+116,22,16,Extremely Weak,1
+156,130,70,Extreme Obesity,0
+143,46,54,Normal,2
+155,70,17,Overweight,4
+145,137,44,Extreme Obesity,0
+135,180,58,Extreme Obesity,0
+168,195,51,Extreme Obesity,0
+133,132,70,Extreme Obesity,0
+122,117,44,Extreme Obesity,0
+120,136,68,Extreme Obesity,0
+173,111,67,Extreme Obesity,0
+172,185,79,Extreme Obesity,0
+185,101,29,Overweight,4
+201,141,45,Obesity,3
+153,113,26,Extreme Obesity,0
+177,170,58,Extreme Obesity,0
+146,187,67,Extreme Obesity,0
+203,92,51,Normal,2
+191,189,56,Extreme Obesity,0
+144,176,74,Extreme Obesity,0
+147,122,31,Extreme Obesity,0
+171,169,76,Extreme Obesity,0
+202,183,22,Extreme Obesity,0
+184,170,20,Extreme Obesity,0
+206,176,75,Extreme Obesity,0
+183,76,66,Normal,2
+206,52,49,Extremely Weak,1
+135,36,6,Normal,2
+165,124,30,Extreme Obesity,0
+141,131,27,Extreme Obesity,0
+138,44,47,Normal,2
+134,75,72,Extreme Obesity,0
+178,42,33,Extremely Weak,1
+104,42,17,Extreme Obesity,0
+139,104,78,Extreme Obesity,0
+207,97,55,Normal,2
+111,43,13,Obesity,3
+159,85,43,Obesity,3
+151,39,12,Weak,5
+167,114,54,Extreme Obesity,0
+130,87,35,Extreme Obesity,0
+143,170,39,Extreme Obesity,0
+163,29,7,Extremely Weak,1
+150,48,39,Normal,2
+158,51,64,Normal,2
+143,199,40,Extreme Obesity,0
+146,50,53,Normal,2
+169,139,40,Extreme Obesity,0
+155,75,67,Obesity,3
+148,70,17,Obesity,3
+141,183,25,Extreme Obesity,0
+124,61,41,Extreme Obesity,0
+143,55,60,Overweight,4
+181,55,32,Weak,5
+181,68,73,Normal,2
+200,164,30,Extreme Obesity,0
+137,192,66,Extreme Obesity,0
+209,120,72,Overweight,4
+131,135,54,Extreme Obesity,0
+176,161,20,Extreme Obesity,0
+171,87,36,Overweight,4
+205,43,44,Extremely Weak,1
+157,99,23,Extreme Obesity,0
+208,130,20,Obesity,3
+180,96,76,Obesity,3
+200,87,46,Normal,2
+135,137,37,Extreme Obesity,0
+150,180,52,Extreme Obesity,0
+187,50,55,Extremely Weak,1
+162,55,16,Normal,2
+134,167,76,Extreme Obesity,0
+183,53,28,Extremely Weak,1
+180,50,6,Extremely Weak,1
+136,183,18,Extreme Obesity,0
+130,136,18,Extreme Obesity,0
+190,196,61,Extreme Obesity,0
+148,71,9,Obesity,3
+175,98,48,Obesity,3
+146,103,30,Extreme Obesity,0
+150,176,20,Extreme Obesity,0
+169,67,64,Normal,2
+160,197,22,Extreme Obesity,0
+154,155,35,Extreme Obesity,0
+169,32,9,Extremely Weak,1
+131,43,42,Overweight,4
+207,103,26,Normal,2
+156,127,77,Extreme Obesity,0
+174,139,59,Extreme Obesity,0
+168,64,25,Normal,2
+204,122,26,Overweight,4
+155,67,7,Overweight,4
+175,92,61,Obesity,3
+206,70,28,Weak,5
+174,20,17,Extremely Weak,1
+202,184,78,Extreme Obesity,0
+137,183,20,Extreme Obesity,0
+172,114,52,Extreme Obesity,0
+168,164,49,Extreme Obesity,0
+194,91,20,Normal,2
+161,96,70,Extreme Obesity,0
+173,23,14,Extremely Weak,1
+197,48,73,Extremely Weak,1
+196,147,70,Extreme Obesity,0
+173,71,61,Normal,2
+210,41,46,Extremely Weak,1
+132,167,21,Extreme Obesity,0
+169,38,14,Extremely Weak,1
+172,90,18,Obesity,3
+197,165,60,Extreme Obesity,0
+185,196,25,Extreme Obesity,0
+142,134,70,Extreme Obesity,0
+180,174,28,Extreme Obesity,0
+179,105,27,Obesity,3
+126,193,26,Extreme Obesity,0
+178,78,5,Normal,2
+199,162,67,Extreme Obesity,0
+208,99,72,Normal,2
+103,28,7,Overweight,4
+205,171,68,Extreme Obesity,0
+127,87,21,Extreme Obesity,0
+131,34,5,Normal,2
+205,101,40,Normal,2
+174,127,43,Extreme Obesity,0
+187,55,73,Weak,5
+156,161,53,Extreme Obesity,0
+142,183,59,Extreme Obesity,0
+141,42,14,Normal,2
+181,49,41,Extremely Weak,1
+182,191,34,Extreme Obesity,0
+138,95,18,Extreme Obesity,0
+197,82,36,Normal,2
+125,134,32,Extreme Obesity,0
+120,95,57,Extreme Obesity,0
+166,27,6,Extremely Weak,1
+170,177,46,Extreme Obesity,0
+149,179,78,Extreme Obesity,0
+183,65,70,Normal,2
+120,89,62,Extreme Obesity,0
+163,176,55,Extreme Obesity,0
+169,79,64,Overweight,4
+129,117,22,Extreme Obesity,0
+146,159,49,Extreme Obesity,0
+155,189,32,Extreme Obesity,0
+105,53,5,Extreme Obesity,0
+152,73,50,Obesity,3
+127,151,73,Extreme Obesity,0
+140,54,5,Overweight,4
+174,166,77,Extreme Obesity,0
+170,104,38,Extreme Obesity,0
+138,168,18,Extreme Obesity,0
+134,153,40,Extreme Obesity,0
+134,52,77,Overweight,4
+147,85,56,Extreme Obesity,0
+181,152,64,Extreme Obesity,0
+200,106,48,Overweight,4
+141,76,75,Extreme Obesity,0
+174,170,46,Extreme Obesity,0
+138,180,43,Extreme Obesity,0
+120,33,7,Normal,2
+121,157,59,Extreme Obesity,0
+170,112,38,Extreme Obesity,0
+152,33,7,Extremely Weak,1
+157,62,28,Overweight,4
+129,71,73,Extreme Obesity,0
+152,137,77,Extreme Obesity,0
+130,80,53,Extreme Obesity,0
+187,138,68,Extreme Obesity,0
+184,42,46,Extremely Weak,1
+154,68,80,Overweight,4
+109,55,5,Extreme Obesity,0
+131,192,42,Extreme Obesity,0
+180,184,56,Extreme Obesity,0
+156,107,75,Extreme Obesity,0
+186,119,20,Obesity,3
+163,67,23,Overweight,4
+195,64,22,Weak,5
+175,148,73,Extreme Obesity,0
+144,50,41,Normal,2
+157,25,7,Extremely Weak,1
+174,104,36,Obesity,3
+174,91,18,Obesity,3
+201,68,72,Weak,5
+193,189,21,Extreme Obesity,0
+199,92,41,Normal,2
+134,144,44,Extreme Obesity,0
+121,23,13,Extremely Weak,1
+131,25,11,Extremely Weak,1
+157,88,47,Extreme Obesity,0
+130,96,23,Extreme Obesity,0
+114,28,15,Normal,2
+178,117,79,Extreme Obesity,0
+127,189,37,Extreme Obesity,0
+185,111,52,Obesity,3
+141,200,36,Extreme Obesity,0
+154,93,68,Extreme Obesity,0
+165,119,78,Extreme Obesity,0
+192,199,71,Extreme Obesity,0
+137,69,12,Extreme Obesity,0
+187,74,32,Normal,2
+153,126,44,Extreme Obesity,0
+133,89,28,Extreme Obesity,0
+166,59,45,Normal,2
+177,73,19,Normal,2
+131,162,54,Extreme Obesity,0
+189,137,22,Extreme Obesity,0
+133,149,46,Extreme Obesity,0
+200,174,67,Extreme Obesity,0
+116,51,15,Extreme Obesity,0
+203,175,37,Extreme Obesity,0
+168,65,19,Normal,2
+130,110,23,Extreme Obesity,0
+180,153,30,Extreme Obesity,0
+200,122,70,Obesity,3
+173,177,33,Extreme Obesity,0
+209,72,75,Weak,5
+164,162,44,Extreme Obesity,0
+179,159,26,Extreme Obesity,0
+193,187,74,Extreme Obesity,0
+120,167,21,Extreme Obesity,0
+130,112,22,Extreme Obesity,0
+184,167,27,Extreme Obesity,0
+133,63,76,Extreme Obesity,0
+125,57,68,Extreme Obesity,0
+141,28,12,Extremely Weak,1
+154,81,76,Extreme Obesity,0
+150,104,40,Extreme Obesity,0
+188,79,27,Normal,2
+129,43,13,Normal,2
+190,159,30,Extreme Obesity,0
+173,78,17,Overweight,4
+154,64,11,Overweight,4
+190,42,73,Extremely Weak,1
+140,183,51,Extreme Obesity,0
+165,113,70,Extreme Obesity,0
+129,94,50,Extreme Obesity,0
+195,49,27,Extremely Weak,1
+131,126,24,Extreme Obesity,0
+157,172,57,Extreme Obesity,0
+129,37,8,Normal,2
+167,37,8,Extremely Weak,1
+168,140,70,Extreme Obesity,0
+133,144,44,Extreme Obesity,0
+178,158,28,Extreme Obesity,0
+161,57,74,Normal,2
+153,82,21,Extreme Obesity,0
+146,24,5,Extremely Weak,1
+205,107,20,Overweight,4
+193,101,65,Overweight,4
+131,86,42,Extreme Obesity,0
+141,59,19,Overweight,4
+157,40,19,Weak,5
+177,144,64,Extreme Obesity,0
+173,54,51,Weak,5
+190,125,68,Extreme Obesity,0
+163,62,52,Normal,2
+155,53,80,Normal,2
+167,21,6,Extremely Weak,1
+210,149,50,Obesity,3
+121,47,21,Obesity,3
+128,173,63,Extreme Obesity,0
+157,171,49,Extreme Obesity,0
+133,27,17,Extremely Weak,1
+134,74,7,Extreme Obesity,0
+131,167,43,Extreme Obesity,0
+121,53,16,Extreme Obesity,0
+192,62,60,Weak,5
+165,74,7,Overweight,4
+128,71,5,Extreme Obesity,0
+162,124,36,Extreme Obesity,0
+197,165,26,Extreme Obesity,0
+134,21,15,Extremely Weak,1
+140,100,55,Extreme Obesity,0
+167,110,26,Extreme Obesity,0
+174,23,10,Extremely Weak,1
+204,149,46,Extreme Obesity,0
+154,148,76,Extreme Obesity,0
+170,101,58,Obesity,3
+203,86,80,Normal,2
+195,129,30,Obesity,3
+145,52,49,Normal,2
+154,155,44,Extreme Obesity,0
+145,135,59,Extreme Obesity,0
+196,142,37,Extreme Obesity,0
+133,88,37,Extreme Obesity,0
+205,165,42,Extreme Obesity,0
+153,127,50,Extreme Obesity,0
+146,124,45,Extreme Obesity,0
+106,44,12,Extreme Obesity,0
+195,40,58,Extremely Weak,1
+174,102,18,Obesity,3
+191,152,32,Extreme Obesity,0
+154,84,67,Extreme Obesity,0
+182,94,57,Overweight,4
+123,126,51,Extreme Obesity,0
+158,76,54,Obesity,3
+203,123,49,Overweight,4
+122,27,16,Weak,5
+192,82,20,Normal,2
+201,151,22,Extreme Obesity,0
+184,170,41,Extreme Obesity,0
+177,74,36,Normal,2
+146,123,28,Extreme Obesity,0
+136,45,9,Normal,2
+132,51,44,Overweight,4
+131,192,78,Extreme Obesity,0
+135,80,46,Extreme Obesity,0
+123,51,76,Obesity,3
+174,35,12,Extremely Weak,1
+189,88,57,Normal,2
+124,68,15,Extreme Obesity,0
+182,155,60,Extreme Obesity,0
+148,71,65,Obesity,3
+189,131,73,Extreme Obesity,0
+149,70,12,Obesity,3
+200,57,35,Extremely Weak,1
+162,118,54,Extreme Obesity,0
+160,120,19,Extreme Obesity,0
+125,57,64,Extreme Obesity,0
+129,53,16,Obesity,3
+125,31,8,Normal,2
+173,158,41,Extreme Obesity,0
+165,90,36,Obesity,3
+180,73,46,Normal,2
+124,111,47,Extreme Obesity,0
+189,189,46,Extreme Obesity,0
+159,54,51,Normal,2
+115,67,11,Extreme Obesity,0
+147,51,45,Normal,2
+163,104,65,Extreme Obesity,0
+128,110,21,Extreme Obesity,0
+201,134,57,Obesity,3
+179,148,37,Extreme Obesity,0
+123,54,52,Extreme Obesity,0
+188,125,40,Extreme Obesity,0
+145,105,23,Extreme Obesity,0
+199,165,52,Extreme Obesity,0
+158,183,27,Extreme Obesity,0
+171,65,14,Normal,2
+206,167,50,Extreme Obesity,0
+181,44,44,Extremely Weak,1
+162,24,14,Extremely Weak,1
+197,131,27,Obesity,3
+120,71,63,Extreme Obesity,0
+145,41,31,Normal,2
+152,189,72,Extreme Obesity,0
+164,151,79,Extreme Obesity,0
+173,69,46,Normal,2
+155,69,7,Overweight,4
+166,162,23,Extreme Obesity,0
+126,98,56,Extreme Obesity,0
+169,53,62,Normal,2
+183,110,71,Obesity,3
+185,173,50,Extreme Obesity,0
+180,70,77,Normal,2
+183,155,42,Extreme Obesity,0
+122,104,65,Extreme Obesity,0
+151,121,41,Extreme Obesity,0
+177,35,11,Extremely Weak,1
+151,64,80,Overweight,4
+149,47,33,Normal,2
+149,138,44,Extreme Obesity,0
+136,68,31,Extreme Obesity,0
+102,62,11,Extreme Obesity,0
+122,162,18,Extreme Obesity,0
+175,177,72,Extreme Obesity,0
+133,81,62,Extreme Obesity,0
+168,186,57,Extreme Obesity,0
+120,97,62,Extreme Obesity,0
+156,156,28,Extreme Obesity,0
+155,121,35,Extreme Obesity,0
+124,46,53,Overweight,4
+198,91,44,Normal,2
+123,134,33,Extreme Obesity,0
+100,76,17,Extreme Obesity,0
+175,63,17,Normal,2
+125,102,53,Extreme Obesity,0
+200,81,50,Normal,2
+210,94,58,Normal,2
+154,178,59,Extreme Obesity,0
+160,163,43,Extreme Obesity,0
+143,109,18,Extreme Obesity,0
+124,194,61,Extreme Obesity,0
+150,136,66,Extreme Obesity,0
+136,56,12,Overweight,4
+166,32,6,Extremely Weak,1
+170,26,11,Extremely Weak,1
+161,55,31,Normal,2
+206,129,23,Obesity,3
+148,74,14,Obesity,3
+179,106,57,Obesity,3
+170,167,23,Extreme Obesity,0
+180,170,21,Extreme Obesity,0
+206,200,18,Extreme Obesity,0
+133,48,7,Overweight,4
+138,133,58,Extreme Obesity,0
+139,69,45,Extreme Obesity,0
+184,87,65,Overweight,4
+164,59,10,Normal,2
+152,76,57,Obesity,3
+171,27,10,Extremely Weak,1
+191,94,43,Overweight,4
+165,60,12,Normal,2
+103,75,5,Extreme Obesity,0
+149,168,74,Extreme Obesity,0
+103,60,12,Extreme Obesity,0
+210,100,56,Normal,2
+148,96,36,Extreme Obesity,0
+128,173,22,Extreme Obesity,0
+122,95,73,Extreme Obesity,0
+185,107,57,Obesity,3
+181,125,21,Extreme Obesity,0
+118,67,14,Extreme Obesity,0
+147,59,19,Overweight,4
+160,88,20,Obesity,3
+185,195,35,Extreme Obesity,0
+160,47,16,Weak,5
+167,118,36,Extreme Obesity,0
+136,191,26,Extreme Obesity,0
+180,161,72,Extreme Obesity,0
+140,117,65,Extreme Obesity,0
+182,165,65,Extreme Obesity,0
+172,113,52,Extreme Obesity,0
+142,89,58,Extreme Obesity,0
+167,141,29,Extreme Obesity,0
+183,123,78,Extreme Obesity,0
+144,126,40,Extreme Obesity,0
+176,137,73,Extreme Obesity,0
+174,85,42,Overweight,4
+111,34,9,Overweight,4
+202,50,66,Extremely Weak,1
+176,68,8,Normal,2
+178,106,26,Obesity,3
+169,165,77,Extreme Obesity,0
+132,109,77,Extreme Obesity,0
+130,45,17,Overweight,4
+152,67,36,Overweight,4
+157,194,71,Extreme Obesity,0
+131,147,50,Extreme Obesity,0
+196,54,45,Extremely Weak,1
+136,120,20,Extreme Obesity,0
+131,170,58,Extreme Obesity,0
+192,200,36,Extreme Obesity,0
+180,51,72,Weak,5
+142,133,77,Extreme Obesity,0
+192,46,64,Extremely Weak,1
+127,31,9,Weak,5
+128,41,9,Normal,2
+179,137,30,Extreme Obesity,0
+174,110,71,Extreme Obesity,0
+203,42,55,Extremely Weak,1
+114,76,8,Extreme Obesity,0
+130,132,47,Extreme Obesity,0
+175,157,25,Extreme Obesity,0
+149,76,6,Obesity,3
+127,64,12,Extreme Obesity,0
+128,172,30,Extreme Obesity,0
+204,125,67,Obesity,3
+170,187,35,Extreme Obesity,0
+126,105,67,Extreme Obesity,0
+163,166,80,Extreme Obesity,0
+205,160,73,Extreme Obesity,0
+147,161,59,Extreme Obesity,0
+183,97,77,Overweight,4
+210,142,53,Obesity,3
+122,135,60,Extreme Obesity,0
+147,153,52,Extreme Obesity,0
+169,45,66,Weak,5
+135,112,47,Extreme Obesity,0
+184,84,63,Overweight,4
+131,60,21,Obesity,3
+163,44,49,Weak,5
+161,156,71,Extreme Obesity,0
+190,112,49,Obesity,3
+127,142,18,Extreme Obesity,0
+147,191,35,Extreme Obesity,0
+136,45,59,Normal,2
+135,195,64,Extreme Obesity,0
+153,148,69,Extreme Obesity,0
+122,47,55,Obesity,3
+178,141,58,Extreme Obesity,0
+201,155,47,Extreme Obesity,0
+178,194,64,Extreme Obesity,0
+134,172,41,Extreme Obesity,0
+194,173,68,Extreme Obesity,0
+170,78,8,Overweight,4
+181,133,33,Extreme Obesity,0
+148,166,52,Extreme Obesity,0
+128,154,39,Extreme Obesity,0
+143,197,56,Extreme Obesity,0
+159,191,46,Extreme Obesity,0
+145,55,57,Overweight,4
+173,51,9,Weak,5
+158,151,45,Extreme Obesity,0
+191,77,27,Normal,2
+167,178,24,Extreme Obesity,0
+204,59,26,Extremely Weak,1
+183,54,72,Weak,5
+148,131,71,Extreme Obesity,0
+144,147,34,Extreme Obesity,0
+206,124,77,Obesity,3
+170,116,52,Extreme Obesity,0
+202,152,70,Extreme Obesity,0
+131,74,76,Extreme Obesity,0
+171,59,5,Normal,2
+190,124,51,Obesity,3
+105,80,7,Extreme Obesity,0
+138,60,16,Obesity,3
+165,47,18,Weak,5
+139,166,37,Extreme Obesity,0
+135,49,66,Overweight,4
+121,51,31,Obesity,3
+126,69,35,Extreme Obesity,0
+121,154,77,Extreme Obesity,0
+150,28,12,Extremely Weak,1
+123,137,55,Extreme Obesity,0
+143,44,61,Normal,2
+157,112,57,Extreme Obesity,0
+126,170,54,Extreme Obesity,0
+142,196,78,Extreme Obesity,0
+152,58,78,Overweight,4
+121,111,27,Extreme Obesity,0
+147,112,65,Extreme Obesity,0
+199,142,55,Extreme Obesity,0
+135,150,77,Extreme Obesity,0
+135,69,40,Extreme Obesity,0
+124,123,61,Extreme Obesity,0
+190,154,67,Extreme Obesity,0
+139,156,75,Extreme Obesity,0
+164,93,39,Obesity,3
+156,68,18,Overweight,4
+207,120,23,Overweight,4
+120,34,5,Normal,2
+205,193,35,Extreme Obesity,0
+151,89,78,Extreme Obesity,0
+143,80,78,Extreme Obesity,0
+143,88,60,Extreme Obesity,0
+109,52,5,Extreme Obesity,0
+170,47,34,Weak,5
+132,30,6,Weak,5
+204,99,20,Normal,2
+120,138,67,Extreme Obesity,0
+153,131,76,Extreme Obesity,0
+140,63,70,Obesity,3
+168,182,71,Extreme Obesity,0
+131,186,39,Extreme Obesity,0
+162,71,21,Overweight,4
+153,70,5,Overweight,4
+168,36,17,Extremely Weak,1
+186,67,36,Normal,2
+147,123,57,Extreme Obesity,0
+176,60,10,Weak,5
+170,111,26,Extreme Obesity,0
+120,76,25,Extreme Obesity,0
+142,119,62,Extreme Obesity,0
+116,38,13,Overweight,4
+192,97,45,Overweight,4
+164,189,29,Extreme Obesity,0
+156,91,78,Extreme Obesity,0
+209,188,26,Extreme Obesity,0
+195,91,33,Normal,2
+181,59,22,Weak,5
+132,150,27,Extreme Obesity,0
+123,149,73,Extreme Obesity,0
+199,42,26,Extremely Weak,1
+180,33,10,Extremely Weak,1
+121,115,37,Extreme Obesity,0
+203,194,78,Extreme Obesity,0
+204,156,41,Extreme Obesity,0
+130,171,31,Extreme Obesity,0
+163,135,60,Extreme Obesity,0
+210,121,78,Overweight,4
+152,172,80,Extreme Obesity,0
+150,97,42,Extreme Obesity,0
+198,63,19,Weak,5
+199,164,33,Extreme Obesity,0
+127,48,16,Overweight,4
+196,82,72,Normal,2
+184,67,46,Normal,2
+145,58,46,Overweight,4
+170,86,34,Overweight,4
+191,176,27,Extreme Obesity,0
+175,132,42,Extreme Obesity,0
+169,47,20,Weak,5
+183,72,66,Normal,2
+125,125,41,Extreme Obesity,0
+123,72,12,Extreme Obesity,0
+159,83,64,Obesity,3
+155,193,79,Extreme Obesity,0
+156,119,36,Extreme Obesity,0
+135,121,63,Extreme Obesity,0
+184,154,32,Extreme Obesity,0
+116,37,14,Overweight,4
+122,79,60,Extreme Obesity,0
+115,76,9,Extreme Obesity,0
+161,149,22,Extreme Obesity,0
+177,81,74,Overweight,4
+149,160,41,Extreme Obesity,0
+160,69,66,Overweight,4
+181,118,34,Extreme Obesity,0
+175,115,36,Extreme Obesity,0
+156,179,57,Extreme Obesity,0
+194,40,41,Extremely Weak,1
+155,73,58,Obesity,3
+140,83,30,Extreme Obesity,0
+145,94,66,Extreme Obesity,0
+209,65,39,Extremely Weak,1
+101,53,9,Extreme Obesity,0
+177,177,19,Extreme Obesity,0
+131,165,63,Extreme Obesity,0
+153,159,23,Extreme Obesity,0
+170,154,18,Extreme Obesity,0
+125,123,70,Extreme Obesity,0
+183,57,30,Weak,5
+139,136,58,Extreme Obesity,0
+167,185,21,Extreme Obesity,0
+134,183,35,Extreme Obesity,0
+160,144,49,Extreme Obesity,0
+200,167,32,Extreme Obesity,0
+120,77,5,Extreme Obesity,0
+113,20,7,Extremely Weak,1
+198,130,54,Obesity,3
+171,168,43,Extreme Obesity,0
+208,119,54,Overweight,4
+180,133,79,Extreme Obesity,0
+157,151,69,Extreme Obesity,0
+132,80,48,Extreme Obesity,0
+141,45,9,Normal,2
+160,73,5,Overweight,4
+169,106,60,Extreme Obesity,0
+166,87,20,Obesity,3
+131,138,35,Extreme Obesity,0
+154,169,54,Extreme Obesity,0
+180,60,39,Normal,2
+164,102,18,Extreme Obesity,0
+178,199,74,Extreme Obesity,0
+107,66,13,Extreme Obesity,0
+148,177,71,Extreme Obesity,0
+141,60,56,Obesity,3
+177,95,65,Obesity,3
+185,77,40,Normal,2
+190,131,74,Extreme Obesity,0
+110,79,7,Extreme Obesity,0
+131,109,28,Extreme Obesity,0
+130,141,58,Extreme Obesity,0
+140,193,72,Extreme Obesity,0
+207,182,48,Extreme Obesity,0
+199,192,39,Extreme Obesity,0
+164,85,18,Obesity,3
+143,63,62,Obesity,3
+185,143,31,Extreme Obesity,0
+180,72,21,Normal,2
+168,137,62,Extreme Obesity,0
+164,172,18,Extreme Obesity,0
+143,193,23,Extreme Obesity,0
+148,153,71,Extreme Obesity,0
+189,51,21,Extremely Weak,1
+188,100,77,Overweight,4
+168,58,49,Normal,2
+145,68,67,Obesity,3
+149,122,49,Extreme Obesity,0
+179,169,41,Extreme Obesity,0
+206,105,75,Overweight,4
+122,148,43,Extreme Obesity,0
+109,41,15,Obesity,3
+141,98,40,Extreme Obesity,0
+183,42,80,Extremely Weak,1
+146,51,68,Normal,2
+203,123,59,Overweight,4
+185,102,49,Overweight,4
+140,108,69,Extreme Obesity,0
+185,74,40,Normal,2
+144,107,49,Extreme Obesity,0
+193,122,20,Obesity,3
+137,183,20,Extreme Obesity,0
+112,45,11,Obesity,3
+170,96,80,Obesity,3
+122,94,45,Extreme Obesity,0
+176,60,68,Normal,2
+128,164,80,Extreme Obesity,0
+141,42,79,Normal,2
+189,42,32,Extremely Weak,1
+132,182,30,Extreme Obesity,0
+166,62,54,Normal,2
+186,126,56,Extreme Obesity,0
+175,22,12,Extremely Weak,1
+137,80,17,Extreme Obesity,0
+143,173,19,Extreme Obesity,0
+197,74,69,Normal,2
+204,151,78,Extreme Obesity,0
+176,177,26,Extreme Obesity,0
+106,42,17,Extreme Obesity,0
+187,198,50,Extreme Obesity,0
+190,197,78,Extreme Obesity,0
+184,84,48,Normal,2
+171,75,11,Normal,2
+141,170,22,Extreme Obesity,0
+143,82,22,Extreme Obesity,0
+167,134,74,Extreme Obesity,0
+189,147,46,Extreme Obesity,0
+129,104,35,Extreme Obesity,0
+175,112,39,Extreme Obesity,0
+163,45,14,Extremely Weak,1
+134,92,75,Extreme Obesity,0
+121,58,59,Extreme Obesity,0
+156,71,71,Obesity,3
+129,171,31,Extreme Obesity,0
+185,175,23,Extreme Obesity,0
+197,105,50,Overweight,4
+196,199,65,Extreme Obesity,0
+125,44,26,Overweight,4
+181,72,65,Normal,2
+134,20,16,Extremely Weak,1
+143,122,69,Extreme Obesity,0
+124,58,68,Extreme Obesity,0
+169,107,36,Extreme Obesity,0
+172,189,66,Extreme Obesity,0
+147,68,13,Obesity,3
+116,63,7,Extreme Obesity,0
+157,140,49,Extreme Obesity,0
+196,189,61,Extreme Obesity,0
+198,109,53,Overweight,4
+167,145,78,Extreme Obesity,0
+135,60,16,Obesity,3
+151,150,63,Extreme Obesity,0
+156,67,76,Overweight,4
+158,100,45,Extreme Obesity,0
+113,64,8,Extreme Obesity,0
+209,50,22,Extremely Weak,1
+175,76,39,Normal,2
+120,64,9,Extreme Obesity,0
+156,87,62,Extreme Obesity,0
+191,119,25,Obesity,3
+210,188,60,Extreme Obesity,0
+127,56,40,Obesity,3
+182,114,55,Obesity,3
+147,53,59,Normal,2
+150,68,12,Overweight,4
+140,54,12,Overweight,4
+196,105,60,Overweight,4
+204,187,80,Extreme Obesity,0
+129,54,22,Obesity,3
+198,171,18,Extreme Obesity,0
+137,167,53,Extreme Obesity,0
+121,130,75,Extreme Obesity,0
+144,164,39,Extreme Obesity,0
+171,54,43,Weak,5
+125,58,80,Extreme Obesity,0
+120,73,6,Extreme Obesity,0
+105,59,9,Extreme Obesity,0
+137,156,67,Extreme Obesity,0
+176,59,12,Weak,5
+164,59,24,Normal,2
+146,48,11,Normal,2
+158,120,41,Extreme Obesity,0
+163,52,9,Normal,2
+162,182,26,Extreme Obesity,0
+186,188,54,Extreme Obesity,0
+134,72,15,Extreme Obesity,0
+190,67,35,Normal,2
+122,175,37,Extreme Obesity,0
+178,72,49,Normal,2
+165,83,71,Obesity,3
+179,68,77,Normal,2
+205,67,67,Weak,5
+154,154,67,Extreme Obesity,0
+194,155,19,Extreme Obesity,0
+150,104,32,Extreme Obesity,0
+173,180,22,Extreme Obesity,0
+108,46,6,Extreme Obesity,0
+125,172,52,Extreme Obesity,0
+149,112,40,Extreme Obesity,0
+163,74,45,Overweight,4
+194,152,67,Extreme Obesity,0
+150,50,41,Normal,2
+161,173,55,Extreme Obesity,0
+126,197,61,Extreme Obesity,0
+166,59,14,Normal,2
+171,123,51,Extreme Obesity,0
+162,179,57,Extreme Obesity,0
+152,28,8,Extremely Weak,1
+122,152,75,Extreme Obesity,0
+183,52,60,Extremely Weak,1
+135,165,77,Extreme Obesity,0
+102,66,14,Extreme Obesity,0
+145,107,29,Extreme Obesity,0
+139,42,58,Normal,2
+204,157,51,Extreme Obesity,0
+146,195,30,Extreme Obesity,0
+163,152,59,Extreme Obesity,0
+146,182,63,Extreme Obesity,0
+177,89,68,Overweight,4
+187,178,38,Extreme Obesity,0
+151,33,12,Extremely Weak,1
+163,187,33,Extreme Obesity,0
+191,174,39,Extreme Obesity,0
+139,157,77,Extreme Obesity,0
+153,20,14,Extremely Weak,1
+149,159,60,Extreme Obesity,0
+195,124,37,Obesity,3
+193,115,76,Obesity,3
+119,59,14,Extreme Obesity,0
+204,133,48,Obesity,3
+114,70,12,Extreme Obesity,0
+162,181,35,Extreme Obesity,0
+131,25,16,Extremely Weak,1
+125,54,23,Obesity,3
+167,42,13,Extremely Weak,1
+134,160,22,Extreme Obesity,0
+196,190,49,Extreme Obesity,0
+156,55,50,Normal,2
+168,163,60,Extreme Obesity,0
+168,156,45,Extreme Obesity,0
+144,76,7,Extreme Obesity,0
+139,170,21,Extreme Obesity,0
+203,132,45,Obesity,3
+105,41,14,Extreme Obesity,0
+181,155,64,Extreme Obesity,0
+183,122,61,Extreme Obesity,0
+165,66,21,Normal,2
+150,191,27,Extreme Obesity,0
+134,115,62,Extreme Obesity,0
+123,114,18,Extreme Obesity,0
+160,183,46,Extreme Obesity,0
+131,88,23,Extreme Obesity,0
+127,159,60,Extreme Obesity,0
+141,141,64,Extreme Obesity,0
+125,140,59,Extreme Obesity,0
+113,36,13,Overweight,4
+205,52,44,Extremely Weak,1
+156,185,79,Extreme Obesity,0
+174,63,15,Normal,2
+165,200,54,Extreme Obesity,0
+134,48,31,Overweight,4
+131,149,53,Extreme Obesity,0
+154,57,70,Overweight,4
+132,68,35,Extreme Obesity,0
+124,40,50,Overweight,4
+127,196,24,Extreme Obesity,0
+178,110,71,Extreme Obesity,0
+148,49,15,Normal,2
+176,108,36,Obesity,3
+146,154,45,Extreme Obesity,0
+156,57,14,Normal,2
+172,41,16,Extremely Weak,1
+180,37,16,Extremely Weak,1
+160,177,68,Extreme Obesity,0
+152,143,65,Extreme Obesity,0
+204,173,32,Extreme Obesity,0
+123,140,52,Extreme Obesity,0
+205,51,65,Extremely Weak,1
+193,58,27,Extremely Weak,1
+127,137,50,Extreme Obesity,0
