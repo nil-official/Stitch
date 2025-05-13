@@ -7,15 +7,19 @@ import {
     ADD_TO_CART_PENDING,
     ADD_TO_CART_FULFILLED,
     ADD_TO_CART_REJECTED,
-    CLEAR_CART_PENDING,
-    CLEAR_CART_FULFILLED,
-    CLEAR_CART_REJECTED,
+    SELECT_CART_ITEM,
+    DESELECT_CART_ITEM,
+    SELECT_ALL_CART_ITEMS,
+    DESELECT_ALL_CART_ITEMS,
     UPDATE_CART_PENDING,
     UPDATE_CART_FULFILLED,
     UPDATE_CART_REJECTED,
     REMOVE_FROM_CART_PENDING,
     REMOVE_FROM_CART_FULFILLED,
     REMOVE_FROM_CART_REJECTED,
+    CLEAR_CART_PENDING,
+    CLEAR_CART_FULFILLED,
+    CLEAR_CART_REJECTED,
 } from './type';
 
 const getCartPending = () => ({
@@ -45,17 +49,23 @@ const addToCartRejected = (error) => ({
     error: error,
 });
 
-const clearCartPending = () => ({
-    type: CLEAR_CART_PENDING,
+export const selectCartItem = (cartItemId) => ({
+    type: SELECT_CART_ITEM,
+    payload: cartItemId
 });
 
-const clearCartFulfilled = () => ({
-    type: CLEAR_CART_FULFILLED,
+export const deselectCartItem = (cartItemId) => ({
+    type: DESELECT_CART_ITEM,
+    payload: cartItemId
 });
 
-const clearCartRejected = (error) => ({
-    type: CLEAR_CART_REJECTED,
-    error: error,
+export const selectAllCartItems = (cartItemIds) => ({
+    type: SELECT_ALL_CART_ITEMS,
+    payload: cartItemIds
+});
+
+export const deselectAllCartItems = () => ({
+    type: DESELECT_ALL_CART_ITEMS
 });
 
 const updateCartPending = () => ({
@@ -81,6 +91,19 @@ const removeFromCartFulfilled = (cart) => ({
 
 const removeFromCartRejected = (error) => ({
     type: REMOVE_FROM_CART_REJECTED,
+    error: error,
+});
+
+const clearCartPending = () => ({
+    type: CLEAR_CART_PENDING,
+});
+
+const clearCartFulfilled = () => ({
+    type: CLEAR_CART_FULFILLED,
+});
+
+const clearCartRejected = (error) => ({
+    type: CLEAR_CART_REJECTED,
     error: error,
 });
 
@@ -110,6 +133,19 @@ export const addToCart = (productId, size, quantity) => async (dispatch) => {
     }
 };
 
+export const updateCart = (cartItemId, updatedFields) => async (dispatch) => {
+    dispatch(updateCartPending());
+    try {
+        const response = await axios.patch(`/api/cart/${cartItemId}`, updatedFields);
+        dispatch(updateCartFulfilled());
+        dispatch(getCart());
+    } catch (error) {
+        dispatch(updateCartRejected(null));
+        console.log('Error while updating cart:', error);
+        toast.error(error.response.data.error || 'Error while updating cart');
+    }
+};
+
 export const clearCart = () => async (dispatch) => {
     dispatch(clearCartPending());
     try {
@@ -123,23 +159,10 @@ export const clearCart = () => async (dispatch) => {
     }
 };
 
-export const updateCart = (cartItemId, updatedFields) => async (dispatch) => {
-    dispatch(updateCartPending());
-    try {
-        const response = await axios.patch(`/api/cart/item/${cartItemId}`, updatedFields);
-        dispatch(updateCartFulfilled());
-        dispatch(getCart());
-    } catch (error) {
-        dispatch(updateCartRejected(null));
-        console.log('Error while updating cart:', error);
-        toast.error(error.response.data.error || 'Error while updating cart');
-    }
-};
-
 export const removeFromCart = (cartItemId) => async (dispatch) => {
     dispatch(removeFromCartPending());
     try {
-        const response = await axios.delete(`/api/cart/item/${cartItemId}`);
+        const response = await axios.delete(`/api/cart/${cartItemId}`);
         dispatch(removeFromCartFulfilled());
         dispatch(getCart());
     } catch (error) {

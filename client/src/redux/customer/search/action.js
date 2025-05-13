@@ -39,7 +39,7 @@ export const getProducts = (query, minPrice, maxPrice, filters, sort, pageNumber
             });
         });
 
-        const response = await axios.get(`/api/search?${params.toString()}`);
+        const response = await axios.get(`/api/products/search?${params.toString()}`);
         dispatch(getProductsFulfilled(response.data));
         console.log("URL fired: ", response.config.url);
 

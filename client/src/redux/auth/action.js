@@ -46,7 +46,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
     localStorage.removeItem("jwtToken");
     dispatch({ type: LOGOUT });
-    toast.warn("You have been logged out.");
+    toast.success("You have been logged out.");
 };
 
 export const resetJustLoggedIn = () => (dispatch) => {

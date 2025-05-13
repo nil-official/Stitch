@@ -88,10 +88,10 @@ const deleteProductRejected = (error) => ({
     error: error,
 });
 
-export const getProduct = (id) => async (dispatch) => {
+export const getProduct = (productId) => async (dispatch) => {
     dispatch(getProductPending());
     try {
-        const response = await axios.get(`/api/products/id/${id}`);
+        const response = await axios.get(`/api/products/${productId}`);
         dispatch(getProductFulfilled(response.data));
     } catch (error) {
         dispatch(getProductRejected(error.response.data.error));
@@ -124,10 +124,10 @@ export const getLikeProducts = (productId, page, pageSize) => async (dispatch) =
     }
 };
 
-export const updateProduct = (id, productData) => async (dispatch) => {
+export const updateProduct = (productId, productData) => async (dispatch) => {
     dispatch(updateProductPending());
     try {
-        const response = await axios.put(`/api/products/id/${id}`, productData);
+        const response = await axios.put(`/api/products/${productId}`, productData);
         dispatch(updateProductFulfilled(response.data));
         toast.success("Product updated successfully");
     } catch (error) {
@@ -137,10 +137,10 @@ export const updateProduct = (id, productData) => async (dispatch) => {
     }
 };
 
-export const deleteProduct = (id) => async (dispatch) => {
+export const deleteProduct = (productId) => async (dispatch) => {
     dispatch(deleteProductPending());
     try {
-        const response = await axios.delete(`/api/products/id/${id}`);
+        const response = await axios.delete(`/api/products/${productId}`);
         dispatch(deleteProductFulfilled(response.data));
         toast.success("Product deleted successfully");
     } catch (error) {

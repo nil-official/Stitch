@@ -75,7 +75,7 @@ const deleteReviewRejected = (error) => ({
 export const getReviews = (productId) => async (dispatch) => {
     dispatch(getReviewsPending())
     try {
-        const response = await axios.get(`/api/reviews/product/${productId}`)
+        const response = await axios.get(`/api/reviews/${productId}`)
         dispatch(getReviewsFulfilled(response.data))
     } catch (error) {
         dispatch(getReviewsRejected(error.response.data.error))
@@ -84,20 +84,10 @@ export const getReviews = (productId) => async (dispatch) => {
     }
 };
 
-export const addLikeDislike = (reviewId, type) => async (dispatch) => {
-    try {
-        const response = await axios.post(`/api/reviews/${reviewId}/${type}`)
-        dispatch(getReviews(response.data.productId))
-    } catch (error) {
-        console.log('Failed to like/dislike review', error)
-        toast.error('Failed to like/dislike review')
-    }
-};
-
 export const addReview = (review) => async (dispatch) => {
     dispatch(addReviewPending())
     try {
-        const response = await axios.post('/api/reviews/create', review)
+        const response = await axios.post('/api/reviews', review)
         dispatch(addReviewFulfilled(response.data))
         toast.success('Review added successfully!')
     } catch (error) {
@@ -110,7 +100,7 @@ export const addReview = (review) => async (dispatch) => {
 export const updateReview = (review) => async (dispatch) => {
     dispatch(updateReviewPending())
     try {
-        const response = await axios.put(`/api/reviews/update/${review.id}`, review)
+        const response = await axios.put(`/api/reviews/${review.id}`, review)
         dispatch(updateReviewFulfilled(response.data))
         toast.success('Review updated successfully!')
     } catch (error) {
@@ -123,12 +113,22 @@ export const updateReview = (review) => async (dispatch) => {
 export const deleteReview = (reviewId) => async (dispatch) => {
     dispatch(deleteReviewPending())
     try {
-        await axios.delete(`/api/reviews/delete/${reviewId}`)
+        await axios.delete(`/api/reviews/${reviewId}`)
         dispatch(deleteReviewFulfilled(reviewId))
         toast.success('Review deleted successfully!')
     } catch (error) {
         dispatch(deleteReviewRejected(error))
         console.log('Failed to delete review', error)
         toast.error('Failed to delete review')
+    }
+};
+
+export const addLikeDislike = (reviewId, type) => async (dispatch) => {
+    try {
+        const response = await axios.post(`/api/reviews/${reviewId}/${type}`)
+        dispatch(getReviews(response.data.productId))
+    } catch (error) {
+        console.log('Failed to like/dislike review', error)
+        toast.error('Failed to like/dislike review')
     }
 };
