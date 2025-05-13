@@ -23,7 +23,7 @@ public class AddressController {
     private final AddressService addressService;
     private final UserService userService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<AddressDto>> fetchUserAddressHandler(@RequestHeader("Authorization") String jwt) throws UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
@@ -42,7 +42,7 @@ public class AddressController {
 
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<AddressDto> addUserAddressHandler(@Valid @RequestBody AddressDto addressDto,
                                                             @RequestHeader("Authorization") String jwt) throws UserException, AddressException {
 

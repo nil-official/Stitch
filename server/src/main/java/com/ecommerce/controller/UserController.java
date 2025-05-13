@@ -20,7 +20,7 @@ public class UserController {
 
     private UserService userService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<UserProfileDto> getUserProfileHandler(@RequestHeader("Authorization") String jwt) throws UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
@@ -28,7 +28,7 @@ public class UserController {
 
     }
 
-    @PatchMapping()
+    @PatchMapping
     public ResponseEntity<UserProfileDto> updateUserProfileHandler(@RequestBody UserRequest userRequest,
                                                                    @RequestHeader("Authorization") String jwt) throws UserException {
 
@@ -38,7 +38,7 @@ public class UserController {
 
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     public ResponseEntity<ApiResponse> deleteUserHandler(@RequestHeader("Authorization") String jwt) throws UserException {
 
         User user = userService.findUserProfileByJwt(jwt);

@@ -20,12 +20,12 @@ import com.ecommerce.service.ProductService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api")
-public class UserProductController {
+@RequestMapping("/api/products")
+public class ProductController {
 
     private ProductService productService;
 
-    @GetMapping("/products/id/{productId}")
+    @GetMapping("/{productId}")
     public ResponseEntity<ProductDto> findProductByIdHandler(@PathVariable Long productId) throws ProductException {
 
         ProductDto product = productService.findProductById(productId);
@@ -33,7 +33,7 @@ public class UserProductController {
 
     }
 
-    @GetMapping("/products/similar/{productId}")
+    @GetMapping("/similar/{productId}")
     public ResponseEntity<Page<SearchDto>> findSimilarProductsHandler(
             @PathVariable Long productId,
             @RequestParam(defaultValue = "1") Integer pageNumber,
@@ -44,22 +44,13 @@ public class UserProductController {
 
     }
 
-    @GetMapping("/products/like/{productId}")
+    @GetMapping("/like/{productId}")
     public ResponseEntity<Page<SearchDto>> findLikeProductsHandler(
             @PathVariable Long productId,
             @RequestParam(defaultValue = "1") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize) throws ProductException {
 
         Page<SearchDto> products = productService.findLikeProducts(productId, pageNumber, pageSize);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-
-    }
-
-    @GetMapping("/products/search/category")
-    public ResponseEntity<Page<Product>> searchProductByCategoryHandler(@RequestParam String category,
-                                                                        @RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
-
-        Page<Product> products = productService.searchProductByCategory(category, pageNumber, pageSize);
         return new ResponseEntity<>(products, HttpStatus.OK);
 
     }

@@ -3,7 +3,6 @@ package com.ecommerce.controller;
 import com.ecommerce.dto.CartDto;
 import com.ecommerce.exception.CartException;
 import com.ecommerce.exception.CartItemException;
-import com.ecommerce.model.CartItem;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,7 @@ public class CartController {
     private UserService userService;
     private CartService cartService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<CartDto> fetchUserCart(@RequestHeader("Authorization") String jwt) throws UserException, CartException {
 
         User user = userService.findUserProfileByJwt(jwt);
@@ -34,7 +33,7 @@ public class CartController {
 
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ApiResponse> addItemToCart(@RequestHeader("Authorization") String jwt, @RequestBody CartRequest cartRequest)
             throws UserException, ProductException, CartException, CartItemException {
 
@@ -45,17 +44,7 @@ public class CartController {
 
     }
 
-    @DeleteMapping()
-    public ResponseEntity<ApiResponse> clearUserCart(@RequestHeader("Authorization") String jwt) throws UserException, CartException {
-
-        User user = userService.findUserProfileByJwt(jwt);
-        cartService.clearCart(user.getId());
-        ApiResponse res = new ApiResponse("Cart Cleared Successfully", true);
-        return new ResponseEntity<>(res, HttpStatus.OK);
-
-    }
-
-    @PatchMapping("/item/{cartItemId}")
+    @PatchMapping("/{cartItemId}")
     public ResponseEntity<ApiResponse> updateCartItemHandler(@RequestHeader("Authorization") String jwt,
                                                              @PathVariable Long cartItemId, @RequestBody CartRequest cartRequest)
             throws UserException, ProductException, CartItemException {
@@ -67,7 +56,17 @@ public class CartController {
 
     }
 
-    @DeleteMapping("/item/{cartItemId}")
+    @DeleteMapping
+    public ResponseEntity<ApiResponse> clearUserCart(@RequestHeader("Authorization") String jwt) throws UserException, CartException {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        cartService.clearCart(user.getId());
+        ApiResponse res = new ApiResponse("Cart Cleared Successfully", true);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/{cartItemId}")
     public ResponseEntity<ApiResponse> deleteCartItemHandler(@RequestHeader("Authorization") String jwt, @PathVariable Long cartItemId)
             throws CartItemException, UserException {
 

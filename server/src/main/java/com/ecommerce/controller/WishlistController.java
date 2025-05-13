@@ -20,7 +20,7 @@ public class WishlistController {
     private UserService userService;
     private WishlistService wishlistService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<WishlistDto> getUserWishlist(@RequestHeader("Authorization") String jwt) throws UserException, ProductException {
 
         User user = userService.findUserProfileByJwt(jwt);

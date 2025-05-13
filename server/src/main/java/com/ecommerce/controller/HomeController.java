@@ -24,7 +24,7 @@ public class HomeController {
     private final HomeService homeService;
     private final ReviewService reviewService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ApiResponse> welcome() {
         ApiResponse res = new ApiResponse("Welcome To E-Commerce Backend", true);
         return new ResponseEntity<>(res, HttpStatus.OK);

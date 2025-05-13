@@ -21,22 +21,22 @@ public class IssueController {
     private final IssueService issueService;
     private final UserService userService;
 
-    @PostMapping("/create")
+    @GetMapping
+    public ResponseEntity<List<IssueResponse>> getUserIssues(@RequestHeader("Authorization") String jwt) throws UserException {
+
+        User user = userService.findUserProfileByJwt(jwt);
+        List<IssueResponse> issues = issueService.getUserIssues(user);
+        return new ResponseEntity<>(issues, HttpStatus.OK);
+
+    }
+
+    @PostMapping
     public ResponseEntity<IssueResponse> createIssue(@RequestBody IssueRequest issueRequest,
                                                      @RequestHeader("Authorization") String jwt) throws UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
         IssueResponse issueResponse = issueService.createIssue(user, issueRequest);
         return new ResponseEntity<>(issueResponse, HttpStatus.CREATED);
-
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<IssueResponse>> getUserIssues(@RequestHeader("Authorization") String jwt) throws UserException {
-
-        User user = userService.findUserProfileByJwt(jwt);
-        List<IssueResponse> issues = issueService.getUserIssues(user);
-        return new ResponseEntity<>(issues, HttpStatus.OK);
 
     }
 
