@@ -1,13 +1,12 @@
 from fastapi import APIRouter
-from models.bodytype_rf import BodyTypeRequest, BodyTypeResponse
-from services.bodytype_predictor_rf import predict_body_type_from_input
+from services.bodytype_predictor_rf import predict_body_type
+from models.body_type_rf import BodyTypeRequest, BodyTypeResponse
 
 router = APIRouter()
 
-@router.post("/predict-bodytype", response_model=BodyTypeResponse)
-def predict_bodytype(data: BodyTypeRequest):
-    result = predict_body_type_from_input(data.height, data.weight, data.age)
-
+@router.post("/predict", response_model=BodyTypeResponse)
+def predict_body_type_route(data: BodyTypeRequest):
+    result = predict_body_type(data.height, data.weight, data.age)
     if "error" in result:
-        return {"BodyTypeIndex": -1, "BodyTypeDescription": result["error"]}
+        return {"error": result["error"]}
     return result
