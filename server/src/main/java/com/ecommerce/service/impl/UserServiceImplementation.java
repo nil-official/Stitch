@@ -1,17 +1,17 @@
 package com.ecommerce.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import com.ecommerce.dto.UserDto;
 import com.ecommerce.dto.UserProfileDto;
 import com.ecommerce.mapper.UserMapper;
 import com.ecommerce.model.Role;
 import com.ecommerce.repository.*;
+import com.ecommerce.request.SizePredictionRequest;
 import com.ecommerce.request.UserRequest;
+import com.ecommerce.service.MLService;
 import com.ecommerce.service.UserService;
+import com.ecommerce.utility.AgeUtil;
 import com.ecommerce.utility.DtoValidatorUtil;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -25,10 +25,11 @@ import com.ecommerce.model.User;
 @AllArgsConstructor
 public class UserServiceImplementation implements UserService {
 
-    private UserRepository userRepository;
-    private JwtTokenProvider jwtTokenProvider;
-    private RoleRepository roleRepository;
-    private VerifyTokenRepository verifyTokenRepository;
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RoleRepository roleRepository;
+    private final VerifyTokenRepository verifyTokenRepository;
+    private final MLService mlService;
 
     @Override
     public User findUserById(Long userId) throws UserException {
@@ -72,6 +73,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional
     public UserProfileDto updateUser(Long userId, UserRequest userRequest) throws UserException {
         DtoValidatorUtil.validate(userRequest);
 
@@ -82,6 +84,17 @@ public class UserServiceImplementation implements UserService {
 
         User user = optionalUser.get();
 
+        // Track previous values
+        Date existingDob = user.getDob();
+        Integer existingHeight = user.getHeight();
+        Integer existingWeight = user.getWeight();
+
+        // Flags to detect what is updated
+        boolean isDobUpdated = userRequest.getDob() != null;
+        boolean isHeightUpdated = userRequest.getHeight() != null;
+        boolean isWeightUpdated = userRequest.getWeight() != null;
+
+        // Apply updates to fields
         if (userRequest.getFirstName() != null) {
             user.setFirstName(userRequest.getFirstName());
         }
@@ -94,17 +107,37 @@ public class UserServiceImplementation implements UserService {
         if (userRequest.getMobile() != null) {
             user.setMobile(userRequest.getMobile());
         }
-        if (userRequest.getDob() != null) {
+        if (isDobUpdated) {
             user.setDob(userRequest.getDob());
+            user.setAge(AgeUtil.calculateAge(userRequest.getDob()));
         }
         if (userRequest.getGender() != null) {
             user.setGender(userRequest.getGender());
         }
-        if (userRequest.getHeight() != null) {
+        if (isHeightUpdated) {
             user.setHeight(userRequest.getHeight());
         }
-        if (userRequest.getWeight() != null) {
+        if (isWeightUpdated) {
             user.setWeight(userRequest.getWeight());
+        }
+
+        // Prediction logic condition
+        boolean anyPreviouslyExists = existingDob != null || existingHeight > 0 || existingWeight > 0;
+        boolean anyNewlyUpdated = isDobUpdated || isHeightUpdated || isWeightUpdated;
+        boolean allNewlyProvided = isDobUpdated && isHeightUpdated && isWeightUpdated;
+
+        if ((anyPreviouslyExists && anyNewlyUpdated) || allNewlyProvided) {
+            // Ensure all values are available for prediction
+            int age = isDobUpdated ? AgeUtil.calculateAge(userRequest.getDob()) : user.getAge();
+            int height = isHeightUpdated ? userRequest.getHeight() : user.getHeight();
+            int weight = isWeightUpdated ? userRequest.getWeight() : user.getWeight();
+
+            SizePredictionRequest sizePredictionRequest = new SizePredictionRequest(
+                    height, weight, age
+            );
+
+            List<String> predictedSizes = mlService.predictSize(sizePredictionRequest);
+            user.setPredictedSizes(new ArrayList<>(predictedSizes));
         }
 
         return UserMapper.toUserProfileDto(userRepository.save(user));

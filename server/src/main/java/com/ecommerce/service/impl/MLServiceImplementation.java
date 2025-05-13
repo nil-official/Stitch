@@ -4,7 +4,9 @@ import com.ecommerce.dto.ProductMLDto;
 import com.ecommerce.mapper.ProductMapper;
 import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.request.RankScoreRequest;
+import com.ecommerce.request.SizePredictionRequest;
 import com.ecommerce.response.RankScoreResponse;
+import com.ecommerce.response.SizePredictionResponse;
 import com.ecommerce.service.MLService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,11 @@ import java.util.Map;
 @AllArgsConstructor
 public class MLServiceImplementation implements MLService {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
     private final ProductRepository productRepository;
     private final String ML_RANK_API_URL = "http://localhost:8000/api/ml/rank";
     private final String ML_RECOMMEND_API_URL = "http://localhost:8000/api/ml/recommend";
+    private final String ML_PREDICT_API_URL = "http://localhost:8000/api/ml/predict";
 
     @Override
     public double getRankScore(RankScoreRequest request) {
@@ -74,6 +77,41 @@ public class MLServiceImplementation implements MLService {
         }
 
         return List.of();
+    }
+
+    @Override
+    public List<String> predictSize(SizePredictionRequest request) {
+        try {
+            ResponseEntity<SizePredictionResponse> response = restTemplate.postForEntity(
+                    ML_PREDICT_API_URL, request, SizePredictionResponse.class
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                int index = response.getBody().getIndex();
+
+                // Map index to sizes
+                String[][] sizeMappings = {
+                        {"XS", "28"},
+                        {"S", "30"},
+                        {"M", "32"},
+                        {"L", "34"},
+                        {"XL", "36"},
+                        {"XXL", "38"}
+                };
+
+                if (index >= 0 && index < sizeMappings.length) {
+                    return Arrays.asList(sizeMappings[index]);
+                } else {
+                    System.err.println("⚠️ Invalid index received: " + index);
+                }
+            } else {
+                System.err.println("⚠️ ML Predict API did not return a valid response");
+            }
+        } catch (Exception e) {
+            System.err.println("🚨 Exception calling ML Predict API: " + e.getMessage());
+        }
+
+        return List.of("Unknown", "Unknown");
     }
 
 }

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +25,7 @@ public class UserProfileDto {
     private int age;
     private int height;
     private int weight;
+    private List<String> predictedSizes;
     private LocalDateTime createdAt;
 
 }

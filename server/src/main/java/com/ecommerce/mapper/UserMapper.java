@@ -40,6 +40,7 @@ public class UserMapper {
         userProfileDto.setAge(user.getAge());
         userProfileDto.setHeight(user.getHeight());
         userProfileDto.setWeight(user.getWeight());
+        userProfileDto.setPredictedSizes(user.getPredictedSizes());
         userProfileDto.setCreatedAt(user.getCreatedAt());
         return userProfileDto;
     }
