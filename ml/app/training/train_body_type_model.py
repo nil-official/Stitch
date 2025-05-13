@@ -25,15 +25,15 @@ df = pd.read_csv(DATA_PATH)
 X, y = df[['Height', 'Weight', 'Age']], df['BodyTypeIndex']
 
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.2, random_state=42)
-X_val, X_test = train_test_split(X_temp, test_size=0.5, random_state=42)
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
 # === Train model
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
 # === Evaluate
-print("Validation Accuracy:", accuracy_score(y_val := y_val, model.predict(X_val)))
-print("Test Accuracy:", accuracy_score(y_test := y_test, model.predict(X_test)))
+print("Validation Accuracy:", accuracy_score( y_val, model.predict(X_val)))
+print("Test Accuracy:", accuracy_score( y_test, model.predict(X_test)))
 print("Classification Report:\n", classification_report(y_test, model.predict(X_test), target_names=[index_to_bodytype[i] for i in sorted(index_to_bodytype.keys())]))
 
 # === Save model and label map
