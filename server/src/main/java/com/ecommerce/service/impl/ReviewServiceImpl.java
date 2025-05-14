@@ -10,7 +10,6 @@ import com.ecommerce.dto.ReviewsDto;
 import com.ecommerce.mapper.ReviewMapper;
 import com.ecommerce.request.RankScoreRequest;
 import com.ecommerce.service.MLService;
-import com.ecommerce.service.ProductService;
 import com.ecommerce.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ import com.ecommerce.request.ReviewRequest;
 
 @Service
 @AllArgsConstructor
-public class ReviewServiceImplementation implements ReviewService {
+public class ReviewServiceImpl implements ReviewService {
 
     private ReviewRepository reviewRepository;
     private ProductRepository productRepository;

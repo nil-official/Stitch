@@ -30,7 +30,7 @@ import com.ecommerce.model.Size;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ProductServiceImplementation implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductESRepository productESRepository;

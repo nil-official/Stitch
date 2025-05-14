@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ProductFiltersServiceImplementation implements ProductFiltersService {
+public class ProductFiltersServiceImpl implements ProductFiltersService {
 
     private final ProductRepository productRepository;
 

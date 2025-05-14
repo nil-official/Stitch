@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class AddressServiceImplementation implements AddressService {
+public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 

@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 
 @Service
 @AllArgsConstructor
-public class ProductESServiceImplementation implements ProductESService {
+public class ProductESServiceImpl implements ProductESService {
 
     private final ProductESRepository productESRepository;
     private final ElasticsearchClient elasticsearchClient;

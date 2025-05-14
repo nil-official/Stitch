@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.ecommerce.dto.RatingDto;
 import com.ecommerce.repository.ProductRepository;
-import com.ecommerce.service.ProductService;
 import com.ecommerce.service.RatingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import com.ecommerce.request.RatingRequest;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class RatingServiceImplementation implements RatingService {
+public class RatingServiceImpl implements RatingService {
 
     private RatingRepository ratingRepository;
     private ProductRepository productRepository;

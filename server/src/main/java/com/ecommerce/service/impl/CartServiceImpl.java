@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class CartServiceImplementation implements CartService {
+public class CartServiceImpl implements CartService {
 
     private UserService userService;
     private CartRepository cartRepository;

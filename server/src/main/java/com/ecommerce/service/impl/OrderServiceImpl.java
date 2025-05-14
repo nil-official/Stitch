@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class OrderServiceImplementation implements OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private UserRepository userRepository;
     private OrderRepository orderRepository;

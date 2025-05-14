@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class WishlistItemServiceImplementation implements WishlistItemService {
+public class WishlistItemServiceImpl implements WishlistItemService {
 
     private WishlistItemRepository wishlistItemRepository;
 

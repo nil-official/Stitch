@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class WishlistServiceImplementation implements WishlistService {
+public class WishlistServiceImpl implements WishlistService {
 
     private WishlistRepository wishlistRepository;
     private ProductRepository productRepository;
