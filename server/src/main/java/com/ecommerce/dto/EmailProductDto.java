@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HomeProductDto {
+public class EmailProductDto {
 
     private Long id;
     private String title;
@@ -20,6 +20,5 @@ public class HomeProductDto {
     private boolean onSale;
     private String preview;
     private double averageRating;
-    private double rankScore;
 
 }

@@ -40,27 +40,6 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<SearchDto> toSearchDtoList(List<Product> products) {
-        return products.stream()
-                .map(product -> {
-                    SearchDto dto = new SearchDto();
-                    dto.setId(product.getId());
-                    dto.setTitle(product.getTitle());
-                    dto.setPrice(product.getPrice());
-                    dto.setDiscountedPrice(product.getDiscountedPrice());
-                    dto.setDiscountPercent(product.getDiscountPercent());
-                    dto.setQuantity(product.getQuantity());
-                    dto.setBrand(product.getBrand());
-                    dto.setFeatured(product.isFeatured());
-                    dto.setOnSale(product.isOnSale());
-                    dto.setPreview(product.getPreview());
-                    dto.setAverageRating(product.getAverageRating());
-                    dto.setRankScore(product.getRankScore());
-                    return dto;
-                })
-                .collect(Collectors.toList());
-    }
-
     public static List<HomeProductDto> toHomeProductDtoList(List<Product> products) {
         return products.stream()
                 .map(product -> {
@@ -82,6 +61,62 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 
+    public static CartProductDto toCartProductDto(Product product) {
+        CartProductDto dto = new CartProductDto();
+        dto.setId(product.getId());
+        dto.setTitle(product.getTitle());
+        dto.setBrand(product.getBrand());
+        dto.setColor(product.getColor());
+        dto.setSizes(SizeSortingUtil.sortSizes(product.getSizes()));
+        dto.setPrice(product.getPrice());
+        dto.setDiscountedPrice(product.getDiscountedPrice());
+        dto.setDiscountPercent(product.getDiscountPercent());
+        dto.setPreview(product.getPreview());
+        dto.setQuantity(product.getQuantity());
+        return dto;
+    }
+
+    public static List<SearchDto> toSearchDtoList(List<Product> products) {
+        return products.stream()
+                .map(product -> {
+                    SearchDto dto = new SearchDto();
+                    dto.setId(product.getId());
+                    dto.setTitle(product.getTitle());
+                    dto.setPrice(product.getPrice());
+                    dto.setDiscountedPrice(product.getDiscountedPrice());
+                    dto.setDiscountPercent(product.getDiscountPercent());
+                    dto.setQuantity(product.getQuantity());
+                    dto.setBrand(product.getBrand());
+                    dto.setFeatured(product.isFeatured());
+                    dto.setOnSale(product.isOnSale());
+                    dto.setPreview(product.getPreview());
+                    dto.setAverageRating(product.getAverageRating());
+                    dto.setRankScore(product.getRankScore());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<EmailProductDto> toEmailProductDtoList(List<Product> products) {
+        return products.stream()
+                .map(product -> {
+                    EmailProductDto dto = new EmailProductDto();
+                    dto.setId(product.getId());
+                    dto.setTitle(product.getTitle());
+                    dto.setPrice(product.getPrice());
+                    dto.setDiscountedPrice(product.getDiscountedPrice());
+                    dto.setDiscountPercent(product.getDiscountPercent());
+                    dto.setQuantity(product.getQuantity());
+                    dto.setBrand(product.getBrand());
+                    dto.setFeatured(product.isFeatured());
+                    dto.setOnSale(product.isOnSale());
+                    dto.setPreview(product.getPreview());
+                    dto.setAverageRating(product.getAverageRating());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
     public static List<ProductMLDto> toProductMLDtoList(List<Product> products) {
         return products.stream()
                 .sorted(Comparator.comparing(Product::getId))
@@ -97,21 +132,6 @@ public class ProductMapper {
                     return dto;
                 })
                 .collect(Collectors.toList());
-    }
-
-    public static CartProductDto toCartProductDto(Product product) {
-        CartProductDto dto = new CartProductDto();
-        dto.setId(product.getId());
-        dto.setTitle(product.getTitle());
-        dto.setBrand(product.getBrand());
-        dto.setColor(product.getColor());
-        dto.setSizes(SizeSortingUtil.sortSizes(product.getSizes()));
-        dto.setPrice(product.getPrice());
-        dto.setDiscountedPrice(product.getDiscountedPrice());
-        dto.setDiscountPercent(product.getDiscountPercent());
-        dto.setPreview(product.getPreview());
-        dto.setQuantity(product.getQuantity());
-        return dto;
     }
 
     public static ProductES toProductES(Product product) {

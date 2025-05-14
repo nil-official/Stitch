@@ -1,50 +1,63 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dto.EmailProductDto;
 import com.ecommerce.dto.ProductMLDto;
 import com.ecommerce.mapper.ProductMapper;
+import com.ecommerce.model.Product;
+import com.ecommerce.model.User;
 import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.request.RankScoreRequest;
 import com.ecommerce.request.SizePredictionRequest;
 import com.ecommerce.response.RankScoreResponse;
 import com.ecommerce.response.SizePredictionResponse;
+import com.ecommerce.service.EmailService;
 import com.ecommerce.service.MLService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class MLServiceImplementation implements MLService {
+public class MLServiceImpl implements MLService {
 
     private final RestTemplate restTemplate;
     private final ProductRepository productRepository;
+    private final EmailService emailService;
     private final String ML_RANK_API_URL = "http://localhost:8000/api/ml/rank";
     private final String ML_RECOMMEND_API_URL = "http://localhost:8000/api/ml/recommend";
     private final String ML_PREDICT_API_URL = "http://localhost:8000/api/ml/predict";
 
     @Override
-    public double getRankScore(RankScoreRequest request) {
-        try {
-            ResponseEntity<RankScoreResponse> response = restTemplate.postForEntity(
-                    ML_RANK_API_URL, request, RankScoreResponse.class
-            );
+    public void sendRecommendationEmailToUser(User user, Long baseProductId, int limit) {
+        // Step 1: Get recommended product IDs from ML service
+        List<Long> recommendedProductIds = getRecommendedProducts(baseProductId, limit);
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                return response.getBody().getRankScore();
-            } else {
-                System.err.println("⚠️ ML API did not return a valid response");
-            }
-        } catch (Exception e) {
-            System.err.println("🚨 Exception calling ML API: " + e.getMessage());
+        if (recommendedProductIds.isEmpty()) {
+            System.out.println("⚠️ No recommended products found for product ID: " + baseProductId);
+            return;
         }
 
-        return 0.0;
+        // Step 2: Fetch Product entities by ID
+        List<Product> recommendedProducts = recommendedProductIds.stream()
+                .map(productRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+
+        if (recommendedProducts.isEmpty()) {
+            System.out.println("⚠️ No valid products found for the recommended IDs.");
+            return;
+        }
+
+        // Step 3: Map products to EmailProductDto
+        List<EmailProductDto> productDtos = ProductMapper.toEmailProductDtoList(recommendedProducts);
+
+        // Step 4: Send promotional email using email service
+        emailService.sendPromotionalEmail(user, productDtos, "recommendation");
     }
 
     @Override
@@ -77,6 +90,25 @@ public class MLServiceImplementation implements MLService {
         }
 
         return List.of();
+    }
+
+    @Override
+    public double getRankScore(RankScoreRequest request) {
+        try {
+            ResponseEntity<RankScoreResponse> response = restTemplate.postForEntity(
+                    ML_RANK_API_URL, request, RankScoreResponse.class
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                return response.getBody().getRankScore();
+            } else {
+                System.err.println("⚠️ ML API did not return a valid response");
+            }
+        } catch (Exception e) {
+            System.err.println("🚨 Exception calling ML API: " + e.getMessage());
+        }
+
+        return 0.0;
     }
 
     @Override

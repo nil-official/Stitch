@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Recommendations</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Using table-based layout for maximum email client compatibility */
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        td {
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        .header {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .message {
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .logo {
+            max-height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .footer {
+            padding: 10px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #202c34;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Product Card Styles */
+        .product-card {
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .product-details {
+            padding: 12px;
+        }
+
+        .product-brand {
+            font-weight: 600;
+            font-size: 14px;
+            margin: 0;
+            color: #333;
+        }
+
+        .rating-container {
+            float: right;
+        }
+
+        .product-rating {
+            background-color: #4caf50;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .product-rating-star {
+            display: inline-block;
+            margin-right: 3px;
+            font-size: 10px;
+        }
+
+        .product-title {
+            margin-top: 4px;
+            margin-bottom: 0;
+            font-size: 14px;
+            color: #6c757d;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            margin-top: 4px;
+            margin-bottom: 0;
+        }
+
+        .discounted-price {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 14px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .discount-percent {
+            color: #4caf50;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #007bff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .image-container {
+            position: relative;
+            display: block;
+        }
+
+        /* Email-friendly responsive styles */
+        @media screen and (max-width: 480px) {
+            .product-column {
+                display: block !important;
+                width: 100% !important;
+            }
+
+            .product-spacer {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td align="center">
+            <table class="container" border="0" cellpadding="0" cellspacing="0" width="600">
+                <!-- Header -->
+                <tr>
+                    <td class="header">
+                        <p th:text="${heading}">Recommended Just For You</p>
+                    </td>
+                </tr>
+
+                <!-- Content -->
+                <tr>
+                    <td class="content">
+                        <p class="message" th:text="${greeting}">Hello John,</p>
+                        <p class="message" th:text="${mainMessage}" style="margin-bottom: 30px">Based on your recent purchases, we thought you might like these
+                            handpicked products:</p>
+
+                        <!-- Products Grid - Using Tables for Email Compatibility -->
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <!-- Create rows based on products, 2 per row -->
+                            <th:block th:each="product, iterStat : ${products}">
+                                <!-- Start a new row for every odd-indexed product -->
+                                <tr th:if="${iterStat.index % 2 == 0}">
+                                    <!-- First product in row -->
+                                    <td class="product-column" width="48%" valign="top">
+                                        <table class="product-card" border="0" cellpadding="0" cellspacing="0"
+                                               width="100%">
+                                            <tr>
+                                                <td>
+                                                    <a th:href="${frontendBaseUrl + '/product/' + products[iterStat.index].id}"
+                                                       style="text-decoration: none; color: inherit; display: block;">
+                                                        <div class="image-container">
+                                                            <img th:src="${products[iterStat.index].preview}"
+                                                                 class="product-image" alt="Product Image"
+                                                                 width="100%"/>
+                                                            <span th:if="${products[iterStat.index].isFeatured}"
+                                                                  class="badge">★</span>
+                                                            <span th:if="${products[iterStat.index].onSale && !products[iterStat.index].isFeatured}"
+                                                                  class="badge">⚡</span>
+                                                        </div>
+                                                        <table class="product-details" border="0" cellpadding="0"
+                                                               cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="100%">
+                                                                        <tr>
+                                                                            <td class="product-brand"
+                                                                                th:text="${products[iterStat.index].brand}">
+                                                                                Brand Name
+                                                                            </td>
+                                                                            <td align="right" width="1%"
+                                                                                th:if="${products[iterStat.index].averageRating > 0}">
+                                                                                <div class="product-rating">
+                                                                                    <span class="product-rating-star">★</span>
+                                                                                    <span th:text="${#numbers.formatDecimal(products[iterStat.index].averageRating, 1, 1)}">4.5</span>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <p class="product-title"
+                                                                       th:text="${products[iterStat.index].title}">
+                                                                        Product Title</p>
+                                                                    <div class="product-price">
+                                                                        <span class="discounted-price"
+                                                                              th:text="${currency + ' ' + products[iterStat.index].discountedPrice}">₹2199</span>
+                                                                        <!-- Show only if price > discountedPrice -->
+                                                                        <span class="original-price"
+                                                                              th:if="${products[iterStat.index].price > products[iterStat.index].discountedPrice}"
+                                                                              th:text="${currency + ' ' + products[iterStat.index].price}">₹5499</span>
+
+                                                                        <span class="discount-percent"
+                                                                              th:if="${products[iterStat.index].price > products[iterStat.index].discountedPrice}"
+                                                                              th:text="'(' + ${products[iterStat.index].discountPercent} + '% OFF)'">(60% OFF)</span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                    <!-- Spacer -->
+                                    <td class="product-spacer" width="4%">&nbsp;</td>
+
+                                    <!-- Second product in row, if exists -->
+                                    <td class="product-column" width="48%" valign="top"
+                                        th:if="${iterStat.index + 1 < products.size()}">
+                                        <table class="product-card" border="0" cellpadding="0" cellspacing="0"
+                                               width="100%">
+                                            <tr>
+                                                <td>
+                                                    <a th:href="${frontendBaseUrl + '/product/' + products[iterStat.index + 1].id}"
+                                                       style="text-decoration: none; color: inherit; display: block;">
+                                                        <div class="image-container">
+                                                            <img th:src="${products[iterStat.index + 1].preview}"
+                                                                 class="product-image" alt="Product Image"
+                                                                 width="100%"/>
+                                                            <span th:if="${products[iterStat.index + 1].isFeatured}"
+                                                                  class="badge">★</span>
+                                                            <span th:if="${products[iterStat.index + 1].onSale && !products[iterStat.index + 1].isFeatured}"
+                                                                  class="badge">⚡</span>
+                                                        </div>
+                                                        <table class="product-details" border="0" cellpadding="0"
+                                                               cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                                           width="100%">
+                                                                        <tr>
+                                                                            <td class="product-brand"
+                                                                                th:text="${products[iterStat.index + 1].brand}">
+                                                                                Brand Name
+                                                                            </td>
+                                                                            <td align="right" width="1%"
+                                                                                th:if="${products[iterStat.index + 1].averageRating > 0}">
+                                                                                <div class="product-rating">
+                                                                                    <span class="product-rating-star">★</span>
+                                                                                    <span th:text="${#numbers.formatDecimal(products[iterStat.index + 1].averageRating, 1, 1)}">4.5</span>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <p class="product-title"
+                                                                       th:text="${products[iterStat.index + 1].title}">
+                                                                        Product Title</p>
+                                                                    <div class="product-price">
+                                                                        <span class="discounted-price"
+                                                                              th:text="${currency + ' ' + products[iterStat.index + 1].discountedPrice}">₹1199</span>
+                                                                        <!-- Show only if price > discountedPrice -->
+                                                                        <span class="original-price"
+                                                                              th:if="${products[iterStat.index + 1].price > products[iterStat.index + 1].discountedPrice}"
+                                                                              th:text="${currency + ' ' + products[iterStat.index + 1].price}">₹1499</span>
+
+                                                                        <span class="discount-percent"
+                                                                              th:if="${products[iterStat.index + 1].price > products[iterStat.index + 1].discountedPrice}"
+                                                                              th:text="'(' + ${products[iterStat.index + 1].discountPercent} + '% OFF)'">(20% OFF)</span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                    <!-- Empty cell if no second product -->
+                                    <td class="product-column" width="48%" valign="top"
+                                        th:unless="${iterStat.index + 1 < products.size()}">&nbsp;
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </table>
+
+                        <!-- CTA Button -->
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td align="center">
+                                    <a th:href="${frontendBaseUrl + '/' + actionUrl}" class="button"
+                                       th:text="${actionText}">Browse More Products</a>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Additional Info -->
+                        <p th:if="${additionalInfo != null}" th:text="${additionalInfo}"
+                           style="font-style: italic; margin: 10px; color: #6c757d; text-align: center;">
+                            Additional information will appear here if provided.
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Footer -->
+                <tr>
+                    <td class="footer">
+                        <p>&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> Stitch. All
+                            rights reserved.</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
