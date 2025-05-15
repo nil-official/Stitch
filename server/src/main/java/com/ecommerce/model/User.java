@@ -57,6 +57,10 @@ public class User {
     )
     private Set<Role> roles;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<SearchHistory> searchHistory = new ArrayList<>();
+
     @Column(nullable = false)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
