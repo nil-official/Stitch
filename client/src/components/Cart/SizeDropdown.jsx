@@ -31,7 +31,7 @@ const SizeDropdown = ({ sizes, currentSize, onSizeChange }) => {
         <div className="relative" ref={dropdownRef}>
             <button
                 type="button"
-                className="flex items-center justify-between w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white"
+                className="flex items-center justify-between w-full px-2 py-1 md:px-3 md:py-2 text-sm border border-gray-300 rounded-md bg-white"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span>{currentSize}</span>
@@ -48,7 +48,7 @@ const SizeDropdown = ({ sizes, currentSize, onSizeChange }) => {
                         {availableSizes.map((size) => (
                             <li
                                 key={size.name}
-                                className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 ${currentSize === size.name ? 'bg-gray-100' : ''
+                                className={`px-2 py-1 md:px-3 md:py-2 text-sm cursor-pointer hover:bg-gray-100 ${currentSize === size.name ? 'bg-gray-100' : ''
                                     }`}
                                 onClick={() => handleSelect(size)}
                             >

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, TrashIcon } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { ChevronLeft, ShoppingCart, Trash } from 'lucide-react';
 import EmptyPage from '../EmptyPage';
 import ErrorPage from '../ErrorPage';
 import Loader from '../../components/Loader';
@@ -10,12 +11,23 @@ import CheckoutSteps from '../../components/CheckoutSteps';
 import CartItemList from '../../components/Cart/CartItemList';
 import OrderSummary from '../../components/Order/OrderSummary';
 import { addToWishlist } from '../../redux/customer/wishlist/action';
-import { getCart, updateCart, removeFromCart, clearCart } from '../../redux/customer/cart/action';
+import { getSelectedCartData } from '../../redux/customer/cart/selector';
+import {
+    getCart,
+    updateCart,
+    removeFromCart,
+    clearCart,
+    selectCartItem,
+    deselectCartItem,
+    selectAllCartItems,
+    deselectAllCartItems,
+} from '../../redux/customer/cart/action';
 
 const CartPage = () => {
     const dispatch = useDispatch();
     const [currency, setCurrency] = useState('INR');
-    const { cart, loading, error } = useSelector((state) => state.cart);
+    const { cart, selectedItems, loading, error } = useSelector((state) => state.cart);
+    const selectedCartData = useSelector(getSelectedCartData);
 
     const [confirmation, setConfirmation] = useState({
         isOpen: false,
@@ -31,7 +43,10 @@ const CartPage = () => {
     }, [dispatch, cart]);
 
     const handleQuantityChange = (cartItemId, quantity, currentQuantity) => {
-        if (quantity > 5) return;
+        if (quantity > 5) {
+            toast.error("Maximum five units allowed per item.");
+            return;
+        }
         if (quantity === 0) {
             handleRemoveItem(cartItemId);
             return;
@@ -86,6 +101,22 @@ const CartPage = () => {
         });
     };
 
+    const handleSelectItem = (itemId) => {
+        if (selectedItems.includes(itemId)) {
+            dispatch(deselectCartItem(itemId));
+        } else {
+            dispatch(selectCartItem(itemId));
+        }
+    };
+
+    const handleSelectAll = (select) => {
+        if (select && cart && cart.cartItems) {
+            dispatch(selectAllCartItems(cart.cartItems.map(item => item.id)));
+        } else {
+            dispatch(deselectAllCartItems());
+        }
+    };
+
     const closeConfirmation = () => {
         setConfirmation(prev => ({ ...prev, isOpen: false }));
     };
@@ -118,65 +149,51 @@ const CartPage = () => {
 
             {cart && cart.totalItem > 0 && (
                 <div className="w-11/12 xl:w-5/6 2xl:w-3/4">
-                    <div className='flex items-center gap-4 mb-6'>
-                        <Link to='/' className="text-primary hover:text-primary-dark transition-all duration-300">
-                            <ChevronLeft size={32} />
+                    <div className='flex items-center gap-2 md:gap-4 mb-4 md:mb-6'>
+                        <Link to='/' className="text-primary-700 hover:text-primary-800 transition-all duration-300">
+                            <ChevronLeft className='w-6 h-6 md:w-8 md:h-8' />
                         </Link>
-                        <p className="text-2xl font-semibold">Shopping Cart ({cart.totalItem} items)</p>
+                        <p className="text-lg md:text-2xl font-semibold">Shopping Cart ({cart.totalItem} items)</p>
                     </div>
 
-                    <div className="flex flex-col lg:flex-row gap-6">
+                    <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
                         {/* Cart Items */}
                         <div className="w-full lg:w-2/3">
-                            <div className="rounded-lg shadow-md border border-primary-lighter overflow-hidden">
-                                <div className="hidden md:grid grid-cols-12 gap-4 p-4 bg-primary-lightest border-b border-primary-lighter">
-                                    <div className="col-span-4">
-                                        <h3 className="font-medium">Product</h3>
-                                    </div>
-                                    <div className="col-span-2 text-center">
-                                        <h3 className="font-medium">Price</h3>
-                                    </div>
-                                    <div className="col-span-2 text-center">
-                                        <h3 className="font-medium">Size</h3>
-                                    </div>
-                                    <div className="col-span-2 text-center">
-                                        <h3 className="font-medium">Quantity</h3>
-                                    </div>
-                                    <div className="col-span-2 text-right">
-                                        <h3 className="font-medium">Total</h3>
-                                    </div>
-                                </div>
+                            <CartItemList
+                                cartItems={cart.cartItems}
+                                currency={currency}
+                                onQuantityChange={handleQuantityChange}
+                                onSizeChange={handleSizeChange}
+                                onRemoveItem={handleRemoveItem}
+                                onMoveToWishlist={handleWishlistItem}
+                                selectedItems={selectedItems}
+                                onSelectItem={handleSelectItem}
+                                onSelectAll={handleSelectAll}
+                            />
 
-                                <CartItemList
-                                    cartItems={cart.cartItems}
-                                    currency={currency}
-                                    onQuantityChange={handleQuantityChange}
-                                    onSizeChange={handleSizeChange}
-                                    onRemoveItem={handleRemoveItem}
-                                    onMoveToWishlist={handleWishlistItem}
-                                />
-
-                                <div className="p-4 flex justify-end gap-4 bg-primary-lightest">
+                            <div className="mt-4 flex justify-end gap-4">
+                                <button
+                                    onClick={handleClearCart}
+                                    className="flex items-center gap-2 px-4 py-2 font-semibold border border-error-600 text-error-600 hover:bg-error-50 rounded transition-all duration-300"
+                                >
+                                    <Trash className='w-4 h-4' />
+                                    <span>Clear Cart</span>
+                                </button>
+                                <Link to="/products" >
                                     <button
-                                        onClick={handleClearCart}
-                                        className="px-4 py-2 font-semibold border border-primary-light-2x text-primary hover:bg-primary-lighter rounded transition-all duration-300"
+                                        className='flex items-center gap-2 px-4 py-2 font-semibold border border-primary-600 text-primary-700 hover:bg-primary-50 rounded transition-all duration-300'
                                     >
-                                        Clear Cart
+                                        <ShoppingCart className='w-4 h-4' />
+                                        <span>Continue Shopping</span>
                                     </button>
-                                    <Link to="/products" >
-                                        <button
-                                            className='px-4 py-2 font-semibold text-white bg-primary hover:bg-primary-dark rounded transition-all duration-300'
-                                        >
-                                            Continue Shopping
-                                        </button>
-                                    </Link>
-                                </div>
+                                </Link>
                             </div>
                         </div>
 
+                        {/* Order Summary */}
                         <div className="w-full lg:w-1/3">
                             <OrderSummary
-                                cart={cart}
+                                cart={selectedItems.length === cart.cartItems.length ? cart : selectedCartData}
                                 currency={currency}
                                 checkoutPath="/checkout/shipping"
                             />
