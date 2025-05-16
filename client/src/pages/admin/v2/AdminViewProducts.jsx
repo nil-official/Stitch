@@ -40,7 +40,7 @@ const AdminViewProducts = () => {
                 },
             })
             setProducts(response.data?.content || [])
-            console.log(products);
+            // console.log(products);
         } catch (error) {
             console.error("Error fetching products:", error)
             toast.error("Error fetching products. Please try again.")

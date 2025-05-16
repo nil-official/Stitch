@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate, useLocation } from "react-router-dom"
 import UserProfileCard from "../../../components/Admin/v2/UserProfileCard"
 import ProductRecommendList from '../../../components/Admin/v2/ProductRecommendList';
-import decodeJWT from "../utils/decodeJWT"
+import decodeJWT from '../../../utils/decodeJWT';
 
 const AdminViewUserDetails = () => {
 

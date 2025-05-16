@@ -30,7 +30,7 @@ export default function AdminNav() {
 
     // Menu items
     const menuItems = [
-        { name: "Dashboard", icon: LayoutDashboard, color: "text-cyan-400", link: "/admin/dashboard" },
+        { name: "Dashboard", icon: LayoutDashboard, color: "text-cyan-400", link: "/admin" },
         { name: "Create Product", icon: Database, color: "text-slate-400", link: "/admin/products/create" },
         { name: "View Products", icon: MessageSquare, color: "text-slate-400", link: "/admin/products" },
         { name: "View Orders", icon: Activity, color: "text-slate-400", link: "/admin/orders" },
