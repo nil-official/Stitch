@@ -16,13 +16,13 @@ const AdminRoutesV2 = () => {
         <Routes>
             <Route path="*" element={<ErrorPage />} />
             <Route element={<AdminLayout />}>
-                <Route path="/dashboard" element={<AdminDashboard />} />
-                <Route path="/products/create" element={<AdminCreateProduct />} />
+                <Route path="/" element={<AdminDashboard />} />
                 <Route path="/products" element={<AdminViewProducts />} />
-                <Route path="/help" element={<AdminHelpAndSupport />} />
+                <Route path="/products/create" element={<AdminCreateProduct />} />
                 <Route path="/products/edit" element={<AdminEditProduct />} />
-                <Route path="/users" element={<AdminViewAllUsers />} />
+                <Route path="/help" element={<AdminHelpAndSupport />} />
                 <Route path="/orders" element={<AdminViewAllOrders />} />
+                <Route path="/users" element={<AdminViewAllUsers />} />
                 <Route path="/users/edit" element={<AdminEditUser />} />
                 <Route path="/usersDetails" element={<AdminViewUserDetails />} />
             </Route>
