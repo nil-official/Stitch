@@ -5,7 +5,7 @@ import java.util.List;
 import com.ecommerce.dto.OrderDto;
 import com.ecommerce.model.User;
 import com.ecommerce.request.OrderRequest;
-import com.ecommerce.user.domain.OrderStatus;
+import com.ecommerce.enums.OrderStatus;
 
 public interface OrderService {
 

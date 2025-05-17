@@ -1,6 +1,6 @@
 package com.ecommerce.model;
 
-import com.ecommerce.user.domain.IssueStatus;
+import com.ecommerce.enums.IssueStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

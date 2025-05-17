@@ -7,7 +7,7 @@ import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.model.Order;
 import com.ecommerce.repository.OrderRepository;
 import com.ecommerce.service.PaymentService;
-import com.ecommerce.user.domain.OrderStatus;
+import com.ecommerce.enums.OrderStatus;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.razorpay.Utils;

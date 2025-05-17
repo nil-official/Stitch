@@ -7,7 +7,7 @@ import com.ecommerce.model.Address;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.AddressRepository;
 import com.ecommerce.service.AddressService;
-import com.ecommerce.user.domain.AddressType;
+import com.ecommerce.enums.AddressType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

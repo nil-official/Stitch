@@ -6,7 +6,7 @@ import com.ecommerce.dto.OrderDto;
 import com.ecommerce.exception.UserException;
 import com.ecommerce.model.User;
 import com.ecommerce.request.OrderRequest;
-import com.ecommerce.user.domain.OrderStatus;
+import com.ecommerce.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

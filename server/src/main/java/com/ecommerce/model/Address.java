@@ -1,6 +1,6 @@
 package com.ecommerce.model;
 
-import com.ecommerce.user.domain.AddressType;
+import com.ecommerce.enums.AddressType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;

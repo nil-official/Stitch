@@ -14,7 +14,7 @@ import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.repository.UserRepository;
 import com.ecommerce.service.OrderService;
 import com.ecommerce.service.PaymentService;
-import com.ecommerce.user.domain.OrderStatus;
+import com.ecommerce.enums.OrderStatus;
 import com.ecommerce.mapper.OrderMapper;
 
 import lombok.AllArgsConstructor;

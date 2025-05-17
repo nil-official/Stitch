@@ -9,7 +9,7 @@ import com.ecommerce.request.IssueRequest;
 import com.ecommerce.request.IssueRespondRequest;
 import com.ecommerce.response.IssueResponse;
 import com.ecommerce.service.IssueService;
-import com.ecommerce.user.domain.IssueStatus;
+import com.ecommerce.enums.IssueStatus;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;

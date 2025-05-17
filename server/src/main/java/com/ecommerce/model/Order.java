@@ -1,6 +1,6 @@
 package com.ecommerce.model;
 
-import com.ecommerce.user.domain.OrderStatus;
+import com.ecommerce.enums.OrderStatus;
 
 import jakarta.persistence.*;
 import lombok.*;
