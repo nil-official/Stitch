@@ -1,12 +1,8 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.request.ForgotPasswordRequest;
 import com.ecommerce.request.RegisterRequest;
-import com.ecommerce.request.ResetPasswordRequest;
 import com.ecommerce.response.ApiResponse;
 import com.ecommerce.service.AuthService;
-import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,20 +21,19 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<ApiResponse> signupHandler(@Valid @RequestBody RegisterRequest registerRequest)
-            throws UserException, MessagingException {
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse> registerHandler(@Valid @RequestBody RegisterRequest registerRequest) throws UserException {
 
-        authService.signUp(registerRequest);
+        authService.register(registerRequest);
         ApiResponse apiResponse = new ApiResponse("User Registered Successfully! Please verify your email to login!", true);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> signinHandler(@Valid @RequestBody LoginRequest loginRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> loginHandler(@Valid @RequestBody LoginRequest loginRequest) {
 
-        AuthResponse authResponse = authService.signIn(loginRequest);
+        AuthResponse authResponse = authService.login(loginRequest);
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
 
     }
@@ -52,21 +47,20 @@ public class AuthController {
 
     }
 
-    @PostMapping("/forgot-password")
-    public ResponseEntity<ApiResponse> forgotPasswordHandler(@RequestBody ForgotPasswordRequest forgotPasswordRequest, HttpServletRequest request)
-            throws UserException, MessagingException {
+    @PostMapping("/password/forgot")
+    public ResponseEntity<ApiResponse> forgotPasswordHandler(@RequestParam String email) throws UserException {
 
-        authService.sendResetPasswordEmail(forgotPasswordRequest.getEmail(), request);
-        ApiResponse apiResponse = new ApiResponse("Password reset link sent to your email.", true);
+        authService.forgotPassword(email);
+        ApiResponse apiResponse = new ApiResponse("An One Time Password (OTP) has been sent to your registered email address to reset your password.", true);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<ApiResponse> resetPasswordHandler(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+    @PostMapping("/password/reset")
+    public ResponseEntity<ApiResponse> resetPasswordHandler(@RequestParam String otp, @RequestParam String newPassword) {
 
-        authService.resetPassword(resetPasswordRequest.getToken(), resetPasswordRequest.getNewPassword());
-        ApiResponse apiResponse = new ApiResponse("Password reset successfully! You can now log in with your new password.", true);
+        authService.resetPassword(otp, newPassword);
+        ApiResponse apiResponse = new ApiResponse("Your password has been reset successfully. You may now log in using your new password.", true);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
