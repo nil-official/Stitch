@@ -2,10 +2,10 @@ package com.ecommerce.service;
 
 import com.ecommerce.model.User;
 
-public interface OtpService {
+public interface TokenService {
 
-    void generateAndSendOtp(User user, Integer otpLength, String purpose);
+    void generateAndSendToken(User user, String type, Integer otpLength, Integer expiryInMin, String purpose);
 
-    boolean validateOtp(User user, String otp);
+    void validateToken(String type, String token);
 
 }

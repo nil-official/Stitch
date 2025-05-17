@@ -95,6 +95,12 @@ public class GlobalException {
         return new ResponseEntity<>(err, ex.getStatus());
     }
 
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<ErrorDetails> handleTokenException(TokenException ex, HttpServletRequest req) {
+        ErrorDetails err = new ErrorDetails(ex.getMessage(), RequestDetailsUtil.buildDetailedRequestInfo(req), LocalDateTime.now());
+        return new ResponseEntity<>(err, ex.getStatus());
+    }
+
     @ExceptionHandler(UnauthenticatedException.class)
     public ResponseEntity<ApiResponse> handleUnauthenticated(UnauthenticatedException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
