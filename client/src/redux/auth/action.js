@@ -14,7 +14,7 @@ import {
 export const register = (firstName, lastName, email, password) => async (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
     try {
-        const res = await axios.post('/auth/signup', {
+        const res = await axios.post('/auth/register', {
             firstName,
             lastName,
             email,
@@ -32,7 +32,7 @@ export const register = (firstName, lastName, email, password) => async (dispatc
 export const login = (email, password) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
     try {
-        const res = await axios.post('/auth/signin', { email, password });
+        const res = await axios.post('/auth/login', { email, password });
         localStorage.setItem("jwtToken", res.data.jwt);
         dispatch({ type: LOGIN_SUCCESS, payload: res.data.jwt });
     } catch (error) {
