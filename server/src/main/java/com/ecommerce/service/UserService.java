@@ -24,4 +24,8 @@ public interface UserService {
 
     User updateUserRoleById(Long userId, boolean promote) throws UserException;
 
+    void initiateEmailUpdate(User user);
+
+    void updateEmail(User user, String otp, String newEmail) throws UserException;
+
 }
