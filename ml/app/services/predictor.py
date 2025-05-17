@@ -3,8 +3,10 @@ import pickle
 import os
 
 # Paths to saved model and encoder
-MODEL_PATH = "training/models/body_type_model.pkl"
-ENCODER_PATH = "training/models/body_type_label_encoder.pkl"
+# MODEL_PATH = "training/models/body_type_model.pkl"
+# ENCODER_PATH = "training/models/body_type_label_encoder.pkl"
+MODEL_PATH = "training/models/body_type_model_rf.pkl"
+ENCODER_PATH = "training/models/body_type_label_map_rf.pkl"
 
 def predict_body_type(height, weight, age):
     try:
@@ -27,7 +29,8 @@ def predict_body_type(height, weight, age):
 
         df_input = pd.DataFrame([[height, weight, age]], columns=['Height', 'Weight', 'Age'])
         prediction_index = model.predict(df_input)[0]
-        prediction_label = label_encoder.inverse_transform([prediction_index])[0]
+        # prediction_label = label_encoder.inverse_transform([prediction_index])[0]
+        prediction_label = label_encoder[int(prediction_index)]
 
         return {
             "index": int(prediction_index),
