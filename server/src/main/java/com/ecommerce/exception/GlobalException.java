@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.ecommerce.response.ApiResponse;
+import com.ecommerce.utility.RequestDetailsUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -84,6 +87,24 @@ public class GlobalException {
     public ResponseEntity<ErrorDetails> TokenExpiredExceptionHandler(TokenExpiredException te, WebRequest req) {
         ErrorDetails err = new ErrorDetails(te.getMessage(), req.getDescription(false), LocalDateTime.now());
         return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SearchHistoryException.class)
+    public ResponseEntity<ErrorDetails> handleSearchHistoryException(SearchHistoryException ex, HttpServletRequest req) {
+        ErrorDetails err = new ErrorDetails(ex.getMessage(), RequestDetailsUtil.buildDetailedRequestInfo(req), LocalDateTime.now());
+        return new ResponseEntity<>(err, ex.getStatus());
+    }
+
+    @ExceptionHandler(UnauthenticatedException.class)
+    public ResponseEntity<ApiResponse> handleUnauthenticated(UnauthenticatedException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiResponse(ex.getMessage(), false));
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiResponse> handleUnauthorized(UnauthorizedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponse(ex.getMessage(), false));
     }
 
 }

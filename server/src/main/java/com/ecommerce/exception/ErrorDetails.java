@@ -1,9 +1,9 @@
 package com.ecommerce.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorDetails {
-	
-	private String error;
-	private String details;
-	private LocalDateTime timestamp;
-	
+
+    private String error;
+    private String details;
+    private LocalDateTime timestamp;
+
 }
