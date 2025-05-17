@@ -9,7 +9,6 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -64,43 +63,101 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendOtpEmail(User user, String otp, String purpose) {
+    public void sendOtpEmail(User user, String otp, Integer expiry, String purpose) {
 
         String subject;
-        String message;
-        String additionalInfo = null;
+        String heading;
+        String greeting = "Hello " + user.getFirstName() + ",";
+        String mainMessage;
+        String expiration = "This OTP will expire in " + expiry + " minutes.";
+        String additionalInfo = "If this wasn’t you, please secure your account immediately by resetting your password.";
         String templatePath = "email/otp";
 
         switch (purpose.toLowerCase()) {
-            case "registration":
-                subject = "Complete Your Registration";
-                message = "Thank you for registering with our ecommerce platform. Please use the following One-Time Password (OTP) to verify your account:";
-                break;
             case "password-reset":
-                subject = "Reset Your Password";
-                message = "We received a request to reset your password. Please use the following One-Time Password (OTP) to verify your identity:";
-                additionalInfo = "If you did not request a password reset, please consider changing your password for security reasons.";
+                subject = "OTP for Password Reset";
+                heading = "Reset Your Password";
+                mainMessage = "We received a request to reset your password. Please use the following OTP to verify your identity and continue the reset process.";
                 break;
+
             case "email-update":
-                subject = "Verify Email Update";
-                message = "We received a request to update your email address. Please use the following One-Time Password (OTP) to verify this change:";
-                additionalInfo = "If you did not request this change, please contact our support team immediately as your account may be at risk.";
+                subject = "OTP for Email Change Verification";
+                heading = "Verify Your New Email";
+                mainMessage = "You’ve requested to change your email address. Please enter the OTP below to confirm this change and help us keep your account secure.";
                 break;
+
             default:
-                subject = "OTP Verification";
-                message = "You have requested a verification code. Please use the following One-Time Password (OTP):";
+                subject = "Your OTP Code";
+                heading = "Verify Your Action";
+                mainMessage = "Please use the following OTP to complete your verification. This step helps us ensure the security of your account and verify your identity.";
         }
 
         Map<String, Object> templateModel = new HashMap<>();
-        templateModel.put("name", user.getFirstName() + " " + user.getLastName());
-        templateModel.put("subject", subject);
-        templateModel.put("message", message);
+        templateModel.put("heading", heading);
+        templateModel.put("greeting", greeting);
+        templateModel.put("mainMessage", mainMessage);
         templateModel.put("otp", otp);
-        templateModel.put("expiryMinutes", 10);
+        templateModel.put("expiration", expiration);
         templateModel.put("additionalInfo", additionalInfo);
 
         sendEmail(user.getEmail(), subject, templatePath, templateModel);
 
+    }
+
+    @Override
+    public void sendTokenEmail(User user, String token, Integer expiry, String purpose) {
+
+        String subject;
+        String heading;
+        String greeting = "Hello " + user.getFirstName() + ",";
+        String mainMessage;
+        String actionText;
+        String actionUrl = "verify?token=" + token;
+        String expiration = "This link will expire in " + expiry + " minutes.";
+        String additionalInfo = "If this wasn’t you, please secure your account immediately by resetting your password.";
+        String templatePath = "email/token";
+
+        switch (purpose.toLowerCase()) {
+            case "register":
+                subject = "Account Registration Confirmation";
+                heading = "Activate Your New Account";
+                mainMessage = "Thank you for signing up. To activate your account and begin using our services, please confirm your registration by clicking the button below.";
+                actionText = "Confirm Registration";
+                break;
+
+            case "resend-token":
+                subject = "Verify Your Email Address";
+                heading = "Complete Your Registration";
+                mainMessage = "We noticed you haven't verified your email yet. To activate your account, please click the button below.";
+                actionText = "Verify Email";
+                break;
+
+            case "email-update":
+                subject = "Email Address Change Verification";
+                heading = "Verify Your New Email Address";
+                mainMessage = "You have requested to update the email address associated with your account. Please verify this change by clicking the button below.";
+                actionText = "Verify Email Address";
+                break;
+
+            default:
+                subject = "Action Required: Verify Your Request";
+                heading = "Confirm Your Action";
+                mainMessage = "We have received a request that requires your confirmation. Please click the button below to proceed.";
+                actionText = "Verify Now";
+                break;
+        }
+
+        Map<String, Object> templateModel = new HashMap<>();
+        templateModel.put("heading", heading);
+        templateModel.put("greeting", greeting);
+        templateModel.put("mainMessage", mainMessage);
+        templateModel.put("frontendBaseUrl", frontendBaseUrl);
+        templateModel.put("actionUrl", actionUrl);
+        templateModel.put("actionText", actionText);
+        templateModel.put("expiration", expiration);
+        templateModel.put("additionalInfo", additionalInfo);
+
+        sendEmail(user.getEmail(), subject, templatePath, templateModel);
     }
 
     @Override
@@ -161,188 +218,6 @@ public class EmailServiceImpl implements EmailService {
 
         sendEmail(user.getEmail(), subject, templatePath, templateModel);
 
-    }
-
-    private void sendEmailOld(String to, String subject, String content) throws MessagingException {
-
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        try {
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(content, true); // Set content as HTML
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new EmailSendingException("Failed to send email to " + to, e);
-        }
-    }
-
-    @Async
-    @Override
-    public void sendVerificationEmail(String toEmail, String verifyLink) throws MessagingException {
-        // Create email content
-        String subject = "Email Verification";
-//        String content = "<p>Please verify your email by clicking the link below:</p>"
-//                + "<a href=\"" + verifyLink + "\">Verify Email</a>";
-
-        // New content
-        String content =
-                "<!DOCTYPE html>\n" +
-                        "<html lang=\"en\">\n" +
-                        "<head>\n" +
-                        "    <meta charset=\"UTF-8\">\n" +
-                        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                        "    <title>Email Verification</title>\n" +
-                        "    <style>\n" +
-                        "        body {\n" +
-                        "            font-family: Arial, sans-serif;\n" +
-                        "            background-color: #f9f9f9;\n" +
-                        "            margin: 0;\n" +
-                        "            padding: 0;\n" +
-                        "        }\n" +
-                        "        .email-container {\n" +
-                        "            max-width: 600px;\n" +
-                        "            margin: 40px auto;\n" +
-                        "            background-color: #ffffff;\n" +
-                        "            padding: 30px;\n" +
-                        "            border-radius: 10px;\n" +
-                        "            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n" +
-                        "            text-align: center;\n" +
-                        "        }\n" +
-                        "        .logo {\n" +
-                        "            font-size: 28px;\n" +
-                        "            font-weight: bold;\n" +
-                        "            color: #000000;\n" +
-                        "            margin-bottom: 20px;\n" +
-                        "        }\n" +
-                        "        .content {\n" +
-                        "            font-size: 16px;\n" +
-                        "            color: #333333;\n" +
-                        "            line-height: 1.8;\n" +
-                        "            margin-bottom: 20px;\n" +
-                        "        }\n" +
-                        "        .verify-button {\n" +
-                        "            display: inline-block;\n" +
-                        "            padding: 12px 25px;\n" +
-                        "            font-size: 16px;\n" +
-                        "            font-weight: bold;\n" +
-                        "            color: #ffffff !important;\n" +
-                        "            background-color: #000000;\n" +
-                        "            text-decoration: none;\n" +
-                        "            border-radius: 5px;\n" +
-                        "        }\n" +
-                        "        .verify-button:hover {\n" +
-                        "            background-color: #333333;\n" +
-                        "        }\n" +
-                        "        .footer {\n" +
-                        "            font-size: 12px;\n" +
-                        "            color: #888888;\n" +
-                        "            margin-top: 20px;\n" +
-                        "        }\n" +
-                        "    </style>\n" +
-                        "</head>\n" +
-                        "<body>\n" +
-                        "    <div class=\"email-container\">\n" +
-                        "        <div class=\"logo\">Stitch</div>\n" +
-                        "        <div class=\"content\">\n" +
-                        "            <p>Please verify your email by clicking the button below:</p>\n" +
-                        "            <a href=\"" + verifyLink + "\" class=\"verify-button\">Verify Email</a>\n" +
-                        "        </div>\n" +
-                        "        <div class=\"footer\">\n" +
-                        "            If you did not request this email, you can safely ignore it.\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "</body>\n" +
-                        "</html>\n";
-
-        // Send the email
-        sendEmailOld(toEmail, subject, content);
-    }
-
-    @Async
-    @Override
-    public void sendResetPasswordEmail(String toEmail, String resetLink) throws MessagingException {
-        // Create email content
-        String subject = "Reset Your Password";
-//        String content = "<p>You have requested to reset your password. Click the link below to reset it:</p>"
-//                + "<a href=\"" + resetLink + "\">Reset Password</a>"
-//                + "<p><b>Note:</b> This link is valid for 1 hour only.</p>";
-
-        // New content
-        String content =
-                "<!DOCTYPE html>\n" +
-                        "<html lang=\"en\">\n" +
-                        "<head>\n" +
-                        "    <meta charset=\"UTF-8\">\n" +
-                        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                        "    <title>Email Verification</title>\n" +
-                        "    <style>\n" +
-                        "        body {\n" +
-                        "            font-family: Arial, sans-serif;\n" +
-                        "            background-color: #f9f9f9;\n" +
-                        "            margin: 0;\n" +
-                        "            padding: 0;\n" +
-                        "        }\n" +
-                        "        .email-container {\n" +
-                        "            max-width: 600px;\n" +
-                        "            margin: 40px auto;\n" +
-                        "            background-color: #ffffff;\n" +
-                        "            padding: 30px;\n" +
-                        "            border-radius: 10px;\n" +
-                        "            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n" +
-                        "            text-align: center;\n" +
-                        "        }\n" +
-                        "        .logo {\n" +
-                        "            font-size: 28px;\n" +
-                        "            font-weight: bold;\n" +
-                        "            color: #000000;\n" +
-                        "            margin-bottom: 20px;\n" +
-                        "        }\n" +
-                        "        .content {\n" +
-                        "            font-size: 16px;\n" +
-                        "            color: #333333;\n" +
-                        "            line-height: 1.8;\n" +
-                        "            margin-bottom: 20px;\n" +
-                        "        }\n" +
-                        "        .verify-button {\n" +
-                        "            display: inline-block;\n" +
-                        "            padding: 12px 25px;\n" +
-                        "            font-size: 16px;\n" +
-                        "            font-weight: bold;\n" +
-                        "            color: #ffffff !important;\n" +
-                        "            background-color: #000000;\n" +
-                        "            text-decoration: none;\n" +
-                        "            border-radius: 5px;\n" +
-                        "        }\n" +
-                        "        .verify-button:hover {\n" +
-                        "            background-color: #333333;\n" +
-                        "        }\n" +
-                        "        .footer {\n" +
-                        "            font-size: 12px;\n" +
-                        "            color: #888888;\n" +
-                        "            margin-top: 20px;\n" +
-                        "        }\n" +
-                        "    </style>\n" +
-                        "</head>\n" +
-                        "<body>\n" +
-                        "    <div class=\"email-container\">\n" +
-                        "        <div class=\"logo\">Stitch</div>\n" +
-                        "        <div class=\"content\">\n" +
-                        "            <p>You have requested to reset your password. Click the link below to reset it:</p>\n" +
-                        "            <a href=\"" + resetLink + "\" class=\"verify-button\">Reset Password</a>\n" +
-                        "            <p><b>Note:</b>This link is valid for 1 hour only.</p>\n" +
-                        "        </div>\n" +
-                        "        <div class=\"footer\">\n" +
-                        "            If you did not request this email, you can safely ignore it.\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "</body>\n" +
-                        "</html>\n";
-
-
-        // Send the email
-        sendEmailOld(toEmail, subject, content);
     }
 
 }
