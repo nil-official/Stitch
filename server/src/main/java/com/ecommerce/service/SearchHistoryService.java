@@ -1,7 +1,7 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.SearchHistoryDto;
 import com.ecommerce.model.User;
+import com.ecommerce.dto.SearchHistoryDto;
 
 import java.util.List;
 
