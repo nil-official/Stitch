@@ -23,4 +23,16 @@ public class SearchHistoryMapper {
                 .collect(Collectors.toList());
     }
 
+    public static SearchHistoryDto ESToDto(String suggestion) {
+        SearchHistoryDto searchHistoryDto = new SearchHistoryDto();
+        searchHistoryDto.setPhrase(suggestion);
+        return searchHistoryDto;
+    }
+
+    public static List<SearchHistoryDto> EStoDtoList(List<String> suggestions) {
+        return suggestions.stream()
+                .map(SearchHistoryMapper::ESToDto)
+                .collect(Collectors.toList());
+    }
+
 }

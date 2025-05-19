@@ -1,93 +1,125 @@
 package com.ecommerce.service.impl;
 
 import com.ecommerce.dto.SearchHistoryDto;
+import com.ecommerce.dto.SearchSuggestionDto;
+import com.ecommerce.enums.SearchHistoryCodes;
 import com.ecommerce.exception.SearchHistoryException;
 import com.ecommerce.mapper.SearchHistoryMapper;
 import com.ecommerce.model.SearchHistory;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.SearchHistoryRepository;
+import com.ecommerce.service.ProductESService;
 import com.ecommerce.service.SearchHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SearchHistoryServiceImpl implements SearchHistoryService {
 
+    private final ProductESService productESService;
     private final SearchHistoryRepository searchHistoryRepository;
 
     @Override
-    public List<SearchHistoryDto> fetchUserSearchHistory(User user) {
-        try {
-            List<SearchHistoryDto> searchHistory = SearchHistoryMapper.toDtoList(searchHistoryRepository.findByUserId(user.getId()));
+    public List<SearchSuggestionDto> fetchSearchSuggestions(User user, String query) throws IOException {
+        String normalizedQuery = query.trim().toLowerCase();
 
-            if (searchHistory.isEmpty()) {
-                throw new SearchHistoryException("No search history found for the user " + user.getEmail(), HttpStatus.NO_CONTENT);
-            }
+        // History suggestions (prioritized)
+        List<SearchSuggestionDto> historySuggestions = fetchUserSearchHistory(user).stream()
+                .filter(dto -> dto.getPhrase() != null && dto.getPhrase().toLowerCase().startsWith(normalizedQuery))
+                .map(dto -> new SearchSuggestionDto(dto.getId(), dto.getPhrase().toLowerCase(), "history"))
+                .distinct()
+                .toList();
 
-            return searchHistory;
-        } catch (SearchHistoryException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new SearchHistoryException("An unexpected error occurred while fetching search history.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Set<String> historySet = historySuggestions.stream()
+                .map(SearchSuggestionDto::getSuggestion)
+                .collect(Collectors.toSet());
+
+        // ElasticSearch suggestions
+        List<SearchSuggestionDto> elasticSuggestions = productESService.autocompleteSearch(query).stream()
+                .map(String::toLowerCase)
+                .filter(suggestion -> !historySet.contains(suggestion)) // avoid duplicates
+                .distinct()
+                .map(suggestion -> new SearchSuggestionDto(null, suggestion, "suggestion"))
+                .toList();
+
+        // Combine: history first, then elastic suggestions
+        List<SearchSuggestionDto> combined = new ArrayList<>();
+        combined.addAll(historySuggestions);
+        combined.addAll(elasticSuggestions);
+
+        return combined.stream()
+                .limit(10)
+                .toList();
     }
 
     @Override
-    public void saveUserSearchPhrase(User user, String phrase) {
+    public List<SearchHistoryDto> fetchUserSearchHistory(User user) {
+        return SearchHistoryMapper.toDtoList(searchHistoryRepository.findByUserId(user.getId()))
+                .stream()
+                .limit(10)
+                .toList();
+    }
+
+    @Override
+    public List<SearchHistoryDto> fetchSearchAutocomplete(String query) throws IOException {
+        return SearchHistoryMapper.EStoDtoList(productESService.autocompleteSearch(query));
+    }
+
+    @Override
+    public SearchHistoryDto saveUserSearchPhrase(User user, String phrase) {
         if (phrase == null || phrase.trim().isEmpty()) {
-            throw new SearchHistoryException("Search phrase cannot be null or empty.", HttpStatus.BAD_REQUEST);
+            throw new SearchHistoryException(SearchHistoryCodes.EMPTY_PHRASE, HttpStatus.BAD_REQUEST);
         }
 
-        String trimmedPhrase = phrase.trim();
+        String trimmedPhrase = phrase.toLowerCase().trim();
 
         try {
             Optional<SearchHistory> existing = searchHistoryRepository
                     .findByUserIdAndPhraseIgnoreCase(user.getId(), trimmedPhrase);
 
-            if (existing.isPresent()) {
-                SearchHistory history = existing.get();
-                history.setSearchedAt(LocalDateTime.now());
-                searchHistoryRepository.save(history);
-            } else {
+            SearchHistory history = existing.map(h -> {
+                h.setSearchedAt(LocalDateTime.now());
+                return h;
+            }).orElseGet(() -> {
                 SearchHistory newHistory = new SearchHistory();
                 newHistory.setPhrase(trimmedPhrase);
                 newHistory.setSearchedAt(LocalDateTime.now());
                 newHistory.setUser(user);
-                searchHistoryRepository.save(newHistory);
-            }
-        } catch (SearchHistoryException e) {
-            throw e;
+                return newHistory;
+            });
+
+            return SearchHistoryMapper.toDto(searchHistoryRepository.save(history));
+
         } catch (Exception e) {
-            throw new SearchHistoryException("Internal server error while saving search phrase.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new SearchHistoryException(SearchHistoryCodes.SAVE_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
     public void deleteUserSearchPhrase(User user, Long phraseId) {
         if (phraseId == null || phraseId <= 0) {
-            throw new SearchHistoryException("Phrase ID must be a positive number.", HttpStatus.BAD_REQUEST);
+            throw new SearchHistoryException(SearchHistoryCodes.INVALID_IDENTIFIER, HttpStatus.BAD_REQUEST);
         }
 
         SearchHistory searchHistory = searchHistoryRepository.findById(phraseId)
-                .orElseThrow(() -> new SearchHistoryException("Search phrase not found with ID: " + phraseId, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new SearchHistoryException(SearchHistoryCodes.NOT_FOUND, HttpStatus.NOT_FOUND));
 
         if (!searchHistory.getUser().getId().equals(user.getId())) {
-            throw new SearchHistoryException("Unauthorized: You do not have permission to delete this phrase.", HttpStatus.FORBIDDEN);
+            throw new SearchHistoryException(SearchHistoryCodes.UNAUTHORIZED_ACCESS, HttpStatus.FORBIDDEN);
         }
 
         try {
             searchHistoryRepository.delete(searchHistory);
-        } catch (SearchHistoryException e) {
-            throw e;
         } catch (Exception e) {
-            throw new SearchHistoryException("Internal server error while deleting search phrase.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new SearchHistoryException(SearchHistoryCodes.DELETE_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -96,16 +128,10 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     public void clearUserSearchPhrases(User user) {
         List<SearchHistory> searchHistories = searchHistoryRepository.findByUserId(user.getId());
 
-        if (searchHistories.isEmpty()) {
-            throw new SearchHistoryException("No search history found for user: " + user.getEmail(), HttpStatus.NO_CONTENT);
-        }
-
         try {
             searchHistoryRepository.deleteAllByUserId(user.getId());
-        } catch (SearchHistoryException e) {
-            throw e;
         } catch (Exception e) {
-            throw new SearchHistoryException("Internal server error while clearing search history.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new SearchHistoryException(SearchHistoryCodes.CLEAR_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
