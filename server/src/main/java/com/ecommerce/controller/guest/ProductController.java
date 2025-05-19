@@ -1,4 +1,4 @@
-package com.ecommerce.controller;
+package com.ecommerce.controller.guest;
 
 import java.util.List;
 
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.exception.ProductException;
-import com.ecommerce.model.Product;
 import com.ecommerce.service.ProductService;
 
 @RestController

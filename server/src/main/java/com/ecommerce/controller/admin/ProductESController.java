@@ -1,4 +1,4 @@
-package com.ecommerce.controller;
+package com.ecommerce.controller.admin;
 
 import com.ecommerce.exception.ProductException;
 import com.ecommerce.model.ProductES;

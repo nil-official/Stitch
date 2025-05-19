@@ -1,10 +1,9 @@
-package com.ecommerce.controller;
+package com.ecommerce.controller.admin;
 
 import com.ecommerce.dto.UserDto;
 import com.ecommerce.exception.UserException;
 import com.ecommerce.mapper.UserMapper;
 import com.ecommerce.model.User;
-import com.ecommerce.repository.UserRepository;
 import com.ecommerce.response.ApiResponse;
 import com.ecommerce.service.UserService;
 import lombok.AllArgsConstructor;

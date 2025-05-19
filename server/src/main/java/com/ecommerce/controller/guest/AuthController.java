@@ -1,4 +1,4 @@
-package com.ecommerce.controller;
+package com.ecommerce.controller.guest;
 
 import com.ecommerce.request.RegisterRequest;
 import com.ecommerce.response.ApiResponse;
