@@ -135,7 +135,7 @@ const NavbarV3 = () => {
                         <Link to={BASE_ROUTES.HOME}>
                             <div className="flex gap-2 items-center flex-shrink-0">
                                 <div>
-                                    <img src="/logo.svg" alt="Logo" className='h-[50px]' />
+                                    <img src="/stitch_white.svg" alt="Logo" className='h-[50px]' />
                                 </div>
                                 <div className="text-3xl font-bold">
                                     Stitch
