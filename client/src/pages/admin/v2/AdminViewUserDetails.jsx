@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import UserProfileCard from "../../../components/Admin/v2/UserProfileCard"
 import ProductRecommendList from '../../../components/Admin/v2/ProductRecommendList';
 import decodeJWT from '../../../utils/decodeJWT';
+import { AUTH_ROUTES } from '../../../routes/routePaths';
 
 const AdminViewUserDetails = () => {
 
@@ -15,10 +16,10 @@ const AdminViewUserDetails = () => {
         if (localStorage.getItem("jwtToken")) {
             const authorities = decodeJWT(localStorage.getItem("jwtToken")).authorities
             if (!authorities.includes("ROLE_ADMIN")) {
-                navigate("/login")
+                navigate(AUTH_ROUTES.LOGIN)
             }
         } else {
-            navigate("/login")
+            navigate(AUTH_ROUTES.LOGIN)
         }
     }, [navigate])
 

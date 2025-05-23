@@ -5,6 +5,7 @@ import decodeJWT from '../../utils/decodeJWT';
 import { toast } from 'react-hot-toast';
 import ProductRow from '../../components/Admin/ProductRow';
 import BASE_URL from '../../utils/baseurl';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 const AdminProducts = () => {
     const navigate = useNavigate();
@@ -22,10 +23,10 @@ const AdminProducts = () => {
         if (localStorage.getItem("jwtToken")) {
             const authorities = decodeJWT(localStorage.getItem("jwtToken")).authorities;
             if (!authorities.includes("ROLE_ADMIN")) {
-                navigate('/login');
+                navigate(AUTH_ROUTES.LOGIN);
             }
         } else {
-            navigate('/login');
+            navigate(AUTH_ROUTES.LOGIN);
         }
     }, [navigate]);
 

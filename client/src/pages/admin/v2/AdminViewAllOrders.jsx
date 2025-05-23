@@ -6,6 +6,7 @@ import { Package2, Search, ArrowUpDown, Loader2, RefreshCw, AlertCircle } from "
 import OrderCard2 from "../../../components/Admin/v2/OrderCard2";
 import BASE_URL from "../../../utils/baseurl";
 import decodeJWT from "../../../utils/decodeJWT";
+import { AUTH_ROUTES } from "../../../routes/routePaths";
 
 const AdminViewAllOrders = () => {
     const navigate = useNavigate()
@@ -24,10 +25,10 @@ const AdminViewAllOrders = () => {
         if (localStorage.getItem("jwtToken")) {
             const authorities = decodeJWT(localStorage.getItem("jwtToken")).authorities
             if (!authorities.includes("ROLE_ADMIN")) {
-                navigate("/login")
+                navigate(AUTH_ROUTES.LOGIN)
             }
         } else {
-            navigate("/login")
+            navigate(AUTH_ROUTES.LOGIN)
         }
     }, [navigate])
 

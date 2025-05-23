@@ -5,6 +5,7 @@ import axios from "axios"
 import { PencilLine, ArrowLeft, ImageIcon, X, Loader2, Check, AlertCircle, Plus } from "lucide-react"
 import BASE_URL from "../../../utils/baseurl";
 import decodeJWT from "../../../utils/decodeJWT";
+import { AUTH_ROUTES } from "../../../routes/routePaths";
 
 const AdminEditProduct = () => {
     const navigate = useNavigate()
@@ -208,10 +209,10 @@ const AdminEditProduct = () => {
                     navigate("/admin/products")
                 }
             } else {
-                navigate("/login")
+                navigate(AUTH_ROUTES.LOGIN)
             }
         } else {
-            navigate("/login")
+            navigate(AUTH_ROUTES.LOGIN)
         }
     }, [navigate, product])
 
