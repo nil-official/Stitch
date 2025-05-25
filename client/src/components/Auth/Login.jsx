@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import InputField from './InputField';
 import { FaSpinner } from 'react-icons/fa';
 import { login } from '../../redux/auth/action';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 export const Login = () => {
 
@@ -83,7 +84,12 @@ export const Login = () => {
 
         <div className="text-center mt-4">
           Not a user?
-          <Link to="/register" className="text-sky-400 ml-1"> Register</Link>
+          <Link
+            to={AUTH_ROUTES.REGISTER}
+            className="text-sky-400 ml-1"
+          >
+            Register
+          </Link>
         </div>
       </div>
     </div>
