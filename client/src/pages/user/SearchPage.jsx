@@ -16,7 +16,7 @@ const SearchPage = () => {
     const dispatch = useDispatch();
 
     // Redux states
-    const { products, productsLoading, productsError } = useSelector((state) => state.search);
+    const { products, loading: productsLoading, error: productsError } = useSelector((state) => state.search);
     const { filters, filtersLoading, filtersError } = useSelector((state) => state.filter);
 
     // URL Search Params
