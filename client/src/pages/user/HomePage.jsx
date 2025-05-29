@@ -24,11 +24,11 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
   ];
 
   useEffect(() => {
-    if (!profile) dispatch(getProfile());
-  }, [profile, dispatch]);
+    dispatch(getProfile());
+  }, [dispatch]);
 
   useEffect(() => {
-    if (justLoggedIn && (!profile.gender || !profile.dob || !profile.height || !profile.weight)) {
+    if (justLoggedIn && profile && (!profile.gender || !profile.dob || !profile.height || !profile.weight)) {
       setShowPopup(true);
       dispatch(resetJustLoggedIn());
     }
