@@ -13,6 +13,7 @@ import {
     Settings,
 } from "lucide-react"
 import decodeJWT from "../../../utils/decodeJWT";
+import { ADMIN_ROUTES } from "../../../routes/routePaths";
 
 export default function AdminNav() {
     const [darkMode, setDarkMode] = useState(true)
@@ -45,11 +46,21 @@ export default function AdminNav() {
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
-                        <div className="flex items-center space-x-2">
+                        {/* <div className="flex items-center space-x-2">
                             <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                                STICH
+                                STITCH
                             </span>
-                        </div>
+                        </div> */}
+                        <Link to={ADMIN_ROUTES.ROOT}>
+                            <div className="flex gap-2 items-center flex-shrink-0">
+                                <div>
+                                    <img src="/stitch_white.svg" alt="Logo" className='h-[50px]' />
+                                </div>
+                                <div className="text-3xl font-bold">
+                                    Stitch
+                                </div>
+                            </div>
+                        </Link>
 
                         {/* Search Bar - Hidden on mobile */}
                         <div className="hidden md:flex items-center flex-1 max-w-md mx-4">

@@ -127,12 +127,12 @@ function ProductRecommendList({ userId }) {
             })
 
             console.log("ML recommendation response:", response.data)
-            toast.success("Product recommendation generated successfully!")
+            toast.success("Product recommendations sent successfully!")
             setShowModal(false)
             setSelectedProductId(null)
         } catch (error) {
             console.error("Error generating recommendation:", error)
-            toast.error("Failed to generate recommendation. Please try again.")
+            toast.error("Failed to send recommendations. Please try again.")
         } finally {
             setIsRecommending(false)
         }
@@ -339,10 +339,10 @@ function ProductRecommendList({ userId }) {
                         {isRecommending ? (
                             <>
                                 <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                                Generating...
+                                Sending...
                             </>
                         ) : (
-                            "Generate Recommendations"
+                            "Send Recommendations"
                         )}
                     </button>
                 )}
@@ -365,7 +365,7 @@ function ProductRecommendList({ userId }) {
                     <div className="mb-4">
                         <p className="text-xs text-slate-500">
                             Based on {fetchedOrders.length} order{fetchedOrders.length !== 1 ? "s" : ""} • {products.length} products
-                            available • Select one product to generate recommendations
+                            available • Select one product to send recommendations
                         </p>
                     </div>
 
@@ -469,10 +469,10 @@ function ProductRecommendList({ userId }) {
                                     {isRecommending ? (
                                         <>
                                             <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                                            Generating...
+                                            Sending...
                                         </>
                                     ) : (
-                                        "Generate Recommendations"
+                                        "Send Recommendations"
                                     )}
                                 </button>
                             </div>
@@ -484,4 +484,4 @@ function ProductRecommendList({ userId }) {
     )
 }
 
-export default ProductRecommendList
+export default ProductRecommendList;

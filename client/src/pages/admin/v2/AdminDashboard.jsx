@@ -5,6 +5,8 @@ import BASE_URL from "../../../utils/baseurl";
 import decodeJWT from "../../../utils/decodeJWT";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AUTH_ROUTES, BASE_ROUTES } from "../../../routes/routePaths";
+import toast from "react-hot-toast";
 
 // const orderData = {
 //     daily: [
@@ -60,10 +62,12 @@ export default function AdminDashboard() {
         if (localStorage.getItem("jwtToken")) {
             const authorities = decodeJWT(localStorage.getItem("jwtToken")).authorities
             if (!authorities.includes("ROLE_ADMIN")) {
-                navigate("/login")
+                navigate(BASE_ROUTES.HOME)
+                toast.error("You do not have permission to access this page.")
             }
         } else {
-            navigate("/login")
+            navigate(AUTH_ROUTES.LOGIN)
+            toast.error("You need to log in to access this page.")
         }
     }, [navigate])
 
