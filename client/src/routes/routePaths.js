@@ -28,6 +28,17 @@ export const USER_ROUTES = {
     SETTINGS: `${BASE_ROUTES.USER}/settings`,
 };
 
+export const ADMIN_ROUTES = {
+    ROOT: BASE_ROUTES.ADMIN,
+    DASHBOARD: `${BASE_ROUTES.ADMIN}/dashboard`,
+    PRODUCTS: `${BASE_ROUTES.ADMIN}/products`,
+    PRODUCT_CREATE: `${BASE_ROUTES.ADMIN}/products/create`,
+    PRODUCT_EDIT: (id = ':id') => `${BASE_ROUTES.ADMIN}/products/edit/${id}`,
+    ORDERS: `${BASE_ROUTES.ADMIN}/orders`,
+    USERS: `${BASE_ROUTES.ADMIN}/users`,
+    ISSUES: `${BASE_ROUTES.ADMIN}/issues`,
+};
+
 export const CHECKOUT_ROUTES = {
     ROOT: BASE_ROUTES.CHECKOUT,
     CART: `${BASE_ROUTES.CHECKOUT}/cart`,
