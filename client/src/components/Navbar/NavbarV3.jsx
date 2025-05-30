@@ -102,7 +102,7 @@ const NavbarV3 = () => {
     const handleLogout = () => {
         dispatch(logout());
         setShowProfileDropdown(false);
-        navigate('/');
+        navigate(BASE_ROUTES.HOME);
     };
 
     // Get suggestion icon
