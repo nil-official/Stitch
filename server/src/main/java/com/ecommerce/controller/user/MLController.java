@@ -1,7 +1,6 @@
 package com.ecommerce.controller.user;
 
-import com.ecommerce.annotation.CurrentUser;
-import com.ecommerce.model.User;
+import com.ecommerce.exception.UserException;
 import com.ecommerce.request.RecommendProductRequest;
 import com.ecommerce.request.SizePredictionRequest;
 import com.ecommerce.response.ApiResponse;
@@ -21,9 +20,10 @@ public class MLController {
     private final MLService mlService;
 
     @PostMapping("/recommend")
-    public ResponseEntity<ApiResponse> sendRecommendationEmail(@CurrentUser User user, @RequestBody RecommendProductRequest request) {
+    public ResponseEntity<ApiResponse> sendRecommendationEmail(@RequestParam Long userId,
+                                                               @RequestBody RecommendProductRequest request) throws UserException {
 
-        mlService.sendRecommendationEmailToUser(user, request.getProductId(), request.getLimit());
+        mlService.sendRecommendationEmailToUser(userId, request.getProductId(), request.getLimit());
         ApiResponse apiResponse = new ApiResponse("Recommendation email has been sent successfully to user's email!", true);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
