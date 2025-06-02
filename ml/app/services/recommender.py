@@ -89,11 +89,25 @@ def get_recommendations(product_id, top_n, products):
 
     selected_same = same_cat_high[:n_same]
     selected_other = other_cat_high[:n_other]
-    selected_zero = selected_same_zero + selected_other_zero + selected_remaining_zero
+    # selected_zero = selected_same_zero + selected_other_zero + selected_remaining_zero
+    selected_zero = (selected_same_zero + selected_other_zero + selected_remaining_zero)[:n_zero]
 
-    # Combine all selected indices
-    selected_indices = selected_same + selected_zero + selected_other
+    # Deduplicate selected indices while preserving order
+    seen_indices = set()
+    unique_indices = []
+    for i in selected_same + selected_zero + selected_other:
+        if i not in seen_indices:
+            seen_indices.add(i)
+            unique_indices.append(i)
 
-    # Return only product IDs
-    # return _df.iloc[selected_indices][['id', 'title', 'rankScore', 'category', 'brand', 'description', 'color']].to_dict(orient='records')
-    return [int(_df.iloc[i]['id']) for i in selected_indices]
+    # If not enough, fill from rest of sim_scores
+    if len(unique_indices) < top_n:
+        for i, _ in sim_scores:
+            if i != idx and i not in seen_indices:
+                seen_indices.add(i)
+                unique_indices.append(i)
+            if len(unique_indices) == top_n:
+                break
+
+    # Final trimming and return
+    return [int(_df.iloc[i]['id']) for i in unique_indices[:top_n]]
