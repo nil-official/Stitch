@@ -1,6 +1,7 @@
 import { Shield, Mail, Phone, Calendar, MapPin, ShoppingBag, Heart, User } from "lucide-react";
 
 const UserCard = ({ user }) => {
+    console.log(user);
     const getInitials = () => {
         return `${user.firstName[0] || ""}${user.lastName[0] || ""}`.toUpperCase();
     };
