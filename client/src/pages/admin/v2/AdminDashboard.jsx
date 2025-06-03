@@ -42,12 +42,12 @@ import toast from "react-hot-toast";
 
 
 
-const recentOrders = [
-    { id: 1, user: "Alice", amount: "$120.00", status: "Completed" },
-    { id: 2, user: "Bob", amount: "$85.50", status: "Pending" },
-    { id: 3, user: "Charlie", amount: "$230.00", status: "Completed" },
-    { id: 4, user: "Dave", amount: "$50.00", status: "Failed" },
-];
+// const recentOrders = [
+//     { id: 1, user: "Alice", amount: "$120.00", status: "Completed" },
+//     { id: 2, user: "Bob", amount: "$85.50", status: "Pending" },
+//     { id: 3, user: "Charlie", amount: "$230.00", status: "Completed" },
+//     { id: 4, user: "Dave", amount: "$50.00", status: "Failed" },
+// ];
 
 export default function AdminDashboard() {
     const [activeTab, setActiveTab] = useState("daily");
@@ -55,6 +55,9 @@ export default function AdminDashboard() {
     const [recentOrders, setRecentOrders] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
+    const [orderNum, setOrderNum] = useState(0)
+    const [userNum, setUserNum] = useState(0)
+    const [revenue, setRevenue] = useState(0)
 
     const API_URL = `${BASE_URL}/api/admin/orders/`
 
@@ -108,9 +111,54 @@ export default function AdminDashboard() {
         }
     }
 
+    const fetchOrderNum = async () => {
+        setIsLoading(true)
+        try {
+            const response = await axios.get(API_URL, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` },
+            })
+            if (response.data) {
+                setOrderNum(response.data.length)
+                const totalDiscountedSum = response.data.reduce((sum, order) => {
+                    return sum + (order.totalDiscountedPrice || 0);
+                }, 0);
+                setRevenue(totalDiscountedSum)
+            } else {
+                toast.error("Error fetching orders. Please try again.")
+            }
+        } catch (error) {
+            toast.error("Error fetching orders. Please try again.")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const fetchUsers = async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(`${BASE_URL}/api/admin/users/all`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+                }
+            });
+
+            if (response.data) {
+                setUserNum(response.data.length);
+            } else {
+                toast.error('Error fetching users. Please try again.');
+            }
+        } catch (error) {
+            toast.error('Error fetching users. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchOrders()
         fetchRecentOrders()
+        fetchOrderNum()
+        fetchUsers()
         console.log(recentOrders)
     }, [])
 
@@ -146,15 +194,15 @@ export default function AdminDashboard() {
                                     <Users className="h-5 w-5" />
                                 </div>
 
-                                <p className="text-2xl font-bold text-cyan-400">1,234</p>
+                                <p className="text-2xl font-bold text-cyan-400">{userNum}</p>
                             </div>
                             <div className="bg-slate-800/50 p-4 rounded-xl shadow-lg border border-slate-700/50 backdrop-blur-sm">
                                 <h3 className="text-lg font-semibold text-slate-300">Total Revenue</h3>
-                                <p className="text-2xl font-bold text-cyan-400">₹45,678</p>
+                                <p className="text-2xl font-bold text-cyan-400">₹{revenue}</p>
                             </div>
                             <div className="bg-slate-800/50 p-4 rounded-xl shadow-lg border border-slate-700/50 backdrop-blur-sm">
                                 <h3 className="text-lg font-semibold text-slate-300">Orders</h3>
-                                <p className="text-2xl font-bold text-cyan-400">8,456</p>
+                                <p className="text-2xl font-bold text-cyan-400">{orderNum}</p>
                             </div>
                         </div>
 
