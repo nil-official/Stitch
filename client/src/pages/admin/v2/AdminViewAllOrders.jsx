@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { Package2, Search, ArrowUpDown, Loader2, RefreshCw, AlertCircle } from "lucide-react"
 import OrderCard2 from "../../../components/Admin/v2/OrderCard2";
@@ -65,16 +65,30 @@ const AdminViewAllOrders = () => {
     }
 
     const deleteOrder = async (id) => {
+        // Optimistically update UI first
         setOrders(orders.filter((order) => order.id !== id))
         setFilteredOrders(filteredOrders.filter((order) => order.id !== id))
+
         try {
             await axios.delete(`${API_URL}${id}/delete`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("jwtToken")}` },
             })
             toast.success("Order deleted successfully.")
         } catch (error) {
+            // If deletion fails, refetch orders to restore the state
             toast.error("Error deleting order. Please try again.")
+            fetchOrders()
         }
+    }
+
+    // Function to update order status in the local state
+    const updateOrderStatus = (orderId, newStatus) => {
+        setOrders((prevOrders) =>
+            prevOrders.map((order) => (order.id === orderId ? { ...order, orderStatus: newStatus } : order)),
+        )
+        setFilteredOrders((prevOrders) =>
+            prevOrders.map((order) => (order.id === orderId ? { ...order, orderStatus: newStatus } : order)),
+        )
     }
 
     useEffect(() => {
@@ -98,9 +112,9 @@ const AdminViewAllOrders = () => {
         // Apply sorting
         result.sort((a, b) => {
             if (sortBy === "newest") {
-                return new Date(b.deliveryDate) - new Date(a.deliveryDate)
+                return new Date(b.orderDate) - new Date(a.orderDate)
             } else if (sortBy === "oldest") {
-                return new Date(a.deliveryDate) - new Date(b.deliveryDate)
+                return new Date(a.orderDate) - new Date(b.orderDate)
             } else if (sortBy === "highestPrice") {
                 return b.totalDiscountedPrice - a.totalDiscountedPrice
             } else if (sortBy === "lowestPrice") {
@@ -115,7 +129,7 @@ const AdminViewAllOrders = () => {
     const getStatusCounts = () => {
         const counts = {
             ALL: orders.length,
-            PENDING: 0,
+            PLACED: 0,
             CONFIRMED: 0,
             SHIPPED: 0,
             DELIVERED: 0,
@@ -187,7 +201,7 @@ const AdminViewAllOrders = () => {
                         />
                     </div>
 
-                    <div className="flex ">
+                    <div className="flex gap-2">
                         <div className="relative">
                             <select
                                 value={sortBy}
@@ -196,8 +210,8 @@ const AdminViewAllOrders = () => {
                             >
                                 <option value="newest">Newest First</option>
                                 <option value="oldest">Oldest First</option>
-                                <option value="highestPrice">Highest Price</option>
                                 <option value="lowestPrice">Lowest Price</option>
+                                <option value="highestPrice">Highest Price</option>
                             </select>
                             <ArrowUpDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
                         </div>
@@ -230,7 +244,12 @@ const AdminViewAllOrders = () => {
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {filteredOrders.map((order) => (
-                            <OrderCard2 key={order.id} order={order} deleteOrder={deleteOrder} refreshOrders={refreshOrders} />
+                            <OrderCard2
+                                key={order.id}
+                                order={order}
+                                deleteOrder={deleteOrder}
+                                onStatusUpdate={updateOrderStatus}
+                            />
                         ))}
                     </div>
                 )}
@@ -240,4 +259,3 @@ const AdminViewAllOrders = () => {
 }
 
 export default AdminViewAllOrders
-

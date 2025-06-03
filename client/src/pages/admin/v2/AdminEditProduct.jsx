@@ -192,6 +192,7 @@ const AdminEditProduct = () => {
                     setTopLevelCategory(topLevelCategory)
                     setSecondLevelCategory(secondLevelCategory)
                     setThirdLevelCategory(thirdLevelCategory)
+                    setSize(product.sizes)
                     console.log(thirdLevelCategory)
 
                     // Update size quantities

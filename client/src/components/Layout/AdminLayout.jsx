@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom"
 import AdminNav from "../Admin/v2/AdminNav"
+import HealthCheckWrapper from '../HealthCheckWrapper.jsx';
 
 export default function AdminLayout() {
 
   return (
     <div className="dark min-h-screen bg-gradient-to-br from-black to-slate-900 text-slate-100">
       {/* AdminNav contains the top navbar and sidebar */}
+
       <AdminNav />
 
       {/* Main Content */}
