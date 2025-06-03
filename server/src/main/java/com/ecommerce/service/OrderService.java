@@ -20,7 +20,7 @@ public interface OrderService {
 
     List<OrderDto> getLastFiveOrders();
 
-    List<OrderDto> getOrdersByUser(Long userId);
+    List<OrderDto> getOrdersByUser(User user);
 
     OrderDto updateOrderStatus(Long orderId, OrderStatus status);
 

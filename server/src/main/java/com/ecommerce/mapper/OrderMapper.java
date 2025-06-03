@@ -18,7 +18,6 @@ public class OrderMapper {
         orderDto.setId(order.getId());
         orderDto.setOrderId(order.getOrderId());
         orderDto.setUserId(order.getUser().getId());
-        orderDto.setOrderDate(order.getOrderDate());
         orderDto.setDeliveryDate(order.getDeliveryDate());
         orderDto.setTotalPrice(order.getTotalPrice());
         orderDto.setTotalDiscountedPrice(order.getTotalDiscountedPrice());
@@ -30,6 +29,8 @@ public class OrderMapper {
 
         // Map address
         AddressDto addressDto = new AddressDto();
+        addressDto.setFirstName(order.getOrderAddress().getFirstName());
+        addressDto.setLastName(order.getOrderAddress().getLastName());
         addressDto.setStreetAddress(order.getOrderAddress().getStreetAddress());
         addressDto.setCity(order.getOrderAddress().getCity());
         addressDto.setState(order.getOrderAddress().getState());

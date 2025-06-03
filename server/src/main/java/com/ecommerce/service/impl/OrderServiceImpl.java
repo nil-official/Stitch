@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setOrderId(generateOrderId());
         order.setUser(user);
-        order.setOrderDate(LocalDateTime.now());
+        order.setDeliveryDate(LocalDateTime.now().plusDays(5));
         order.setOrderStatus(OrderStatus.PENDING);
         order.setCreatedAt(LocalDateTime.now());
 
@@ -175,8 +175,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> getOrdersByUser(Long userId) {
-        List<Order> orders = orderRepository.findByUserId(userId);
+    public List<OrderDto> getOrdersByUser(User user) {
+        List<Order> orders = orderRepository.findByUserId(user.getId());
         return orders.stream()
                 .map(OrderMapper::toOrderDto)
                 .collect(Collectors.toList());

@@ -112,7 +112,7 @@ public class EmailServiceImpl implements EmailService {
         String greeting = "Hello " + user.getFirstName() + ",";
         String mainMessage;
         String actionText;
-        String actionUrl = "verify?token=" + token;
+        String actionUrl = "auth/verify?token=" + token;
         String expiration = "This link will expire in " + expiry + " minutes.";
         String additionalInfo = "If this wasn’t you, please secure your account immediately by resetting your password.";
         String templatePath = "email/token";

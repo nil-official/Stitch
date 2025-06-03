@@ -2,6 +2,7 @@ package com.ecommerce.controller.user;
 
 import java.util.List;
 
+import com.ecommerce.annotation.CurrentUser;
 import com.ecommerce.dto.OrderDto;
 import com.ecommerce.exception.UserException;
 import com.ecommerce.model.User;
@@ -51,9 +52,9 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<OrderDto>> getOrdersByUser(@PathVariable Long userId) {
-        List<OrderDto> orders = orderService.getOrdersByUser(userId);
+    @GetMapping("/user")
+    public ResponseEntity<List<OrderDto>> getOrdersByUser(@CurrentUser User user) {
+        List<OrderDto> orders = orderService.getOrdersByUser(user);
         return ResponseEntity.ok(orders);
     }
 
