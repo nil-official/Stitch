@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import InputField from './InputField';
 import { FaSpinner } from 'react-icons/fa';
 import { register } from '../../redux/auth/action';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 function Register() {
 
@@ -12,7 +13,6 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, error, message } = useSelector((state) => state.auth);
 
@@ -110,13 +110,14 @@ function Register() {
           </button>
         </form>
 
-        <button
-          onClick={() => navigate('/login')}
-          disabled={loading}
-          className="mt-2 w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-200 flex items-center justify-center"
-        >
-          Back to Login
-        </button>
+        <Link to={AUTH_ROUTES.LOGIN}>
+          <button
+            disabled={loading}
+            className="mt-2 w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-200 flex items-center justify-center"
+          >
+            Back to Login
+          </button>
+        </Link>
       </div>
     </div>
   );

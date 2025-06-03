@@ -1,59 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
+import { History, TrendingUp, X } from "lucide-react";
 import { FiMenu } from 'react-icons/fi';
 import { IoMdClose } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { CiUser } from "react-icons/ci";
-import { motion, AnimatePresence } from 'framer-motion';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from '../../redux/customer/cart/action';
 import decodeJWT from '../../utils/decodeJWT';
-import axios from '../../utils/axiosConfig';
 import { logout } from '../../redux/auth/action';
+import { getCart } from '../../redux/customer/cart/action';
+import {
+    getSearchSuggestions,
+    saveSearchHistory,
+    removeSearchHistory,
+    clearSearchHistory
+} from '../../redux/customer/suggestions/action';
 
 const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
-    const dispatch = useDispatch();
-    const { cart } = useSelector((state) => state.cart);
-
-    const [isSidebarOpen, setSidebar] = useState(false);
-    const [input, setInput] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
+    const { searchSuggestions, loading: searchLoading, error: searchError } = useSelector((state) => state.search);
+
+    const [query, setQuery] = useState('');
+    const [isSidebarOpen, setSidebar] = useState(false);
 
     useEffect(() => {
         dispatch(getCart());
     }, []);
 
     useEffect(() => {
-        if (input.trim().length > 0) {
-            const fetchSuggestions = async () => {
-                try {
-                    const { data } = await axios.get(`/api/ES/products/autocomplete?query=${input}`);
-                    setSuggestions(data.slice(0, 5));
-                } catch (error) {
-                    console.error("Error fetching suggestions:", error);
-                }
-            };
-            fetchSuggestions();
-        } else {
-            setSuggestions([]);
-        }
-    }, [input]);
+        dispatch(getSearchSuggestions(query));
+    }, [dispatch, query, saveSearchHistory]);
 
     const handleSuggestionClick = (suggestion) => {
-        setInput('');
-        setSuggestions([]);
+        setQuery('');
         setIsSearchOpen(false);
-        navigate(`/products/search?q=${suggestion.replace(/\s+/g, '+')}`);
+        navigate(`/search?q=${suggestion.replace(/\s+/g, '+')}`);
     };
 
     const handleSearch = (e) => {
         e.preventDefault();
-        if (input.trim()) {
-            const formattedInput = input.trim().replace(/\s+/g, '+');
-            setInput('');
+        if (query.trim()) {
+            const formattedInput = query.trim().replace(/\s+/g, '+');
+            dispatch(saveSearchHistory(formattedInput));
+            setQuery('');
             setIsSearchOpen(false);
             navigate(`/search?q=${formattedInput}`);
         }
@@ -78,7 +72,16 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
         { name: "Orders", link: "/user/orders" },
         { name: "Wishlist", link: "/user/wishlist" },
         { name: "Help & Support", link: "/help" },
-        { name: "Log In", link: "/login" },
+        { name: "Log In", link: "/auth/login" },
+    ];
+
+    const adminNavlinks = [
+        { name: "Home", link: "/" },
+        { name: "Create Product", link: "/admin/products/create" },
+        { name: "View Products", link: "/admin/products" },
+        { name: "View Orders", link: "/admin/orders" },
+        { name: "View Issues", link: "/admin/help" },
+        { name: "View Users", link: "/admin/users" },
     ];
 
     const isLoggedIn = !!localStorage.getItem("jwtToken");
@@ -92,15 +95,6 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                 link.name !== "Help & Support";
         }
     });
-
-    const adminNavlinks = [
-        { name: "Home", link: "/" },
-        { name: "Create Product", link: "/admin/products/create" },
-        { name: "View Products", link: "/admin/products" },
-        { name: "View Orders", link: "/admin/orders" },
-        { name: "View Issues", link: "/admin/help" },
-        { name: "View Users", link: "/admin/users" },
-    ];
 
     return (
         <nav className="shadow-md">
@@ -157,14 +151,14 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                                 <input
                                     type="search"
                                     placeholder="Search..."
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
                                     onBlur={() => setIsSearchOpen(false)}
                                     ref={searchInputRef}
                                     className="w-full p-2 pl-10 pr-4 text-gray-900 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                                 <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                    <BsSearch className="text-gray-400" />
+                                    <BsSearch className="text-gray-600" />
                                 </button>
                             </div>
                         </motion.form>
@@ -172,32 +166,53 @@ const Navbar = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                 </AnimatePresence>
             </div>
 
-            {isSearchOpen && suggestions.length > 0 && (
-                <div className='flex justify-center'>
-                    <ul className="absolute w-5/6 border bg-white border-gray-300 shadow-lg rounded-md z-50">
-                        {suggestions.map((suggestion, index) => {
-                            const regex = new RegExp(`(${input})`, "i");
-                            const parts = suggestion.split(regex);
+            {isSearchOpen && searchSuggestions.length > 0 && (
+                <div className="flex justify-center">
+                    <ul className="absolute w-5/6 border bg-white border-gray-300 shadow-lg rounded-md z-10">
+                        {searchSuggestions.map((item, index) => {
+                            const regex = new RegExp(`(${query})`, "i");
+                            const parts = item.suggestion.split(regex);
+                            const Icon = item.type === "history" ? History : TrendingUp;
 
                             return (
                                 <li
                                     key={index}
-                                    className="flex items-center gap-4 px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
-                                    onMouseDown={() => handleSuggestionClick(suggestion)}
+                                    className="flex items-center justify-between gap-4 px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer overflow-hidden"
+                                    onMouseDown={() => handleSuggestionClick(item.suggestion)}
                                 >
-                                    <BsSearch />
-                                    <span>
-                                        {parts.map((part, i) =>
-                                            part.toLowerCase() === input.toLowerCase() ? (
-                                                <span key={i} className="text-gray-400">{part}</span>
-                                            ) : (
-                                                <span key={i}>{part}</span>
-                                            )
-                                        )}
-                                    </span>
+                                    <div className="flex items-center gap-4">
+                                        <Icon className="w-4 h-4 text-gray-500" />
+                                        <span>
+                                            {parts.map((part, i) =>
+                                                part.toLowerCase() === query.toLowerCase() ? (
+                                                    <span key={i} className="text-gray-600">{part}</span>
+                                                ) : (
+                                                    <span key={i} className='font-semibold'>{part}</span>
+                                                )
+                                            )}
+                                        </span>
+                                    </div>
+                                    {item.type === "history" && (
+                                        <X
+                                            className='w-4 h-4 text-gray-500'
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                dispatch(removeSearchHistory(query, item.id));
+                                            }}
+                                        />
+                                    )}
                                 </li>
                             );
                         })}
+
+                        {searchSuggestions.some(item => item.type === "history") && (
+                            <li
+                                className="flex justify-center font-semibold bg-gray-100 text-gray-700 hover:underline py-2 cursor-pointer"
+                                onClick={() => dispatch(clearSearchHistory())}
+                            >
+                                Clear all search history
+                            </li>
+                        )}
                     </ul>
                 </div>
             )}

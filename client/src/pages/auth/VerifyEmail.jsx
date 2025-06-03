@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import BASE_URL from '../../utils/baseurl';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 const VerifyEmail = () => {
     const [searchParams] = useSearchParams();
@@ -41,15 +42,20 @@ const VerifyEmail = () => {
                 ) : error ? (
                     <div>
                         <p className="text-red-600 text-lg font-semibold">{error}</p>
-                        <Link to="/register" className="w-full mt-4 inline-block bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900">
+                        <Link
+                            to={AUTH_ROUTES.REGISTER}
+                            className="w-full mt-4 inline-block bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900"
+                        >
                             Go back to Signup
                         </Link>
                     </div>
                 ) : (
                     <div>
                         <p className="text-green-600 text-lg font-semibold">{message}</p>
-                        <Link to="/login" className="w-full mt-4 inline-block bg-gray-800 text-white py-2 rounded-lg 
-                        hover:bg-gray-900">
+                        <Link
+                            to={AUTH_ROUTES.LOGIN}
+                            className="w-full mt-4 inline-block bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900"
+                        >
                             Go to Login
                         </Link>
                     </div>

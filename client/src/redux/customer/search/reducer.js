@@ -6,18 +6,18 @@ import {
 
 const initialState = {
     products: null,
-    productsLoading: false,
-    productsError: null,
+    loading: false,
+    error: null,
 };
 
 const searchReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_SEARCHED_PRODUCTS_PENDING:
-            return { ...state, productsLoading: true };
+            return { ...state, loading: true };
         case GET_SEARCHED_PRODUCTS_FULFILLED:
-            return { ...state, productsLoading: false, products: action.payload };
+            return { ...state, loading: false, products: action.payload };
         case GET_SEARCHED_PRODUCTS_REJECTED:
-            return { ...state, productsLoading: false, productsError: action.error };
+            return { ...state, loading: false, error: action.error };
         default:
             return state;
     }

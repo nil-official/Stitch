@@ -6,6 +6,7 @@ import homeReducer from './customer/home/reducer';
 import cartReducer from './customer/cart/reducer';
 import productReducer from './customer/product/reducer';
 import reviewReducer from './customer/review/reducer';
+import suggestionsReducer from './customer/suggestions/reducer';
 import wishlistReducer from './customer/wishlist/reducer';
 import searchReducer from './customer/search/reducer';
 import filterReducer from './customer/filter/reducer';
@@ -20,6 +21,7 @@ const rootReducers = combineReducers({
     product: productReducer,
     review: reviewReducer,
     wishlist: wishlistReducer,
+    suggestions: suggestionsReducer,
     search: searchReducer,
     filter: filterReducer,
     profile: profileReducer,

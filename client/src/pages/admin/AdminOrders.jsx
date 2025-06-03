@@ -5,6 +5,7 @@ import decodeJWT from '../../utils/decodeJWT';
 import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/Admin/OrderCard';
 import BASE_URL from '../../utils/baseurl';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 const AdminOrders = () => {
     const navigate = useNavigate();
@@ -16,10 +17,10 @@ const AdminOrders = () => {
         if (localStorage.getItem("jwtToken")) {
             const authorities = decodeJWT(localStorage.getItem("jwtToken")).authorities;
             if (!authorities.includes("ROLE_ADMIN")) {
-                navigate('/login');
+                navigate(AUTH_ROUTES.LOGIN);
             }
         } else {
-            navigate('/login');
+            navigate(AUTH_ROUTES.LOGIN);
         }
     }, [navigate]);
 

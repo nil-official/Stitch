@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../utils/baseurl";
+import { AUTH_ROUTES } from "../../routes/routePaths";
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
@@ -42,12 +43,12 @@ const ResetPassword = () => {
                         <p className="text-green-600 text-sm md:text-base">
                             Your password has been successfully reset!
                         </p>
-                        <a
-                            href="/login"
+                        <Link
+                            to={AUTH_ROUTES.LOGIN}
                             className="w-full mt-4 inline-block bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-900 text-sm md:text-base"
                         >
                             Go to Login
-                        </a>
+                        </Link>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit}>
@@ -86,7 +87,7 @@ const ResetPassword = () => {
                         {error && <p className="text-red-600 text-sm md:text-base mb-4">{error}</p>}
                         <button
                             type="submit"
-                                className={`w-full py-2 px-4 text-white font-medium rounded-lg text-sm md:text-base ${loading ? "bg-gray-600" : "bg-gray-800 hover:bg-gray-900"
+                            className={`w-full py-2 px-4 text-white font-medium rounded-lg text-sm md:text-base ${loading ? "bg-gray-600" : "bg-gray-800 hover:bg-gray-900"
                                 }`}
                             disabled={loading}
                         >
