@@ -13,6 +13,7 @@ import OrderSummary from '../../components/Order/OrderSummary';
 import { getCart } from '../../redux/customer/cart/action';
 import { getProfile } from '../../redux/customer/profile/action';
 import { getAddress, addAddress, updateAddress, deleteAddress, setSelectedAddress, clearSelectedAddress } from '../../redux/customer/address/action';
+import { getSelectedCartData } from '../../redux/customer/cart/selector';
 
 const ShippingPage = () => {
     const navigate = useNavigate();
@@ -20,9 +21,10 @@ const ShippingPage = () => {
     const [currency, setCurrency] = useState('INR');
     const [showAddForm, setShowAddForm] = useState(false);
     const [editAddressId, setEditAddressId] = useState(null);
-    const { cart, selectedItems, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
     const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
+    const { cart, selectedItems, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
     const { address, selectedAddress, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
+    const selectedCartData = useSelector(getSelectedCartData);
 
     const [newAddress, setNewAddress] = useState({
         firstName: '',
@@ -239,7 +241,7 @@ const ShippingPage = () => {
                     {cart && cart.totalItem > 0 && (
                         <div className="w-full lg:w-1/3">
                             <OrderSummary
-                                cart={cart}
+                                cart={selectedItems.length === cart.cartItems.length ? cart : selectedCartData}
                                 currency={currency}
                                 selectedAddressId={selectedAddress}
                                 checkoutPath="/checkout/summary"

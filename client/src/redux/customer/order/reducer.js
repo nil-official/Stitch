@@ -25,10 +25,10 @@ const initialState = {
     orders: [],
     orderData: null,
     loading: false,
+    error: null,
     paymentLoading: false,
     paymentSuccess: false,
     paymentError: null,
-    error: null,
 };
 
 const orderReducer = (state = initialState, action) => {

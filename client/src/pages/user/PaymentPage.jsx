@@ -59,7 +59,7 @@ const PaymentPage = () => {
       key: import.meta.env.VITE_RAZORPAY_API_KEY,
       amount: amount * 100, // Amount in paise
       currency: 'INR',
-      name: 'Your E-commerce Store',
+      name: 'Stitch',
       description: 'Purchase Payment',
       order_id: razorpayOrderId,
       handler: function (response) {
@@ -134,50 +134,6 @@ const PaymentPage = () => {
       });
     }
   };
-
-  // const renderPaymentStatus = () => {
-  //   if (!paymentStatus) return null;
-
-  //   return (
-  //     <div className={`rounded-lg p-6 mt-8 ${paymentStatus.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
-  //       <h3 className={`text-lg font-medium ${paymentStatus.success ? 'text-green-700' : 'text-red-700'}`}>
-  //         {paymentStatus.success ? 'Payment Successful' : 'Payment Failed'}
-  //       </h3>
-  //       <p className="mt-2 text-gray-600">{paymentStatus.message}</p>
-
-  //       {currentOrder && (
-  //         <div className="mt-4">
-  //           <p className="text-gray-700"><span className="font-medium">Order ID:</span> {currentOrder.orderId}</p>
-  //           <p className="text-gray-700"><span className="font-medium">Amount:</span> ₹{(currentOrder.totalDiscountedPrice || currentOrder.totalPrice).toFixed(2)}</p>
-  //         </div>
-  //       )}
-
-  //       <div className="mt-6 flex space-x-4">
-  //         {paymentStatus.success ? (
-  //           <button
-  //             onClick={() => navigate('/orders')}
-  //             className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-  //           >
-  //             View My Orders
-  //           </button>
-  //         ) : (
-  //           <button
-  //             onClick={() => navigate('/cart')}
-  //             className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
-  //           >
-  //             Return to Cart
-  //           </button>
-  //         )}
-  //         <button
-  //           onClick={() => navigate('/')}
-  //           className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded hover:bg-gray-50"
-  //         >
-  //           Continue Shopping
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // };
 
   const renderPaymentStatus = () => {
     if (!paymentStatus) return null;

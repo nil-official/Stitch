@@ -5,21 +5,21 @@ const ActionButtons = ({ success, orderId }) => {
         <div className="p-4 md:p-6 bg-primary-50 flex flex-col md:flex-row gap-3 md:gap-4 justify-end">
             {success ? (
                 <>
-                    <Link to="/products">
+                    <Link to="/">
                         <button
                             className="px-4 py-2 border border-primary-300 text-primary-700 rounded hover:bg-primary-100 transition-all duration-300"
                         >
                             Continue Shopping
                         </button>
                     </Link>
-                    <Link to={`/order/${orderId}`}>
+                    {/* <Link to={`/order/${orderId}`}>
                         <button
                             className="px-4 py-2 border border-primary-600 bg-primary-600 text-white rounded hover:bg-primary-700 transition-all duration-300"
                         >
                             View Order Details
                         </button>
-                    </Link>
-                    <Link to="/orders">
+                    </Link> */}
+                    <Link to="/user/orders">
                         <button
                             className="px-4 py-2 border border-primary-600 bg-primary-600 text-white rounded hover:bg-primary-700 transition-all duration-300"
                         >

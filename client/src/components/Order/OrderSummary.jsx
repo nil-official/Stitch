@@ -40,7 +40,7 @@ const OrderSummary = ({
     };
 
     return (
-        <div className="rounded-lg shadow-sm border border-primary-200 p-4 sticky top-6">
+        <div className="rounded-lg shadow-sm border border-primary-200 p-4 sticky top-32">
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
             <div className="space-y-3 mb-6">

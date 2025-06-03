@@ -13,12 +13,14 @@ import {
     removeSearchHistory,
     clearSearchHistory,
 } from '../../redux/customer/suggestions/action';
+import { deleteAddress, getAddress } from '../../redux/customer/address/action';
 
 const NavbarV3 = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
+    const { address, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
     const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
     const { suggestions, loading: suggestionsLoading, error: suggestionsError } = useSelector((state) => state.suggestions);
 
@@ -28,6 +30,7 @@ const NavbarV3 = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+    const defaultAddress = address?.find(addr => addr.isDefault);
 
     useEffect(() => {
         dispatch(getCart());
@@ -35,6 +38,10 @@ const NavbarV3 = () => {
 
     useEffect(() => {
         dispatch(getProfile());
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getAddress());
     }, [dispatch]);
 
     useEffect(() => {
@@ -287,13 +294,17 @@ const NavbarV3 = () => {
             <div className="bg-primary-800 text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="hidden md:flex items-center justify-between h-10">
-                        <div className="flex items-center space-x-6">
-                            <Link to={USER_ROUTES.ADDRESS}>
-                                <button className="flex items-center space-x-1 hover:text-primary-200 transition-colors">
-                                    <MapPin className="w-4 h-4" />
-                                    <span className="text-sm">Deliver to New York 10001</span>
-                                </button>
-                            </Link>
+                        <div className="flex items-center gap-6">
+                            {address && defaultAddress && (
+                                <Link to={USER_ROUTES.ADDRESS}>
+                                    <button className="flex items-center space-x-1 hover:text-primary-200 transition-colors">
+                                        <MapPin className="w-4 h-4" />
+                                        <span className="text-sm">
+                                            Deliver to {defaultAddress.city}, {defaultAddress.state}, {defaultAddress.zipCode}
+                                        </span>
+                                    </button>
+                                </Link>
+                            )}
 
                             <Link to={USER_ROUTES.ORDERS}>
                                 <button className="flex items-center space-x-1 hover:text-primary-200 transition-colors">

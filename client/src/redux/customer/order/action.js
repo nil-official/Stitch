@@ -162,7 +162,7 @@ export const getOrderByOrderId = (orderIdString) => async (dispatch) => {
 export const getUserOrders = () => async (dispatch) => {
     dispatch(getUserOrdersPending());
     try {
-        const response = await axios.get("/api/orders/user/current");
+        const response = await axios.get("/api/orders/user");
         dispatch(getUserOrdersFulfilled(response.data));
         return response.data;
     } catch (error) {

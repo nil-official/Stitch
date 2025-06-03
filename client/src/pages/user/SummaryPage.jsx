@@ -10,16 +10,23 @@ import { getCart } from '../../redux/customer/cart/action';
 import { getProfile } from '../../redux/customer/profile/action';
 import { getAddress } from '../../redux/customer/address/action';
 import { setOrderData } from '../../redux/customer/order/action';
+import { getSelectedCartData } from '../../redux/customer/cart/selector';
 
 const SummaryPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [currency, setCurrency] = useState('INR');
-    const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
+    const { cart, selectedItems, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
     const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
     const { address, selectedAddress, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
+    const selectedCartData = useSelector(getSelectedCartData);
 
     const [paymentMethod, setPaymentMethod] = useState('card');
+
+    console.log('Selected Cart Data:', selectedCartData);
+    console.log('Selected Address:', selectedAddress);
+    
+    
 
     useEffect(() => {
         if (!cart) dispatch(getCart());
@@ -51,7 +58,7 @@ const SummaryPage = () => {
 
     const handleProceedToPayment = () => {
         dispatch(setOrderData({
-            orderItems: cart.cartItems,
+            orderItems: selectedCartData.cartItems,
             address: selectedAddress,
             paymentMethod: paymentMethod === 'cod' ? "COD" : "RAZORPAY",
         }));
@@ -295,7 +302,7 @@ const SummaryPage = () => {
                     {cart && cart.totalItem > 0 && (
                         <div className="w-full lg:w-1/3">
                             <OrderSummary
-                                cart={cart}
+                                cart={selectedItems.length === cart.cartItems.length ? cart : selectedCartData}
                                 currency={currency}
                                 selectedAddressId={selectedAddress}
                                 checkoutPath="/checkout/payment"

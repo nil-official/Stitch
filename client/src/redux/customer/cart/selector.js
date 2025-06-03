@@ -1,30 +1,34 @@
-export const getSelectedCartData = (state) => {
-    const { cart, selectedItems } = state.cart;
+import { createSelector } from 'reselect';
 
-    if (!cart || !cart.cartItems || !selectedItems) return null;
+const cartSelector = (state) => state.cart.cart;
+const selectedItemsSelector = (state) => state.cart.selectedItems;
 
-    // Filter only selected items
-    const selectedCartItems = cart.cartItems.filter(item =>
-        selectedItems.includes(item.id)
-    );
+export const getSelectedCartData = createSelector(
+    [cartSelector, selectedItemsSelector],
+    (cart, selectedItems) => {
+        if (!cart || !cart.cartItems || !selectedItems) return null;
 
-    // Calculate totals for selected items
-    const totalItem = selectedCartItems.length;
-    let totalPrice = 0;
-    let totalDiscountedPrice = 0;
+        const selectedCartItems = cart.cartItems.filter(item =>
+            selectedItems.includes(item.id)
+        );
 
-    selectedCartItems.forEach(item => {
-        totalPrice += (item.product.price * item.quantity);
-        totalDiscountedPrice += (item.product.discountedPrice * item.quantity);
-    });
+        const totalItem = selectedCartItems.length;
+        let totalPrice = 0;
+        let totalDiscountedPrice = 0;
 
-    const discount = totalPrice - totalDiscountedPrice;
+        selectedCartItems.forEach(item => {
+            totalPrice += (item.product.price * item.quantity);
+            totalDiscountedPrice += (item.product.discountedPrice * item.quantity);
+        });
 
-    return {
-        cartItems: selectedCartItems,
-        totalItem,
-        totalPrice,
-        totalDiscountedPrice,
-        discount
-    };
-};
+        const discount = totalPrice - totalDiscountedPrice;
+
+        return {
+            cartItems: selectedCartItems,
+            totalItem,
+            totalPrice,
+            totalDiscountedPrice,
+            discount
+        };
+    }
+);
