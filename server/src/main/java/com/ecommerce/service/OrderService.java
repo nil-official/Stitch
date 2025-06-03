@@ -2,6 +2,7 @@ package com.ecommerce.service;
 
 import java.util.List;
 
+import com.ecommerce.dto.OrderAnalyticsDto;
 import com.ecommerce.dto.OrderDto;
 import com.ecommerce.model.User;
 import com.ecommerce.request.OrderRequest;
@@ -17,6 +18,8 @@ public interface OrderService {
 
     List<OrderDto> getAllOrders();
 
+    List<OrderDto> getLastFiveOrders();
+
     List<OrderDto> getOrdersByUser(Long userId);
 
     OrderDto updateOrderStatus(Long orderId, OrderStatus status);
@@ -28,6 +31,8 @@ public interface OrderService {
     OrderDto createRazorpayOrder(User user, OrderRequest orderRequest);
 
     OrderDto updatePaymentDetails(String orderId, String razorpayPaymentId, String razorpaySignature);
+
+    OrderAnalyticsDto getOrderAnalytics();
 
 //    OrderDto createOrder(User user, AddressDto shippingAddress) throws OrderException;
 //

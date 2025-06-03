@@ -1,5 +1,7 @@
 package com.ecommerce.service.impl;
 
+import com.ecommerce.dto.AnalyticsDataDto;
+import com.ecommerce.dto.OrderAnalyticsDto;
 import com.ecommerce.dto.OrderDto;
 import com.ecommerce.request.OrderRequest;
 import com.ecommerce.request.OrderItemRequest;
@@ -21,11 +23,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @AllArgsConstructor
@@ -162,11 +166,109 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDto> getLastFiveOrders() {
+        List<OrderDto> allOrders = getAllOrders();
+        Collections.reverse(allOrders);
+        return allOrders.stream()
+                .limit(Math.min(allOrders.size(), 5))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<OrderDto> getOrdersByUser(Long userId) {
         List<Order> orders = orderRepository.findByUserId(userId);
         return orders.stream()
                 .map(OrderMapper::toOrderDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderAnalyticsDto getOrderAnalytics() {
+        LocalDate today = LocalDate.now();
+
+        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY);
+
+        LocalDate startOfMonth = today.withDayOfMonth(1);
+        LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
+
+        LocalDate startOfYear = today.withDayOfYear(1);
+        LocalDate endOfYear = today.withDayOfYear(today.lengthOfYear());
+
+        LocalDateTime startOfWeekTime = startOfWeek.atStartOfDay();
+        LocalDateTime endOfWeekTime = endOfWeek.atTime(LocalTime.MAX);
+
+        LocalDateTime startOfMonthTime = startOfMonth.atStartOfDay();
+        LocalDateTime endOfMonthTime = endOfMonth.atTime(LocalTime.MAX);
+
+        LocalDateTime startOfYearTime = startOfYear.atStartOfDay();
+        LocalDateTime endOfYearTime = endOfYear.atTime(LocalTime.MAX);
+
+        List<Order> weeklyOrders = orderRepository.findByCreatedAtBetween(startOfWeekTime, endOfWeekTime);
+        List<Order> monthlyOrders = orderRepository.findByCreatedAtBetween(startOfMonthTime, endOfMonthTime);
+        List<Order> yearlyOrders = orderRepository.findByCreatedAtBetween(startOfYearTime, endOfYearTime);
+
+        Map<DayOfWeek, Long> dailyCountMap = weeklyOrders.stream()
+                .collect(Collectors.groupingBy(
+                        order -> order.getCreatedAt().getDayOfWeek(),
+                        Collectors.counting()
+                ));
+
+        List<String> days = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+
+        Map<String, DayOfWeek> dayMap = Map.of(
+                "Mon", DayOfWeek.MONDAY,
+                "Tue", DayOfWeek.TUESDAY,
+                "Wed", DayOfWeek.WEDNESDAY,
+                "Thu", DayOfWeek.THURSDAY,
+                "Fri", DayOfWeek.FRIDAY,
+                "Sat", DayOfWeek.SATURDAY,
+                "Sun", DayOfWeek.SUNDAY
+        );
+
+        List<AnalyticsDataDto> dailyData = days.stream()
+                .map(day -> {
+                    DayOfWeek dow = dayMap.get(day);
+                    long count = dailyCountMap.getOrDefault(dow, 0L);
+                    return new AnalyticsDataDto(day, (int) count);
+                })
+                .collect(Collectors.toList());
+
+        Map<Integer, Long> weekCountMap = monthlyOrders.stream()
+                .collect(Collectors.groupingBy(
+                        order -> {
+                            int day = order.getCreatedAt().getDayOfMonth();
+                            return (day - 1) / 7 + 1; // Week 1: day 1-7, Week 2: 8-14, etc.
+                        },
+                        Collectors.counting()
+                ));
+
+        List<AnalyticsDataDto> weeklyData = IntStream.rangeClosed(1, 5)
+                .mapToObj(week -> {
+                    long count = weekCountMap.getOrDefault(week, 0L);
+                    return new AnalyticsDataDto("Week " + week, (int) count);
+                })
+                .collect(Collectors.toList());
+
+        Map<Integer, Long> monthlyCountMap = yearlyOrders.stream()
+                .collect(Collectors.groupingBy(
+                        order -> order.getCreatedAt().getMonthValue(),
+                        Collectors.counting()
+                ));
+
+        List<String> monthNames = List.of("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+
+        List<AnalyticsDataDto> monthlyData = IntStream.rangeClosed(1, 12)
+                .mapToObj(month -> {
+                    long count = monthlyCountMap.getOrDefault(month, 0L);
+                    return new AnalyticsDataDto(monthNames.get(month - 1), (int) count);
+                })
+                .collect(Collectors.toList());
+
+        // ===== Final Response =====
+        return new OrderAnalyticsDto(dailyData, weeklyData, monthlyData);
+
     }
 
     @Override

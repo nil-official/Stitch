@@ -1,7 +1,9 @@
 package com.ecommerce.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.ecommerce.dto.OrderAnalyticsDto;
 import com.ecommerce.dto.OrderDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,12 @@ public class AdminOrderController {
     public ResponseEntity<List<OrderDto>> getAllOrdersHandler() {
         List<OrderDto> orders = orderService.getAllOrders();
         return new ResponseEntity<>(orders, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<OrderDto>> getRecentOrdersHandler() {
+        List<OrderDto> lastFiveOrders = orderService.getLastFiveOrders();
+        return new ResponseEntity<>(lastFiveOrders, HttpStatus.ACCEPTED);
     }
 
 //    @PutMapping("/{orderId}/confirmed")
@@ -61,6 +69,12 @@ public class AdminOrderController {
         ApiResponse res = new ApiResponse("Order Deleted Successfully", true);
         System.out.println("delete method working....");
         return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/analytics")
+    public ResponseEntity<OrderAnalyticsDto> getOrderAnalyticsHandler(){
+        OrderAnalyticsDto response = orderService.getOrderAnalytics();
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
 }
