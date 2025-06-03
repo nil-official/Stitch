@@ -1,4 +1,4 @@
-package com.ecommerce.controller;
+package com.ecommerce.controller.guest;
 
 import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.ReviewDto;

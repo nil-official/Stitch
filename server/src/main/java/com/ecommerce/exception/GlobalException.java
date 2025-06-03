@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.ecommerce.response.ApiResponse;
+import com.ecommerce.response.ErrorResponse;
+import com.ecommerce.response.ResponseBuilder;
 import com.ecommerce.utility.RequestDetailsUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -89,12 +91,6 @@ public class GlobalException {
         return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SearchHistoryException.class)
-    public ResponseEntity<ErrorDetails> handleSearchHistoryException(SearchHistoryException ex, HttpServletRequest req) {
-        ErrorDetails err = new ErrorDetails(ex.getMessage(), RequestDetailsUtil.buildDetailedRequestInfo(req), LocalDateTime.now());
-        return new ResponseEntity<>(err, ex.getStatus());
-    }
-
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<ErrorDetails> handleTokenException(TokenException ex, HttpServletRequest req) {
         ErrorDetails err = new ErrorDetails(ex.getMessage(), RequestDetailsUtil.buildDetailedRequestInfo(req), LocalDateTime.now());
@@ -111,6 +107,12 @@ public class GlobalException {
     public ResponseEntity<ApiResponse> handleUnauthorized(UnauthorizedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiResponse(ex.getMessage(), false));
+    }
+
+    @ExceptionHandler(SearchHistoryException.class)
+    public ResponseEntity<ErrorResponse> handleSearchHistoryException(SearchHistoryException ex, HttpServletRequest req) {
+        ErrorResponse errorResponse = ResponseBuilder.error(ex.getMessage(), ex.getErrorCode(), RequestDetailsUtil.buildDetailedRequestInfo(req));
+        return new ResponseEntity<>(errorResponse, ex.getStatus());
     }
 
 }

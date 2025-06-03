@@ -2,10 +2,13 @@ package com.ecommerce.service.impl;
 
 import com.ecommerce.dto.EmailProductDto;
 import com.ecommerce.dto.ProductMLDto;
+import com.ecommerce.exception.MLException;
+import com.ecommerce.exception.UserException;
 import com.ecommerce.mapper.ProductMapper;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.ProductRepository;
+import com.ecommerce.repository.UserRepository;
 import com.ecommerce.request.RankScoreRequest;
 import com.ecommerce.request.SizePredictionRequest;
 import com.ecommerce.response.RankScoreResponse;
@@ -25,14 +28,19 @@ import java.util.stream.Collectors;
 public class MLServiceImpl implements MLService {
 
     private final RestTemplate restTemplate;
-    private final ProductRepository productRepository;
     private final EmailService emailService;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     private final String ML_RANK_API_URL = "http://localhost:8000/api/ml/rank";
-    private final String ML_RECOMMEND_API_URL = "http://localhost:8000/api/ml/recommend";
     private final String ML_PREDICT_API_URL = "http://localhost:8000/api/ml/predict";
+    private final String ML_RECOMMEND_API_URL = "http://localhost:8000/api/ml/recommend";
 
     @Override
-    public void sendRecommendationEmailToUser(User user, Long baseProductId, int limit) {
+    public void sendRecommendationEmailToUser(Long userId, Long baseProductId, int limit) throws UserException {
+        // Getting user by ID
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException("User not found with ID: " + userId));
+
         // Step 1: Get recommended product IDs from ML service
         List<Long> recommendedProductIds = getRecommendedProducts(baseProductId, limit);
 
@@ -87,6 +95,7 @@ public class MLServiceImpl implements MLService {
             }
         } catch (Exception e) {
             System.err.println("🚨 Exception calling ML Recommend API: " + e.getMessage());
+            throw new MLException("Failed to get recommended products: " + e.getMessage());
         }
 
         return List.of();

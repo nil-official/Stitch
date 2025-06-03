@@ -13,9 +13,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -85,23 +85,45 @@ public class ProductESServiceImpl implements ProductESService {
 
     @Override
     public List<String> autocompleteSearch(String query) throws IOException {
-
         Supplier<Query> supplier = ESUtil.createSupplierAutoSuggest(query);
         SearchResponse<ProductES> searchResponse = elasticsearchClient
                 .search(s -> s.index("products").query(supplier.get()), ProductES.class);
 
         List<Hit<ProductES>> hitList = searchResponse.hits().hits();
-        List<ProductES> productList = new ArrayList<>();
+        Set<String> trimmedSet = new LinkedHashSet<>();
+
         for (Hit<ProductES> hit : hitList) {
-            productList.add(hit.source());
+            ProductES product = hit.source();
+            if (product == null || product.getTitle() == null) {
+                continue;
+            }
+
+            String title = product.getTitle();
+            String lowerQuery = query.toLowerCase().trim();
+
+            String[] words = title.split("\\s+");
+            for (int i = 0; i < words.length; i++) {
+                if (words[i].toLowerCase().startsWith(lowerQuery)) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = i; j < words.length; j++) {
+                        sb.append(words[j]).append(" ");
+                    }
+                    String trimmed = sb.toString().trim();
+                    trimmedSet.add(trimmed);
+                    break;
+                }
+            }
         }
 
-        List<String> listOfProductNames = new ArrayList<>();
-        for (ProductES product : productList) {
-            listOfProductNames.add(product.getTitle());
-        }
+        // Convert to list, sort by length, then lowercase
+        List<String> resultList = new ArrayList<>(trimmedSet);
+        resultList.sort(Comparator.comparingInt(String::length));
 
-        return listOfProductNames;
+        // Convert all strings to lowercase
+        return resultList.stream()
+                .map(String::toLowerCase)
+                .limit(10)
+                .collect(Collectors.toList());
     }
 
 }

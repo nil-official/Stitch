@@ -1,4 +1,4 @@
-package com.ecommerce.controller;
+package com.ecommerce.controller.user;
 
 import com.ecommerce.dto.WishlistDto;
 import com.ecommerce.exception.ProductException;
