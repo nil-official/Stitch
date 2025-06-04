@@ -39,7 +39,9 @@ A modern e-commerce web application designed for seamless shopping, secure trans
 - [Kaustabh Basu](https://github.com/axon04)
 - [Niladri Chakraborty](https://github.com/nil-official)
 - [Devanjana Ghosh](https://github.com/tanu002)
-- [Rony Karmakar]()
+- [Rony Karmakar](https://github.com/Rony-Karmakar)
+- [Arghya Dhar](https://github.com/arghyadhar19)
+- [Arunima Barua](https://github.com/arunimabarua12)
 
 ## Table of Contents
 
