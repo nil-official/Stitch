@@ -32,8 +32,8 @@ public class MLServiceImpl implements MLService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final String ML_RANK_API_URL = "http://localhost:8000/api/ml/rank";
-    private final String ML_PREDICT_API_URL = "http://localhost:8000/api/ml/predict";
     private final String ML_RECOMMEND_API_URL = "http://localhost:8000/api/ml/recommend";
+    private final String ML_PREDICT_API_URL = "http://localhost:8000/api/ml/predict-size";
 
     @Override
     public void sendRecommendationEmailToUser(Long userId, Long baseProductId, int limit) throws UserException {

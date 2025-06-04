@@ -11,6 +11,5 @@ public class SizePredictionRequest {
 
     private int height;
     private int weight;
-    private int age;
 
 }

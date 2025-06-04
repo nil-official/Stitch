@@ -136,10 +136,7 @@ public class UserServiceImpl implements UserService {
             int height = isHeightUpdated ? userRequest.getHeight() : user.getHeight();
             int weight = isWeightUpdated ? userRequest.getWeight() : user.getWeight();
 
-            SizePredictionRequest sizePredictionRequest = new SizePredictionRequest(
-                    height, weight, age
-            );
-
+            SizePredictionRequest sizePredictionRequest = new SizePredictionRequest(height, weight);
             List<String> predictedSizes = mlService.predictSize(sizePredictionRequest);
             user.setPredictedSizes(new ArrayList<>(predictedSizes));
         }
