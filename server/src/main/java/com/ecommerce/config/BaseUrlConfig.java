@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BaseUrlConfig {
 
-    @Value("${frontend.base.url}")
+    @Value("${baseurl.frontend}")
     private String frontendBaseUrl;
 
-    @Value("${backend.base.url}")
+    @Value("${baseurl.backend}")
     private String backendBaseUrl;
 
     @Bean

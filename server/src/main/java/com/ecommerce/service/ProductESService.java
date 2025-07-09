@@ -1,23 +1,15 @@
 package com.ecommerce.service;
 
-import com.ecommerce.exception.ProductException;
 import com.ecommerce.model.ProductES;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ProductESService {
 
-    ProductES createProduct(ProductES product) throws ProductException;
+    void createProduct(ProductES productES) throws Exception;
 
-    Iterable<ProductES> getProducts() throws ProductException;
+    List<ProductES> getProducts() throws Exception;
 
-    ProductES updateProduct(Long productId, ProductES product) throws ProductException;
-
-    String deleteProduct(Long productId) throws ProductException;
-
-    String deleteAllProducts() throws ProductException;
-
-    List<String> autocompleteSearch(String query) throws IOException;
+    List<String> autocompleteSearch(String query) throws Exception;
 
 }

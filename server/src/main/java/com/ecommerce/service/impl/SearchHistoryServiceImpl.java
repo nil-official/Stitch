@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     private final SearchHistoryRepository searchHistoryRepository;
 
     @Override
-    public List<SearchSuggestionDto> fetchSearchSuggestions(User user, String query) throws IOException {
+    public List<SearchSuggestionDto> fetchSearchSuggestions(User user, String query) throws Exception {
         String normalizedQuery = query.trim().toLowerCase();
 
         // History suggestions (prioritized)
@@ -69,7 +68,7 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     }
 
     @Override
-    public List<SearchHistoryDto> fetchSearchAutocomplete(String query) throws IOException {
+    public List<SearchHistoryDto> fetchSearchAutocomplete(String query) throws Exception {
         return SearchHistoryMapper.EStoDtoList(productESService.autocompleteSearch(query));
     }
 

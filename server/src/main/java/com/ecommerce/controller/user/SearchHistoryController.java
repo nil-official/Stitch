@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,7 +23,7 @@ public class SearchHistoryController {
 
     @GetMapping
     public ResponseEntity<SuccessResponse<List<SearchSuggestionDto>>> fetchSearchSuggestions(@CurrentUser User user,
-                                                                                             @RequestParam String query) throws IOException {
+                                                                                             @RequestParam String query) throws Exception {
 
         List<SearchSuggestionDto> searchSuggestions = searchHistoryService.fetchSearchSuggestions(user, query);
         return new ResponseEntity<>(ResponseBuilder.success("Search suggestions fetched successfully.", searchSuggestions), HttpStatus.OK);
@@ -40,7 +39,7 @@ public class SearchHistoryController {
     }
 
     @GetMapping("/autocomplete")
-    public ResponseEntity<SuccessResponse<List<SearchHistoryDto>>> fetchSearchAutocomplete(@RequestParam String query) throws IOException {
+    public ResponseEntity<SuccessResponse<List<SearchHistoryDto>>> fetchSearchAutocomplete(@RequestParam String query) throws Exception {
 
         List<SearchHistoryDto> searchHistory = searchHistoryService.fetchSearchAutocomplete(query);
         return new ResponseEntity<>(ResponseBuilder.success("Autocomplete fetched successfully.", searchHistory), HttpStatus.OK);

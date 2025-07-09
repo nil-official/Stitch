@@ -8,7 +8,7 @@ import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.ProductMLDto;
 import com.ecommerce.dto.SearchDto;
 import com.ecommerce.mapper.ProductMapper;
-import com.ecommerce.repository.ProductESRepository;
+import com.ecommerce.service.ProductESService;
 import com.ecommerce.service.ProductService;
 import com.ecommerce.utility.DtoValidatorUtil;
 import com.ecommerce.utility.Pagination1BasedUtil;
@@ -33,8 +33,8 @@ import com.ecommerce.model.Size;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductESRepository productESRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductESService productESService;
 
     @Override
     public Product createProduct(ProductRequest req) throws ProductException {
@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
             // Save the product to the Database
             Product savedProduct = productRepository.save(product);
             // Save the product to Elasticsearch
-            productESRepository.save(ProductMapper.toProductES(savedProduct));
+            productESService.createProduct(ProductMapper.toProductES(savedProduct));
             return savedProduct;
         } catch (Exception e) {
             throw new ProductException("Failed to create product: " + e.getMessage());
