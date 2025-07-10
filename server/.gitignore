@@ -5,7 +5,8 @@ target/
 !**/src/test/**/target/
 
 ### Properties ignored ###
-application-dev.properties
+src/main/resources/application-dev.properties
+src/main/resources/application-dev.yml
 
 ### Properties allowed ###
 !application-example.properties
