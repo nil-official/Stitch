@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USER}
+    password: ${MAIL_PASS}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+elasticsearch:
+  username: ${ES_USER}
+  password: ${ES_PASS}
+  host: ${ES_HOST}
+  port: ${ES_PORT}
+
+razorpay:
+  api:
+    key: ${RAZORPAY_KEY}
+    secret: ${RAZORPAY_SECRET}
+
+baseurl:
+  frontend: ${FRONTEND_URL}
+  backend: ${BACKEND_URL}
