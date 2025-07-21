@@ -25,5 +25,4 @@ dist-ssr
 /.env
 
 # Data
-/src/data
-/src/temp
+/src/data/
