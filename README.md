@@ -31,7 +31,7 @@ A modern e-commerce web application designed for seamless shopping, secure trans
 ## Preview
 
 <p align="center">
-  <img src="./client/public/preview.png" width="700" alt="Stitch Preview">
+  <img src="https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203263/preview_pdqbpx.png" width="700" alt="Stitch Preview">
 </p>
 
 ## Contributors

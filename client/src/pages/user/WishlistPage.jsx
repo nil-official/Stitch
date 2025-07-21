@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../../components/Wishlist/ProductCard';
 import { getWishlist } from '../../redux/customer/wishlist/action';
 import EmptyPage from '../EmptyPage';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { EMPTY_WISHLIST } from '../../assets/asset';
 
 const WishlistPage = () => {
 
@@ -18,7 +19,7 @@ const WishlistPage = () => {
   if (!wishlist || wishlist.length === 0) {
     return <EmptyPage
       heading={"My Wishlist"}
-      image={"/empty-wishlist.jpg"}
+      image={EMPTY_WISHLIST}
       title={"Your Wishlist is Empty!"}
       description={"Looks like you haven’t added anything to your wishlist yet. Explore our collection and add your favorite items!"}
       button={"Add Now"}

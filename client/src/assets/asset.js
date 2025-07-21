@@ -1,0 +1,9 @@
+export const FAVICON = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203261/favicon_cjzrvk.ico';
+export const STITCH_BLACK = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203262/logo_stitch_black_nlfv4x.png';
+export const STITCH_WHITE = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203261/logo_stitch_white_s5trhg.png';
+export const MAINTENANCE = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203261/maintenance_rddnt9.svg';
+export const EMPTY_CART = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203262/empty-trolley_ln4q2a.jpg';
+export const EMPTY_WISHLIST = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203261/empty-wishlist_bl6ur7.jpg';
+export const NO_PRODUCT = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203262/no-product-found_l1e7ko.jpg';
+export const PRODUCT = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203261/product-placeholder_nq7vmt.jpg';
+export const RECOMMENDED = 'https://res.cloudinary.com/dya8ig3jg/image/upload/v1753203263/recommended_umddh6.png';

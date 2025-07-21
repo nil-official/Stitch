@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { X, Settings2 } from "lucide-react";
@@ -9,6 +9,7 @@ import Pagination from '../../components/Search/Pagination';
 import ErrorEncountered from '../../components/ErrorEncountered';
 import { getProducts } from '../../redux/customer/search/action';
 import { getFilters } from '../../redux/customer/filter/action';
+import { NO_PRODUCT } from '../../assets/asset';
 
 const SearchPage = () => {
     // Hooks
@@ -220,7 +221,7 @@ const SearchPage = () => {
                                 ) : (products && products.empty && (
                                     <div className="flex flex-col items-center justify-center w-3/4 text-center rounded-lg p-6">
                                         <img
-                                            src="/no-product-found.jpg"
+                                            src={NO_PRODUCT}
                                             alt="No Product Found!"
                                             className="w-52 object-contain"
                                         />

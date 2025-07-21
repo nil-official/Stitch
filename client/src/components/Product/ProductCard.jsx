@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
+import { PRODUCT } from '../../assets/asset';
 
 const ProductCard = ({ product }) => {
 
@@ -23,7 +24,7 @@ const ProductCard = ({ product }) => {
                         alt={product.brand}
                         loading="lazy"
                         onError={(e) => {
-                            e.currentTarget.src = '/product-placeholder.jpg';
+                            e.currentTarget.src = PRODUCT;
                             console.error('Error loading image:', image);
                         }}
                     />

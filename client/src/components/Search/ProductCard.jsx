@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
+import { PRODUCT, RECOMMENDED } from '../../assets/asset';
 
 const ProductCard = ({ product }) => {
 
@@ -13,7 +14,7 @@ const ProductCard = ({ product }) => {
                 <div className="relative w-full aspect-[2/3] overflow-hidden rounded-lg">
                     {product.rankScore > 9.5 &&
                         <img
-                            src="/recommended.png"
+                            src={RECOMMENDED}
                             alt="Recommended"
                             className="absolute w-[60%] z-10"
                         />
@@ -24,7 +25,7 @@ const ProductCard = ({ product }) => {
                         alt={product.brand}
                         loading="lazy"
                         onError={(e) => {
-                            e.currentTarget.src = '/product-placeholder.jpg';
+                            e.currentTarget.src = PRODUCT;
                             console.error('Error loading image:', image);
                         }}
                     />

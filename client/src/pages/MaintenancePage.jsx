@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Replace with your image path
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MAINTENANCE } from '../assets/asset';
 
 const MaintenancePage = () => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const MaintenancePage = () => {
             <div className="max-w-2xl text-center">
                 {/* Maintenance Image */}
                 <img
-                    src='./maintenance.webp'
+                    src={MAINTENANCE}
                     alt="Maintenance"
                     className="w-48 h-48 mx-auto mb-6"
                 />
@@ -38,7 +39,7 @@ const MaintenancePage = () => {
                         href="mailto:support@example.com"
                         className="text-blue-500 hover:underline"
                     >
-                        support@stitch.com
+                        stitch.notifications@gmail.com
                     </a>
                     .
                 </p>

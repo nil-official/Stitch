@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -22,6 +22,7 @@ import {
     selectAllCartItems,
     deselectAllCartItems,
 } from '../../redux/customer/cart/action';
+import { EMPTY_CART } from '../../assets/asset';
 
 const CartPage = () => {
     const dispatch = useDispatch();
@@ -132,7 +133,7 @@ const CartPage = () => {
     if (!cart || cart.totalItem === 0) {
         return <EmptyPage
             heading={"Shopping Cart"}
-            image={"/empty-trolley.jpg"}
+            image={EMPTY_CART}
             title={"Your Cart is Empty!"}
             description={"Looks like you haven't added anything to your cart yet. Explore our collection and add your favorite items!"}
             button={"Shop Now"}
