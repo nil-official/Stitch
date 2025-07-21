@@ -1,4 +1,3 @@
-import { useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ErrorPage from '../pages/ErrorPage';
 import Login from '../components/Auth/Login';
@@ -22,10 +21,6 @@ import ForgotPassword from '../pages/auth/ForgotPassword';
 import OrdersDetailsPage from '../pages/user/OrderDetailsPage';
 
 const UserRoutes = () => {
-
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const searchInputRef = useRef(null);
-
     return (
         <Routes>
             <Route path="/auth/login" element={<Login />} />
@@ -34,8 +29,8 @@ const UserRoutes = () => {
             <Route path="/auth/reset-password" element={<ResetPassword />} />
             <Route path="/auth/verify" element={<VerifyEmail />} />
             <Route path="/maintainance" element={<MaintenancePage />} />
-            <Route element={<MainLayout isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />}>
-                <Route path="/" element={<HomePage isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />} />
+            <Route element={<MainLayout />}>
+                <Route path="/" element={<HomePage />} />
                 {/* User */}
                 <Route path="/user/account" element={<ProfilePage />} />
                 <Route path="/user/wishlist" element={<WishlistPage />} />
