@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InputField from './InputField';
 import { FaSpinner } from 'react-icons/fa';
 import { register } from '../../redux/auth/action';
@@ -8,19 +8,37 @@ import { AUTH_ROUTES } from '../../routes/routePaths';
 
 function Register() {
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, isAuthenticated, error } = useSelector((state) => state.auth);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
-  const dispatch = useDispatch();
-  const { loading, error, message } = useSelector((state) => state.auth);
+  const [message, setMessage] = useState(null);
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/");
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateInputs()) return;
-    dispatch(register(firstName, lastName, email, password));
+
+    dispatch(register({ firstName, lastName, email, password }))
+      .then((res) => {
+        if (res.success && res.status === 201)
+          setMessage("User Registered Successfully! Please verify your email to login!");
+      });
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (!validateInputs()) return;
+  //   dispatch(register({ firstName, lastName, email, password }));
+  // };
 
   const validateInputs = () => {
     let isValid = true;

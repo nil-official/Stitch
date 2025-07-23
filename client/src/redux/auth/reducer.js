@@ -1,4 +1,5 @@
 import {
+    LOAD_USER,
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
     REGISTER_FAILURE,
@@ -6,37 +7,67 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGOUT,
-    RESET_JUST_LOGGED_IN,
 } from "./type";
 
 const initialState = {
-    token: localStorage.getItem("jwtToken") || null,
     loading: false,
+    user: null,
+    isAuthenticated: false,
     error: null,
-    message: null,
-    justLoggedIn: false,
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case REGISTER_REQUEST:
-            return { ...state, loading: true, error: null };
-        case REGISTER_SUCCESS:
-            return { ...state, loading: false, message: action.payload };
-        case REGISTER_FAILURE:
-            return { ...state, loading: false, error: action.payload };
         case LOGIN_REQUEST:
-            return { ...state, loading: true, error: null };
+            return {
+                ...state,
+                loading: true,
+                user: null,
+                isAuthenticated: false,
+                error: null
+            };
+
+        case REGISTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: null,
+                isAuthenticated: false,
+                error: null
+            };
+
+        case LOAD_USER:
         case LOGIN_SUCCESS:
-            return { ...state, loading: false, token: action.payload, justLoggedIn: true };
+            return {
+                ...state,
+                loading: false,
+                user: action.user,
+                isAuthenticated: true,
+                error: null
+            };
+
+        case REGISTER_FAILURE:
         case LOGIN_FAILURE:
-            return { ...state, loading: false, error: action.payload };
+            return {
+                ...state,
+                loading: false,
+                user: null,
+                isAuthenticated: false,
+                error: action.error
+            };
+
         case LOGOUT:
-            return { ...state, token: null, justLoggedIn: false };
-        case RESET_JUST_LOGGED_IN:
-            return { ...state, justLoggedIn: false };
+            return {
+                ...state,
+                loading: false,
+                user: null,
+                isAuthenticated: false,
+                error: null
+            };
+
         default:
-            return state;
+            return state ?? initialState;
     }
 };
 

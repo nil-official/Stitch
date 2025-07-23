@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { ChevronLeft, ShoppingCart, Trash } from 'lucide-react';
 import EmptyPage from '../EmptyPage';
@@ -23,11 +23,16 @@ import {
     deselectAllCartItems,
 } from '../../redux/customer/cart/action';
 import { EMPTY_CART } from '../../assets/asset';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 const CartPage = () => {
+
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [currency, setCurrency] = useState('INR');
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const { cart, selectedItems, loading, error } = useSelector((state) => state.cart);
+
+    const [currency, setCurrency] = useState('INR');
     const selectedCartData = useSelector(getSelectedCartData);
 
     const [confirmation, setConfirmation] = useState({
@@ -40,8 +45,11 @@ const CartPage = () => {
     });
 
     useEffect(() => {
-        if (!cart) dispatch(getCart());
-    }, [dispatch, cart]);
+        if (!isAuthenticated)
+            navigate(AUTH_ROUTES.LOGIN);
+        else
+            dispatch(getCart());
+    }, [isAuthenticated, dispatch]);
 
     const handleQuantityChange = (cartItemId, quantity, currentQuantity) => {
         if (quantity > 5) {

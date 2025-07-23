@@ -1,8 +1,12 @@
 package com.ecommerce.mapper;
 
+import com.ecommerce.dto.UserAuthDto;
 import com.ecommerce.dto.UserProfileDto;
+import com.ecommerce.model.Role;
 import com.ecommerce.model.User;
 import com.ecommerce.dto.UserDto;
+
+import java.util.stream.Collectors;
 
 public class UserMapper {
     public static UserDto toUserDto(User user) {
@@ -26,6 +30,20 @@ public class UserMapper {
         }
         userDto.setCreatedAt(user.getCreatedAt());
         return userDto;
+    }
+
+    public static UserAuthDto toUserAuthDto(User user) {
+        return new UserAuthDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getMobile(),
+                user.getRoles()
+                        .stream()
+                        .map(Role::getName)
+                        .collect(Collectors.joining(", "))
+        );
     }
 
     public static UserProfileDto toUserProfileDto(User user) {

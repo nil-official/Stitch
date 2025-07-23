@@ -26,7 +26,7 @@ public class AuthController {
 
         authService.register(registerRequest);
         ApiResponse apiResponse = new ApiResponse("User Registered Successfully! Please verify your email to login!", true);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
 
     }
 

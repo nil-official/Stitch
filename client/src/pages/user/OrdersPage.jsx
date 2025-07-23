@@ -1,16 +1,23 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Calendar, MapPin, CreditCard, Package, Clock, CheckCircle, XCircle, Truck } from 'lucide-react';
 import { getUserOrders } from '../../redux/customer/order/action';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 const OrdersPage = () => {
+
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const { orders, loading, error } = useSelector(state => state.order);
 
     useEffect(() => {
-        dispatch(getUserOrders());
-    }, [dispatch]);
+        if (!isAuthenticated)
+            navigate(AUTH_ROUTES.LOGIN);
+        else
+            dispatch(getUserOrders());
+    }, [isAuthenticated, dispatch]);
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('var', {

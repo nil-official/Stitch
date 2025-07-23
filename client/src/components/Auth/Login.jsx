@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import InputField from './InputField';
@@ -8,17 +8,22 @@ import { AUTH_ROUTES } from '../../routes/routePaths';
 
 export const Login = () => {
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, isAuthenticated, error } = useSelector((state) => state.auth);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { loading, error, token } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/");
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateInputs()) return;
-    dispatch(login(email, password));
+    dispatch(login({ email, password }));
   };
 
   const validateInputs = () => {
@@ -41,10 +46,6 @@ export const Login = () => {
     setErrors(newErrors);
     return isValid;
   };
-
-  useEffect(() => {
-    if (token) navigate("/");
-  }, [token, navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

@@ -23,10 +23,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class GlobalException {
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorDetails> UserExceptionHandler(UserException ue, WebRequest req) {
+    public ResponseEntity<ErrorDetails> UserExceptionHandler(UserException ex, WebRequest req) {
 
-        ErrorDetails err = new ErrorDetails(ue.getMessage(), req.getDescription(false), LocalDateTime.now());
-        return new ResponseEntity<ErrorDetails>(err, HttpStatus.BAD_REQUEST);
+        ErrorDetails err = new ErrorDetails(ex.getMessage(), req.getDescription(false), LocalDateTime.now());
+        return new ResponseEntity<>(err, ex.getStatus());
 
     }
 

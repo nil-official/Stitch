@@ -1,16 +1,20 @@
 package com.ecommerce.response;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.ecommerce.dto.UserAuthDto;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 public class AuthResponse {
 
-	private String jwt;
-	private String role;
-	private boolean status;
+    private boolean status;
+    private String message;
+    private UserAuthDto user;
+    private String token;
 
 }

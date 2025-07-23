@@ -3,18 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../../components/Wishlist/ProductCard';
 import { getWishlist } from '../../redux/customer/wishlist/action';
 import EmptyPage from '../EmptyPage';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { EMPTY_WISHLIST } from '../../assets/asset';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 
 const WishlistPage = () => {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const { wishlist, loading, error } = useSelector((state) => state.wishlist);
 
   useEffect(() => {
-    dispatch(getWishlist());
-  }, [dispatch]);
+    if (!isAuthenticated)
+      navigate(AUTH_ROUTES.LOGIN);
+    else
+      dispatch(getWishlist());
+  }, [isAuthenticated, dispatch]);
 
   if (!wishlist || wishlist.length === 0) {
     return <EmptyPage

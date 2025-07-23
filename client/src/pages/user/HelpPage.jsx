@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
+import axios from "axios";
+import BASE_URL from "../../utils/baseurl";
 import PostIssue from "../../components/Help/PostIssue";
 import IssueList from "../../components/Help/IssueList";
-import BASE_URL from "../../utils/baseurl";
-import axios from "axios";
-import { toast } from 'react-hot-toast';
+import { AUTH_ROUTES } from "../../routes/routePaths";
 
 const HelpPage = () => {
-    const [activeTab, setActiveTab] = useState('post-issue')
-    // const [issues, setIssues] = useState([
-    //     { id: 1, title: "Late delivery", description: "My order is 3 days late", status: "Open", reply: "We apologize for the delay. Your order will be delivered tomorrow." },
-    //     { id: 2, title: "Wrong item received", description: "I received a different product than what I ordered", status: "Closed", reply: "We're sorry for the mix-up. Please return the item using the prepaid label, and we'll send the correct item right away." },
-    // ])
+
+    const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
+    const [activeTab, setActiveTab] = useState('post-issue');
+
+    useEffect(() => {
+        if (!isAuthenticated) navigate(AUTH_ROUTES.LOGIN);
+    }, [isAuthenticated]);
 
     const addIssue = async (newIssue) => {
         try {

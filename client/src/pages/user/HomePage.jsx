@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import UserInfoDialog from '../../components/Home/UserInfoDialog'
 import HeroSection from '../../components/Home/HeroSection'
 import ProductSection from '../../components/Home/ProductSection'
-import { resetJustLoggedIn } from '../../redux/auth/action'
 import { getProfile } from '../../redux/customer/profile/action'
 import { getHomeProducts } from '../../redux/customer/home/action'
 
@@ -11,7 +9,7 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.profile);
-  const { justLoggedIn } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const { products, loading, error } = useSelector((state) => state.home);
   const [showPopup, setShowPopup] = useState(false);
 
@@ -24,15 +22,15 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
   ];
 
   useEffect(() => {
-    dispatch(getProfile());
+    if (isAuthenticated) dispatch(getProfile());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (justLoggedIn && profile && (!profile.gender || !profile.dob || !profile.height || !profile.weight)) {
-      setShowPopup(true);
-      dispatch(resetJustLoggedIn());
-    }
-  }, [justLoggedIn, dispatch]);
+  // useEffect(() => {
+  //   if (justLoggedIn && profile && (!profile.gender || !profile.dob || !profile.height || !profile.weight)) {
+  //     setShowPopup(true);
+  //     dispatch(resetJustLoggedIn());
+  //   }
+  // }, [justLoggedIn, dispatch]);
 
   useEffect(() => {
     dispatch(getHomeProducts(1, 10));
@@ -40,12 +38,12 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
-      {showPopup &&
+      {/* {showPopup &&
         <UserInfoDialog
           profile={profile}
           onClose={() => setShowPopup(false)}
         />
-      }
+      } */}
 
       <HeroSection
         isSearchOpen={isSearchOpen}

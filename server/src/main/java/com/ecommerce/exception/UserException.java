@@ -1,9 +1,21 @@
 package com.ecommerce.exception;
 
-public class UserException extends Exception {
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-	public UserException(String message) {
-		super(message);
-		// TODO Auto-generated constructor stub
-	}
+@Getter
+public class UserException extends RuntimeException {
+
+    private final HttpStatus status;
+
+    public UserException(String message) {
+        super(message);
+        this.status = HttpStatus.BAD_REQUEST;
+    }
+
+    public UserException(String message, HttpStatus status) {
+        super(message);
+        this.status = status;
+    }
+
 }

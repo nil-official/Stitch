@@ -2,6 +2,7 @@ package com.ecommerce.service.impl;
 
 import com.ecommerce.config.JwtTokenProvider;
 import com.ecommerce.exception.*;
+import com.ecommerce.mapper.UserMapper;
 import com.ecommerce.model.Role;
 import com.ecommerce.model.User;
 import com.ecommerce.model.VerifyToken;
@@ -15,7 +16,6 @@ import com.ecommerce.security.CustomUserDetailsService;
 import com.ecommerce.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,7 +48,10 @@ public class AuthServiceImpl implements AuthService {
         // Check if user with the given email already exists
         User isEmailExist = userRepository.findByEmail(registerRequest.getEmail());
         if (isEmailExist != null) {
-            throw new UserException("Registration failed: Email already exists!");
+            throw new UserException(
+                    "Registration failed: Email already exists!",
+                    HttpStatus.CONFLICT
+            );
         }
 
         // Creating a User object
@@ -87,7 +90,10 @@ public class AuthServiceImpl implements AuthService {
         User existingUser = userRepository.findByEmail(loginRequest.getEmail());
 
         if (existingUser == null) {
-            throw new BadCredentialsException("Authentication failed: User not found!");
+            throw new UserException(
+                    "Authentication failed: User not found!",
+                    HttpStatus.NOT_FOUND
+            );
         }
 
         if (!existingUser.isVerified()) {
@@ -99,18 +105,25 @@ public class AuthServiceImpl implements AuthService {
                 // Generate and send a new token
                 tokenService.generateAndSendToken(existingUser, "UUID", null, 10, "resend-token");
 
-                throw new UserNotVerifiedException("Your account is not verified. A new verification link has been sent to your email.");
+                throw new UserException(
+                        "Your account is not verified. A new verification link has been sent to your email.",
+                        HttpStatus.FORBIDDEN
+                );
             }
-            throw new UserNotVerifiedException("Authentication failed: User is not verified!");
+            throw new UserException(
+                    "Authentication failed: User is not verified!",
+                    HttpStatus.FORBIDDEN
+            );
         }
 
         Authentication authentication = authenticate(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return new AuthResponse(
-                jwtTokenProvider.generateToken(authentication),
-                existingUser.getRoles().iterator().next().getName(),
-                true
+                true,
+                "Login success",
+                UserMapper.toUserAuthDto(existingUser),
+                jwtTokenProvider.generateToken(authentication)
         );
 
     }
@@ -119,7 +132,10 @@ public class AuthServiceImpl implements AuthService {
 
         UserDetails userDetails = customUserDetails.loadUserByUsername(email);
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Authentication failed: Password is incorrect!");
+            throw new UserException(
+                    "Authentication failed: Password is incorrect!",
+                    HttpStatus.UNAUTHORIZED
+            );
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
@@ -139,7 +155,10 @@ public class AuthServiceImpl implements AuthService {
         // Check if user exists
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UserException("No account found with this email!");
+            throw new UserException(
+                    "No account found with this email!",
+                    HttpStatus.NOT_FOUND
+            );
         }
 
         // Generating OTP and sending email
@@ -159,7 +178,10 @@ public class AuthServiceImpl implements AuthService {
 
         // Checking the old password
         if (passwordEncoder.matches(newPassword, user.getPassword())) {
-            throw new BadCredentialsException("Authentication failed: Password can't be the same as old password!");
+            throw new UserException(
+                    "Authentication failed: Password can't be the same as old password!",
+                    HttpStatus.BAD_REQUEST
+            );
         }
 
         // Validating the OTP

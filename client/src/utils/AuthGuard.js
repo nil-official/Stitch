@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/auth/action";
+import { getToken } from "./auth";
 
 const checkJwtExpiration = () => {
-    const token = localStorage.getItem('jwtToken');
+    const token = getToken();
     if (!token) return false;
 
     try {
