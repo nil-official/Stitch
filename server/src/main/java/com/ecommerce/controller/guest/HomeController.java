@@ -1,7 +1,7 @@
 package com.ecommerce.controller.guest;
 
 import com.ecommerce.dto.ProductDto;
-import com.ecommerce.dto.ReviewDto;
+import com.ecommerce.dto.UserReviewDto;
 import com.ecommerce.exception.ProductException;
 import com.ecommerce.request.ReviewRequest;
 import com.ecommerce.response.HomeResponse;
@@ -71,8 +71,8 @@ public class HomeController {
     }
 
     @PostMapping("/review/fake/create")
-    public ResponseEntity<ReviewDto> createFakeReview(@RequestBody ReviewRequest req) throws ProductException {
-        ReviewDto reviewDto = reviewService.createFakeReview(req);
+    public ResponseEntity<UserReviewDto> createFakeReview(@RequestBody ReviewRequest req) throws ProductException {
+        UserReviewDto reviewDto = reviewService.createFakeReview(req);
         return new ResponseEntity<>(reviewDto, HttpStatus.OK);
     }
 

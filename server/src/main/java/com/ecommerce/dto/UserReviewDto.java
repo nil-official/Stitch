@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDto {
+public class UserReviewDto {
 
     private Long id;
     private double rating;
@@ -20,6 +20,8 @@ public class ReviewDto {
     private Long userId;
     private String firstName;
     private String lastName;
+    private boolean isLiked;
+    private boolean isDisliked;
     private String createdAt;
     private String updatedAt;
 

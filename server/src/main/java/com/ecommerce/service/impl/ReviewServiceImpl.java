@@ -4,16 +4,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.time.LocalDateTime;
 
-import com.ecommerce.dto.ReviewDto;
+import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
+import com.ecommerce.dto.UserReviewDto;
 import com.ecommerce.dto.ReviewStatsDto;
-import com.ecommerce.dto.ReviewsDto;
+import com.ecommerce.dto.UserReviewsDto;
 import com.ecommerce.mapper.ReviewMapper;
 import com.ecommerce.request.RankScoreRequest;
 import com.ecommerce.service.MLService;
 import com.ecommerce.service.ReviewService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import com.ecommerce.exception.ProductException;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.Review;
@@ -94,7 +93,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewsDto getProductReviews(Long productId, User user) throws ProductException {
+    public UserReviewsDto getProductReviews(Long productId, User user) throws ProductException {
         // Getting the product
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductException("Product not found"));
@@ -102,10 +101,10 @@ public class ReviewServiceImpl implements ReviewService {
         // Get all the reviews of the product
         List<Review> reviews = reviewRepository.findByProductId(productId);
 
-        // Sort by Date & Map Review entities to ReviewDto using ReviewMapper
-        List<ReviewDto> reviewDtos = reviews.stream()
+        // Sort by Date & Map Review entities to UserReviewDto using ReviewMapper
+        List<UserReviewDto> reviewDtos = reviews.stream()
                 .sorted(Comparator.comparing(Review::getCreatedAt).reversed())
-                .map(review -> ReviewMapper.mapToDto(review, user))
+                .map(review -> ReviewMapper.mapToUserDto(review, user))
                 .toList();
 
         // Calculate review stats
@@ -128,12 +127,12 @@ public class ReviewServiceImpl implements ReviewService {
 
         ReviewStatsDto stats = new ReviewStatsDto(total, average, fiveStar, fourStar, threeStar, twoStar, oneStar);
 
-        // Create and return the ReviewsDto
-        return new ReviewsDto(reviewDtos, stats);
+        // Create and return the UserReviewsDto
+        return new UserReviewsDto(reviewDtos, stats);
     }
 
     @Override
-    public ReviewDto toggleLike(Long reviewId, User user) throws ProductException {
+    public UserReviewDto toggleLike(Long reviewId, User user) throws ProductException {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ProductException("Review not found"));
 
@@ -157,11 +156,11 @@ public class ReviewServiceImpl implements ReviewService {
         Review updatedReview = reviewRepository.save(review);
 
         // Convert to DTO
-        return ReviewMapper.mapToDto(updatedReview, user);
+        return ReviewMapper.mapToUserDto(updatedReview, user);
     }
 
     @Override
-    public ReviewDto toggleDislike(Long reviewId, User user) throws ProductException {
+    public UserReviewDto toggleDislike(Long reviewId, User user) throws ProductException {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ProductException("Review not found"));
 
@@ -185,11 +184,11 @@ public class ReviewServiceImpl implements ReviewService {
         Review updatedReview = reviewRepository.save(review);
 
         // Convert to DTO
-        return ReviewMapper.mapToDto(updatedReview, user);
+        return ReviewMapper.mapToUserDto(updatedReview, user);
     }
 
     @Override
-    public ReviewDto createFakeReview(ReviewRequest req) throws ProductException {
+    public UserReviewDto createFakeReview(ReviewRequest req) throws ProductException {
         // Getting the product
         Product product = productRepository.findById(req.getProductId())
                 .orElseThrow(() -> new ProductException("Product not found"));
@@ -207,7 +206,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         // Recalculate and update the average rating
         updateProductAverageRating(req, product);
-        return ReviewMapper.mapToDto(review, null);
+        return ReviewMapper.mapToUserDto(review, null);
     }
 
 }

@@ -11,9 +11,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewsDto {
+public class UserReviewsDto {
 
-    private List<ReviewDto> reviews;
+    private List<UserReviewDto> reviews;
     private ReviewStatsDto stats;
 
 }

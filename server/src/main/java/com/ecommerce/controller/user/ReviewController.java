@@ -1,7 +1,7 @@
 package com.ecommerce.controller.user;
 
-import com.ecommerce.dto.ReviewDto;
-import com.ecommerce.dto.ReviewsDto;
+import com.ecommerce.dto.UserReviewDto;
+import com.ecommerce.dto.UserReviewsDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +24,11 @@ public class ReviewController {
     private UserService userService;
 
     @GetMapping("/{productId}")
-    public ResponseEntity<ReviewsDto> getProductReviewsHandler(@PathVariable Long productId,
-                                                               @RequestHeader("Authorization") String jwt) throws ProductException, UserException {
+    public ResponseEntity<UserReviewsDto> getProductReviewsHandler(@PathVariable Long productId,
+                                                                   @RequestHeader("Authorization") String jwt) throws ProductException, UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        ReviewsDto reviews = reviewService.getProductReviews(productId, user);
+        UserReviewsDto reviews = reviewService.getProductReviews(productId, user);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
 
     }
@@ -62,21 +62,21 @@ public class ReviewController {
     }
 
     @PostMapping("/{reviewId}/like")
-    public ResponseEntity<ReviewDto> likeReview(@PathVariable Long reviewId,
-                                                @RequestHeader("Authorization") String jwt) throws ProductException, UserException {
+    public ResponseEntity<UserReviewDto> likeReview(@PathVariable Long reviewId,
+                                                    @RequestHeader("Authorization") String jwt) throws ProductException, UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        ReviewDto updatedReview = reviewService.toggleLike(reviewId, user);
+        UserReviewDto updatedReview = reviewService.toggleLike(reviewId, user);
         return new ResponseEntity<>(updatedReview, HttpStatus.OK);
 
     }
 
     @PostMapping("/{reviewId}/dislike")
-    public ResponseEntity<ReviewDto> dislikeReview(@PathVariable Long reviewId,
-                                                   @RequestHeader("Authorization") String jwt) throws ProductException, UserException {
+    public ResponseEntity<UserReviewDto> dislikeReview(@PathVariable Long reviewId,
+                                                       @RequestHeader("Authorization") String jwt) throws ProductException, UserException {
 
         User user = userService.findUserProfileByJwt(jwt);
-        ReviewDto updatedReview = reviewService.toggleDislike(reviewId, user);
+        UserReviewDto updatedReview = reviewService.toggleDislike(reviewId, user);
         return new ResponseEntity<>(updatedReview, HttpStatus.OK);
 
     }

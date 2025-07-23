@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useParams } from "react-router-dom";
 import ReviewSection from '../../components/Product/ReviewSection';
 import ProductSection from '../../components/Product/ProductSection';

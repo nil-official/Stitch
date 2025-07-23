@@ -4,10 +4,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.ecommerce.dto.ProductDto;
-import com.ecommerce.dto.ProductMLDto;
-import com.ecommerce.dto.SearchDto;
+import com.ecommerce.dto.*;
 import com.ecommerce.mapper.ProductMapper;
+import com.ecommerce.mapper.ReviewMapper;
+import com.ecommerce.model.*;
+import com.ecommerce.repository.ReviewRepository;
 import com.ecommerce.service.ProductESService;
 import com.ecommerce.service.ProductService;
 import com.ecommerce.utility.DtoValidatorUtil;
@@ -20,12 +21,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.exception.ProductException;
-import com.ecommerce.model.Category;
-import com.ecommerce.model.Product;
 import com.ecommerce.repository.CategoryRepository;
 import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.request.ProductRequest;
-import com.ecommerce.model.Size;
 
 @Slf4j
 @Service
@@ -34,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ReviewRepository reviewRepository;
     private final ProductESService productESService;
 
     @Override
@@ -517,6 +516,45 @@ public class ProductServiceImpl implements ProductService {
         List<SearchDto> searchedProductsDto = ProductMapper.toSearchDtoList(searchedProducts);
         return Pagination1BasedUtil.paginateList(searchedProductsDto, pageNumber, pageSize);
 
+    }
+
+    @Override
+    public ReviewsDto getReviews(Long productId) throws ProductException {
+        // Getting the product
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductException("Product not found"));
+
+        // Get all the reviews of the product
+        List<Review> reviews = reviewRepository.findByProductId(productId);
+
+        // Sort by Date & Map Review entities to UserReviewDto using ReviewMapper
+        List<ReviewDto> reviewDtos = reviews.stream()
+                .sorted(Comparator.comparing(Review::getCreatedAt).reversed())
+                .map(ReviewMapper::mapToDto)
+                .toList();
+
+        // Calculate review stats
+        int total = reviews.size();
+        double average = product.getAverageRating();
+
+        int fiveStar = 0, fourStar = 0, threeStar = 0, twoStar = 0, oneStar = 0;
+        for (Review review : reviews) {
+            int rating = (int) Math.floor(review.getRating());
+            if (rating >= 1 && rating <= 5) {
+                switch (rating) {
+                    case 5 -> fiveStar++;
+                    case 4 -> fourStar++;
+                    case 3 -> threeStar++;
+                    case 2 -> twoStar++;
+                    case 1 -> oneStar++;
+                }
+            }
+        }
+
+        ReviewStatsDto stats = new ReviewStatsDto(total, average, fiveStar, fourStar, threeStar, twoStar, oneStar);
+
+        // Create and return the UserReviewsDto
+        return new ReviewsDto(reviewDtos, stats);
     }
 
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaHeart } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
@@ -8,21 +8,23 @@ import { addToWishlist, getWishlist, removeFromWishlist } from "../../redux/cust
 const ImageCarousel = ({ product }) => {
 
     const dispatch = useDispatch();
-    const isOutOfStock = product.quantity === 0;
-    const [isWishlist, setIsWishlist] = useState(false);
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const { wishlist, loading, error } = useSelector((state) => state.wishlist);
 
-    const toggleWishlist = () => {
-        isWishlist ? dispatch(removeFromWishlist(product.id)) : dispatch(addToWishlist(product.id));
-    };
+    const isOutOfStock = product.quantity === 0;
+    const [isWishlist, setIsWishlist] = useState(false);
 
     useEffect(() => {
-        dispatch(getWishlist());
-    }, [product]);
+        if (isAuthenticated) dispatch(getWishlist());
+    }, [isAuthenticated, product]);
 
     useEffect(() => {
         setIsWishlist(wishlist.some(item => item.product?.id === product.id));
     }, [wishlist, product.id]);
+
+    const toggleWishlist = () => {
+        isWishlist ? dispatch(removeFromWishlist(product.id)) : dispatch(addToWishlist(product.id));
+    };
 
     return (
         <div className="relative">
@@ -40,25 +42,24 @@ const ImageCarousel = ({ product }) => {
                             alt={`Product ${index}`}
                             className={`w-full object-cover sm:rounded-lg ${isOutOfStock && "grayscale opacity-50"}`}
                         />
-                        {isOutOfStock
-                            ?
+                        {isOutOfStock ? (
                             <div className="absolute inset-0 rounded-lg flex items-center justify-center bg-gray-300 bg-opacity-70">
                                 <span className="text-white text-2xl font-semibold">
                                     Out of Stock
                                 </span>
                             </div>
-                            :
+                        ) : isAuthenticated && (
                             <button
                                 onClick={toggleWishlist}
                                 className={`absolute top-4 right-4 p-3 bg-white rounded-full shadow-lg transition-all duration-300 ${isWishlist ? 'text-red-500' : 'text-gray-400'}`}
                             >
                                 <FaHeart size={20} />
                             </button>
-                        }
+                        )}
                     </div>
                 ))}
             </Carousel >
-        </div >
+        </div>
     );
 };
 

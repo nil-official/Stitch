@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.ProductMLDto;
+import com.ecommerce.dto.ReviewsDto;
 import com.ecommerce.dto.SearchDto;
 import org.springframework.data.domain.Page;
 
@@ -36,5 +37,7 @@ public interface ProductService {
     Page<SearchDto> searchProducts(String query, List<String> category, Integer minPrice, Integer maxPrice,
                                    List<String> brand, List<String> size, List<String> color, Integer discount,
                                    Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException;
+
+    ReviewsDto getReviews(Long productId) throws ProductException;
 
 }

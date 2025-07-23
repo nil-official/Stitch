@@ -48,8 +48,7 @@ public class AppConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/public/**",
-                                "/api/webhook/payment",
-                                "/api/payments/callback"
+                                "/api/products/**"
                         ).permitAll() // Public access
                         .requestMatchers("/api/admin/**").hasRole("ADMIN") // Admin role required
                         .requestMatchers("/api/**").hasAnyRole("USER", "ADMIN") // User and admin access

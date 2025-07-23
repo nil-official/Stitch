@@ -1,42 +1,51 @@
-import React, { forwardRef, useEffect } from 'react'
+import { forwardRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { format, parseISO } from "date-fns";
 import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
-import { format, parseISO } from "date-fns";
 import StarRating from './StarRating';
 import RatingStarsBar from './RatingStarsBar';
-import Loader from '../Loader';
-import { addLikeDislike, getReviews } from '../../redux/customer/review/action';
+import ErrorPage from '../../pages/ErrorPage';
+import { getReviews, getUserReviews, addLikeDislike } from '../../redux/customer/review/action';
 
 const ReviewSection = forwardRef(({ productId }, ref) => {
 
     const dispatch = useDispatch();
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const { reviews, stats, loading, error } = useSelector((state) => state.review);
 
     useEffect(() => {
-        dispatch(getReviews(productId));
-    }, [dispatch, productId]);
+        if (!isAuthenticated)
+            dispatch(getReviews(productId));
+        else
+            dispatch(getUserReviews(productId));
+    }, [isAuthenticated, productId, dispatch]);
 
     const handleLikeDislike = async (reviewId, type) => {
-        dispatch(addLikeDislike(reviewId, type));
+        if (isAuthenticated && !loading) dispatch(addLikeDislike(reviewId, type));
+    };
+
+    if (error) {
+        return <ErrorPage
+            code={400}
+            title='An Error Occurred!'
+            description={error}
+        />
     };
 
     return (
-        <div ref={ref} className="py-4">
-            <div className="py-6">
-                <p className="text-2xl text-gray-900 font-bold">
-                    Ratings & Reviews
-                </p>
-            </div>
+        reviews.length > 0 && (
+            <div ref={ref} className="py-4">
+                <div className="py-6">
+                    <p className="text-2xl text-gray-900 font-bold">
+                        Ratings & Reviews
+                    </p>
+                </div>
 
-            {error ? (
-                <ErrorPage code={400} title='An Error Occurred!' description={error} />
-            ) : (loading ? (
-                <Loader />
-            ) : (reviews.length > 0 ? (
-                <div className="py-4 flex justify-between gap-12 w-full">
+                <div className={`py-4 flex justify-between gap-12 w-full transition-opacity duration-500 ${loading ? "opacity-20" : "opacity-100"}`}>
+
                     {/* Left Column: Rating Stats */}
                     <div className='flex flex-col w-1/3 items-center gap-6'>
                         <div className="flex flex-col items-center">
@@ -93,20 +102,20 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
 
                                     <div className="flex gap-6 text-xs text-gray-600">
                                         <div
-                                            className='flex items-center gap-2 cursor-pointer'
+                                            className={`flex items-center gap-2 ${isAuthenticated && 'cursor-pointer'}`}
                                             onClick={() => handleLikeDislike(item.id, "like")}
                                         >
-                                            {item.liked
+                                            {item?.liked
                                                 ? <AiFillLike size={24} />
                                                 : <AiOutlineLike size={24} />
                                             }
                                             {item.likes}
                                         </div>
                                         <div
-                                            className='flex items-center gap-2 cursor-pointer'
+                                            className={`flex items-center gap-2 ${isAuthenticated && 'cursor-pointer'}`}
                                             onClick={() => handleLikeDislike(item.id, "dislike")}
                                         >
-                                            {item.disliked
+                                            {item?.disliked
                                                 ? <AiFillDislike size={24} />
                                                 : <AiOutlineDislike size={24} />
                                             }
@@ -118,13 +127,8 @@ const ReviewSection = forwardRef(({ productId }, ref) => {
                         ))}
                     </div>
                 </div>
-            ) : (
-                <div className="flex items-center justify-center">
-                    <p className="mt-4 text-gray-500">No reviews available for this product.</p>
-                </div>
-            )))}
-        </div>
-    )
+            </div>
+        ));
 })
 
 export default ReviewSection;

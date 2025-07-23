@@ -3,6 +3,7 @@ package com.ecommerce.controller.guest;
 import java.util.List;
 
 import com.ecommerce.dto.ProductDto;
+import com.ecommerce.dto.ReviewsDto;
 import com.ecommerce.dto.SearchDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -72,6 +73,14 @@ public class ProductController {
         Page<SearchDto> products = productService.searchProducts(query, category, minPrice,
                 maxPrice, brand, size, color, discount, rating, sort, pageNumber, pageSize);
         return new ResponseEntity<>(products, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/reviews/{productId}")
+    public ResponseEntity<ReviewsDto> findReviews(@PathVariable Long productId) throws ProductException {
+
+        ReviewsDto reviewsDto = productService.getReviews(productId);
+        return new ResponseEntity<>(reviewsDto, HttpStatus.OK);
 
     }
 

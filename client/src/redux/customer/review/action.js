@@ -1,5 +1,5 @@
 import { toast } from 'react-hot-toast';
-import axios from '../../../utils/axiosConfig'
+import axios from '../../../utils/axiosConfig';
 import {
     GET_REVIEWS_PENDING,
     GET_REVIEWS_FULFILLED,
@@ -13,8 +13,7 @@ import {
     DELETE_REVIEW_PENDING,
     DELETE_REVIEW_FULFILLED,
     DELETE_REVIEW_REJECTED,
-} from './type'
-import { set } from 'date-fns';
+} from './type';
 
 const getReviewsPending = () => ({
     type: GET_REVIEWS_PENDING,
@@ -72,10 +71,22 @@ const deleteReviewRejected = (error) => ({
     error: error,
 });
 
-export const getReviews = (productId) => async (dispatch) => {
+export const getUserReviews = (productId) => async (dispatch) => {
     dispatch(getReviewsPending())
     try {
         const response = await axios.get(`/api/reviews/${productId}`)
+        dispatch(getReviewsFulfilled(response.data))
+    } catch (error) {
+        dispatch(getReviewsRejected(error.response.data.error))
+        console.log('Failed to fetch reviews', error)
+        toast.error('Failed to fetch reviews')
+    }
+};
+
+export const getReviews = (productId) => async (dispatch) => {
+    dispatch(getReviewsPending())
+    try {
+        const response = await axios.get(`/api/products/reviews/${productId}`)
         dispatch(getReviewsFulfilled(response.data))
     } catch (error) {
         dispatch(getReviewsRejected(error.response.data.error))
@@ -126,7 +137,7 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 export const addLikeDislike = (reviewId, type) => async (dispatch) => {
     try {
         const response = await axios.post(`/api/reviews/${reviewId}/${type}`)
-        dispatch(getReviews(response.data.productId))
+        dispatch(getUserReviews(response.data.productId))
     } catch (error) {
         console.log('Failed to like/dislike review', error)
         toast.error('Failed to like/dislike review')

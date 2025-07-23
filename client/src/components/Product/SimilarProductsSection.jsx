@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -7,7 +7,7 @@ import ProductCard from "./ProductCard";
 import axios from "../../utils/axiosConfig";
 
 const SimilarProductsSection = ({ productId }) => {
-    
+
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
@@ -46,12 +46,12 @@ const SimilarProductsSection = ({ productId }) => {
     };
 
     return (
-        <div className="py-4 relative">
-            <div className="py-6">
-                <p className="text-2xl text-gray-900 font-bold">Similar Products</p>
-            </div>
+        products.length > 0 && (
+            <div className="py-4 relative">
+                <div className="py-6">
+                    <p className="text-2xl text-gray-900 font-bold">Similar Products</p>
+                </div>
 
-            {products.length ? (
                 <div className={`relative px-12 py-2 transition-opacity duration-500 ${loading ? "opacity-20" : "opacity-100"}`}>
                     <Swiper
                         key={products.length}
@@ -101,13 +101,8 @@ const SimilarProductsSection = ({ productId }) => {
                         <IoMdArrowDroprightCircle size={40} />
                     </button>
                 </div>
-            ) : (
-                <div className="flex justify-center items-center">
-                    <div className="loader border-4 border-gray-300 border-t-gray-800 rounded-full w-12 h-12 animate-spin"></div>
-                </div>
-            )}
-        </div>
-    );
+            </div>
+        ));
 };
 
 export default SimilarProductsSection;
