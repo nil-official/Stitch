@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import Loader from '../Loader';
@@ -8,27 +8,28 @@ import StarRating from './StarRating';
 import { addToCart } from '../../redux/customer/cart/action';
 import { getProfile } from '../../redux/customer/profile/action';
 import { getProduct } from '../../redux/customer/product/action';
-import { PencilRuler, Ruler } from 'lucide-react';
-import { LiaTapeSolid } from "react-icons/lia";
+import { Loader2Icon, PencilRuler } from 'lucide-react';
 
 const ProductSection = ({ productId, scrollToReviews }) => {
 
     const dispatch = useDispatch();
-    const [size, setSize] = useState('');
-    const [currency, setCurrency] = useState('INR');
-    const [quantity, setQuantity] = useState(1);
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const { cart } = useSelector((state) => state.cart);
     const { profile } = useSelector((state) => state.profile);
     const { product, loading, error } = useSelector((state) => state.product);
+
+    const [size, setSize] = useState('');
+    const [currency, setCurrency] = useState('INR');
+    const [quantity, setQuantity] = useState(1);
     const isOutOfStock = product.quantity === 0 || false;
 
     useEffect(() => {
-        dispatch(getProduct(productId));
+        if (productId) dispatch(getProduct(productId));
     }, [dispatch, productId]);
 
     useEffect(() => {
-        if (!profile) dispatch(getProfile());
-    }, [profile, dispatch]);
+        if (isAuthenticated && !profile) dispatch(getProfile());
+    }, [isAuthenticated, profile, dispatch]);
 
     const isRecommendedSize = (sizeName) => {
         return profile?.predictedSizes?.includes(sizeName);
@@ -50,6 +51,10 @@ const ProductSection = ({ productId, scrollToReviews }) => {
     };
 
     const handleAddToCart = (productId, size, quantity) => {
+        if (!isAuthenticated) {
+            toast.error("Please login first.");
+            return;
+        }
         const existingItem = cart.cartItems.find(
             (item) => item.product.id === productId && item.size === size
         );
@@ -130,7 +135,7 @@ const ProductSection = ({ productId, scrollToReviews }) => {
                     </div>
                 </div>
 
-                {getRecommendedSize() && (
+                {isAuthenticated && getRecommendedSize() && (
                     <div className="flex items-center gap-2 mt-4 text-success-600">
                         <PencilRuler className="h-4 w-4" />
                         <span>
@@ -163,7 +168,7 @@ const ProductSection = ({ productId, scrollToReviews }) => {
                     <button
                         type="button"
                         onClick={() => handleAddToCart(product.id, size, quantity)}
-                        disabled={isOutOfStock || !size}
+                        disabled={loading || isOutOfStock || !size}
                         className={`flex-1 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white transition-all transform 
                             ${isOutOfStock
                                 ? 'bg-[#cdcdcd] cursor-default'
@@ -172,7 +177,12 @@ const ProductSection = ({ productId, scrollToReviews }) => {
                                     : 'bg-[#cdcdcd] cursor-default'
                             }`}
                     >
-                        {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+                        {loading ? (
+                            <Loader2Icon className="animate-spin" />
+                        ) : isOutOfStock ?
+                            'Out of Stock'
+                            : 'Add to Cart'
+                        }
                     </button>
                 </div>
 
