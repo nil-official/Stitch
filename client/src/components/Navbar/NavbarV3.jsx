@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, ShoppingCart, User, Menu, X, MapPin, Package, Heart, ChevronDown, Headset, History, TrendingUp, Settings, LogOut } from 'lucide-react';
@@ -13,12 +13,14 @@ import {
     removeSearchHistory,
     clearSearchHistory,
 } from '../../redux/customer/suggestions/action';
-import { deleteAddress, getAddress } from '../../redux/customer/address/action';
+import { getAddress } from '../../redux/customer/address/action';
+import { STITCH_WHITE } from '../../assets/asset';
 
 const NavbarV3 = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const { cart, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
     const { address, loading: addressLoading, error: addressError } = useSelector((state) => state.address);
     const { profile, loading: profileLoading, error: profileError } = useSelector((state) => state.profile);
@@ -33,16 +35,24 @@ const NavbarV3 = () => {
     const defaultAddress = address?.find(addr => addr.isDefault);
 
     useEffect(() => {
-        dispatch(getCart());
-    }, [dispatch]);
+        if (isAuthenticated) {
+            dispatch(getCart());
+            dispatch(getProfile());
+            dispatch(getAddress());
+        }
+    }, [isAuthenticated, dispatch]);
 
-    useEffect(() => {
-        dispatch(getProfile());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     if (isAuthenticated) dispatch(getCart());
+    // }, [isAuthenticated, dispatch]);
 
-    useEffect(() => {
-        dispatch(getAddress());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     if (isAuthenticated) dispatch(getProfile());
+    // }, [isAuthenticated, dispatch]);
+
+    // useEffect(() => {
+    //     if (isAuthenticated) dispatch(getAddress());
+    // }, [isAuthenticated, dispatch]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -140,14 +150,11 @@ const NavbarV3 = () => {
 
                         {/* Logo */}
                         <Link to={BASE_ROUTES.HOME}>
-                            <div className="flex gap-2 items-center flex-shrink-0">
-                                <div>
-                                    <img src="/stitch_white.svg" alt="Logo" className='h-[50px]' />
-                                </div>
-                                <div className="text-3xl font-bold">
-                                    Stitch
-                                </div>
-                            </div>
+                            <img
+                                src={STITCH_WHITE}
+                                className='h-[40px]'
+                                alt="Stitch"
+                            />
                         </Link>
 
                         {/* Search Bar - Desktop */}
@@ -216,7 +223,7 @@ const NavbarV3 = () => {
                         {/* Right Side Icons */}
                         <div className="flex items-center space-x-4">
                             {/* Profile */}
-                            {profile ? (
+                            {isAuthenticated && profile ? (
                                 <div className="relative" ref={profileRef}>
                                     <div
                                         onClick={() => setShowProfileDropdown(!showProfileDropdown)}
@@ -242,7 +249,7 @@ const NavbarV3 = () => {
                                                 </div>
                                             </Link>
 
-                                            <Link to={USER_ROUTES.SETTINGS}>
+                                            <Link to={USER_ROUTES.ACCOUNT}>
                                                 <div
                                                     onClick={() => setShowProfileDropdown(false)}
                                                     className="flex items-center space-x-3 px-4 py-2 hover:bg-primary-100 cursor-pointer"
@@ -276,7 +283,7 @@ const NavbarV3 = () => {
                                 <div className="relative flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-primary-800 transition-colors cursor-pointer">
                                     <div className="relative">
                                         <ShoppingCart className="w-6 h-6" />
-                                        {cart && cart.totalItem > 0 && (
+                                        {isAuthenticated && cart && cart.totalItem > 0 && (
                                             <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
                                                 {cart.totalItem}
                                             </span>
@@ -295,7 +302,7 @@ const NavbarV3 = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="hidden md:flex items-center justify-between h-10">
                         <div className="flex items-center gap-6">
-                            {address && defaultAddress && (
+                            {isAuthenticated && address && defaultAddress && (
                                 <Link to={USER_ROUTES.ADDRESS}>
                                     <button className="flex items-center space-x-1 hover:text-primary-200 transition-colors">
                                         <MapPin className="w-4 h-4" />
