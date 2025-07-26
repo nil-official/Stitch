@@ -70,7 +70,6 @@ export const addToWishlist = (productId) => async (dispatch) => {
         const response = await axios.post(`/api/user/wishlist/${productId}`);
         dispatch(addToWishlistFulfilled());
         dispatch(getWishlist());
-        toast.success(response.data.message);
     } catch (error) {
         dispatch(addToWishlistRejected(error.response.data.error));
         console.error("Error adding to wishlist:", error);
@@ -84,7 +83,6 @@ export const removeFromWishlist = (productId) => async (dispatch) => {
         const response = await axios.delete(`/api/user/wishlist/${productId}`);
         dispatch(removeFromWishlistFulfilled());
         dispatch(getWishlist());
-        toast.success(response.data.message);
     } catch (error) {
         dispatch(removeFromWishlistRejected(error.response.data.error));
         console.error("Error removing from wishlist:", error);

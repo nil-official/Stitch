@@ -4,6 +4,8 @@ import { FaHeart } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { addToWishlist, getWishlist, removeFromWishlist } from "../../redux/customer/wishlist/action";
+import ErrorPage from "../../pages/ErrorPage";
+import { Loader2Icon } from "lucide-react";
 
 const ImageCarousel = ({ product }) => {
 
@@ -24,6 +26,14 @@ const ImageCarousel = ({ product }) => {
 
     const toggleWishlist = () => {
         isWishlist ? dispatch(removeFromWishlist(product.id)) : dispatch(addToWishlist(product.id));
+    };
+
+    if (error) {
+        return <ErrorPage
+            code={400}
+            title='An Error Occurred!'
+            description={error}
+        />
     };
 
     return (
@@ -51,9 +61,12 @@ const ImageCarousel = ({ product }) => {
                         ) : isAuthenticated && (
                             <button
                                 onClick={toggleWishlist}
-                                className={`absolute top-4 right-4 p-3 bg-white rounded-full shadow-lg transition-all duration-300 ${isWishlist ? 'text-red-500' : 'text-gray-400'}`}
+                                className="absolute top-4 right-4 p-3 bg-white rounded-full shadow-lg text-gray-400"
                             >
-                                <FaHeart size={20} />
+                                {loading ?
+                                    <Loader2Icon className="animate-spin" size={20} /> :
+                                    <FaHeart className={isWishlist && `text-red-500`} size={20} />
+                                }
                             </button>
                         )}
                     </div>

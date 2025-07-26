@@ -20,7 +20,7 @@ const SimilarProductsSection = ({ productId }) => {
                 setTimeout(() => {
                     setProducts(res.data.content);
                     setLoading(false);
-                }, 500);
+                }, 300);
             }
         } catch (err) {
             console.log("Error fetching similar products:", err.message);
