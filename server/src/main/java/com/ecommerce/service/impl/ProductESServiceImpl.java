@@ -85,43 +85,73 @@ public class ProductESServiceImpl implements ProductESService {
 
     @Override
     public List<String> autocompleteSearch(String query) throws IOException {
+        if (query == null || query.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+
         Supplier<Query> supplier = ESUtil.createSupplierAutoSuggest(query);
         SearchResponse<ProductES> searchResponse = elasticsearchClient
                 .search(s -> s.index("products").query(supplier.get()), ProductES.class);
 
-        List<Hit<ProductES>> hitList = searchResponse.hits().hits();
-        Set<String> trimmedSet = new LinkedHashSet<>();
+        String lowerQuery = query.toLowerCase().trim();
+        String[] queryWords = lowerQuery.split("\\s+");
 
-        for (Hit<ProductES> hit : hitList) {
+        Set<String> resultSet = new LinkedHashSet<>();
+
+        for (Hit<ProductES> hit : searchResponse.hits().hits()) {
             ProductES product = hit.source();
-            if (product == null || product.getTitle() == null) {
-                continue;
-            }
+            if (product == null || product.getTitle() == null) continue;
 
-            String title = product.getTitle();
-            String lowerQuery = query.toLowerCase().trim();
-
+            String title = product.getTitle().toLowerCase();
             String[] words = title.split("\\s+");
-            for (int i = 0; i < words.length; i++) {
-                if (words[i].toLowerCase().startsWith(lowerQuery)) {
-                    StringBuilder sb = new StringBuilder();
-                    for (int j = i; j < words.length; j++) {
-                        sb.append(words[j]).append(" ");
+
+            int matchIndex = -1;
+            // Try sequence match
+            for (int i = 0; i <= words.length - queryWords.length; i++) {
+                boolean sequenceMatch = true;
+                for (int j = 0; j < queryWords.length; j++) {
+                    if (!words[i + j].startsWith(queryWords[j])) {
+                        sequenceMatch = false;
+                        break;
                     }
-                    String trimmed = sb.toString().trim();
-                    trimmedSet.add(trimmed);
+                }
+                if (sequenceMatch) {
+                    matchIndex = i;
                     break;
                 }
             }
+            // Fallback: single word
+            if (matchIndex == -1) {
+                outer:
+                for (int i = 0; i < words.length; i++) {
+                    for (String qWord : queryWords) {
+                        if (words[i].startsWith(qWord)) {
+                            matchIndex = i;
+                            break outer;
+                        }
+                    }
+                }
+            }
+
+            // Trim from matched index
+            String trimmed = matchIndex >= 0
+                    ? String.join(" ", Arrays.copyOfRange(words, matchIndex, words.length))
+                    : title;
+
+            // Highlight exact query substring inside trimmed string
+            int idx = trimmed.indexOf(lowerQuery);
+            if (idx >= 0) {
+                String highlighted = trimmed.substring(0, idx)
+                        + "**" + trimmed.substring(idx, idx + lowerQuery.length()) + "**"
+                        + trimmed.substring(idx + lowerQuery.length());
+                resultSet.add(highlighted);
+            } else {
+                resultSet.add(trimmed);
+            }
         }
 
-        // Convert to list, sort by length, then lowercase
-        List<String> resultList = new ArrayList<>(trimmedSet);
-        resultList.sort(Comparator.comparingInt(String::length));
-
-        // Convert all strings to lowercase
-        return resultList.stream()
-                .map(String::toLowerCase)
+        return resultSet.stream()
+                .sorted(Comparator.comparingInt(String::length))
                 .limit(10)
                 .collect(Collectors.toList());
     }

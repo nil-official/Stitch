@@ -6,6 +6,7 @@ target/
 
 ### Properties ignored ###
 application-dev.properties
+application-dev.yml
 
 ### Properties allowed ###
 !application-example.properties
