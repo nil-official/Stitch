@@ -1,10 +1,15 @@
 package com.ecommerce.controller.guest;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ecommerce.dto.ProductDto;
 import com.ecommerce.dto.ReviewsDto;
 import com.ecommerce.dto.SearchDto;
+import com.ecommerce.dto.SearchHistoryDto;
+import com.ecommerce.response.ResponseBuilder;
+import com.ecommerce.response.SuccessResponse;
+import com.ecommerce.service.ProductFiltersService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,6 +29,7 @@ import com.ecommerce.service.ProductService;
 public class ProductController {
 
     private ProductService productService;
+    private final ProductFiltersService productFiltersService;
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDto> findProductByIdHandler(@PathVariable Long productId) throws ProductException {
@@ -55,6 +61,14 @@ public class ProductController {
 
     }
 
+    @GetMapping("/filters")
+    public ResponseEntity<Map<String, Object>> getProductFilters(@RequestParam(required = false) String query) {
+
+        Map<String, Object> filters = productFiltersService.getProductFilters(query);
+        return new ResponseEntity<>(filters, HttpStatus.OK);
+
+    }
+
     @GetMapping("/search")
     public ResponseEntity<Page<SearchDto>> searchProducts(
             @RequestParam(required = false) String query,
@@ -81,6 +95,15 @@ public class ProductController {
 
         ReviewsDto reviewsDto = productService.getReviews(productId);
         return new ResponseEntity<>(reviewsDto, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/autocomplete")
+    public ResponseEntity<SuccessResponse<List<SearchHistoryDto>>> fetchSearchAutocomplete(
+            @RequestParam String q) throws Exception {
+
+        List<SearchHistoryDto> searchHistory = productService.fetchSearchAutocomplete(q);
+        return new ResponseEntity<>(ResponseBuilder.success(searchHistory), HttpStatus.OK);
 
     }
 

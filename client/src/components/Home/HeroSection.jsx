@@ -1,15 +1,6 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
-const HeroSection = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
-
-    const handleShopNow = () => {
-        setIsSearchOpen(true);
-        if (!isSearchOpen) {
-            setTimeout(() => searchInputRef.current?.focus(), 0);
-        }
-    };
-
+const HeroSection = () => {
     return (
         <section className="py-32 px-6 overflow-hidden">
             <div className="container mx-auto text-center relative">
@@ -30,7 +21,6 @@ const HeroSection = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
                     Explore the latest trends and exclusive discounts
                 </motion.p>
                 <motion.button
-                    onClick={handleShopNow}
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}

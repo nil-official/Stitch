@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ReactSlider from "react-slider";
 
@@ -38,8 +38,8 @@ const PriceSlider = ({ min, max, selectedPrice }) => {
         <div className="w-full py-2">
             {/* React Slider */}
             <ReactSlider
-                className="relative w-full h-2 bg-gray-400 rounded-full cursor-pointer"
-                thumbClassName="bg-gray-600 w-5 h-5 top-[-6px] bg-blue-600 rounded-full border-2 border-white shadow-md focus:outline-none"
+                className="relative w-full h-1 md:h-2 bg-gray-400 rounded-full cursor-pointer"
+                thumbClassName="bg-gray-600 w-4 h-4 md:w-5 md:h-5 top-[-6px] bg-blue-600 rounded-full border-2 border-white shadow-md focus:outline-none"
                 trackClassName="bg-gray-600"
                 value={tempRange}
                 min={min}
@@ -50,12 +50,12 @@ const PriceSlider = ({ min, max, selectedPrice }) => {
             />
 
             {/* Price Labels & apply button */}
-            <div className="flex justify-between items-center pt-6">
-                <div className="text-sm text-gray-600">
+            <div className="flex justify-between items-center pt-4 md:pt-6">
+                <div className="text-xs md:text-sm">
                     <span>Range: INR {tempRange[0]} - INR {tempRange[1]}</span>
                 </div>
                 <button
-                    className={`px-3 py-2 font-medium text-sm rounded-lg transition text-white ${JSON.stringify(tempRange) === JSON.stringify([minPrice, maxPrice])
+                    className={`px-2 py-1.5 md:px-3 md:py-2 font-medium text-xs md:text-sm rounded-lg transition text-white ${JSON.stringify(tempRange) === JSON.stringify([minPrice, maxPrice])
                         ? "bg-gray-300"
                         : "bg-gray-600 hover:bg-gray-700"}`
                     }

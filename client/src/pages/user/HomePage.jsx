@@ -5,7 +5,7 @@ import ProductSection from '../../components/Home/ProductSection'
 import { getProfile } from '../../redux/customer/profile/action'
 import { getHomeProducts } from '../../redux/customer/home/action'
 
-const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
+const HomePage = () => {
 
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.profile);
@@ -21,9 +21,9 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
     { key: 'bestSellerProducts', title: 'Best Sellers', style: 'seller' },
   ];
 
-  useEffect(() => {
-    if (isAuthenticated) dispatch(getProfile());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (isAuthenticated) dispatch(getProfile());
+  // }, [dispatch]);
 
   // useEffect(() => {
   //   if (justLoggedIn && profile && (!profile.gender || !profile.dob || !profile.height || !profile.weight)) {
@@ -45,11 +45,7 @@ const HomePage = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
         />
       } */}
 
-      <HeroSection
-        isSearchOpen={isSearchOpen}
-        setIsSearchOpen={setIsSearchOpen}
-        searchInputRef={searchInputRef}
-      />
+      <HeroSection />
 
       {!loading && !error && sectionConfig.map(({ key, title, style }) => {
         const sectionData = products[key];

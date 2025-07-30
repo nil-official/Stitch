@@ -14,12 +14,9 @@ public class HomeProductDto {
     private int price;
     private int discountedPrice;
     private int discountPercent;
-    private int quantity;
     private String brand;
-    private boolean isFeatured;
     private boolean onSale;
     private String preview;
     private double averageRating;
-    private double rankScore;
 
 }

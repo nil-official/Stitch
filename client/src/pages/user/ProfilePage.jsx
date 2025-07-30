@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { AUTH_ROUTES } from '../../routes/routePaths';
 import ErrorPage from '../../pages/ErrorPage';
 import Loader from '../../components/Loader';
 import navigation from '../../components/Profile/navigation.json';
@@ -10,12 +12,17 @@ import { getProfile } from '../../redux/customer/profile/action';
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const [activeItem, setActiveItem] = useState('profile-information');
     const { profile, loading, error } = useSelector((state) => state.profile);
 
     useEffect(() => {
-        if (!profile) dispatch(getProfile());
-    }, [profile, dispatch]);
+        if (!isAuthenticated)
+            navigate(AUTH_ROUTES.LOGIN);
+        else
+            dispatch(getProfile());
+    }, [isAuthenticated, dispatch]);
 
     const renderContent = () => {
         switch (activeItem) {

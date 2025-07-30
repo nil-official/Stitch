@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.ecommerce.dto.*;
 import com.ecommerce.mapper.ProductMapper;
 import com.ecommerce.mapper.ReviewMapper;
+import com.ecommerce.mapper.SearchHistoryMapper;
 import com.ecommerce.model.*;
 import com.ecommerce.repository.ReviewRepository;
 import com.ecommerce.service.ProductESService;
@@ -555,6 +556,11 @@ public class ProductServiceImpl implements ProductService {
 
         // Create and return the UserReviewsDto
         return new ReviewsDto(reviewDtos, stats);
+    }
+
+    @Override
+    public List<SearchHistoryDto> fetchSearchAutocomplete(String query) throws Exception {
+        return SearchHistoryMapper.EStoDtoList(productESService.autocompleteSearch(query));
     }
 
 }

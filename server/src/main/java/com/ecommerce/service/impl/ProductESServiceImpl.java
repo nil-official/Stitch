@@ -75,44 +75,73 @@ public class ProductESServiceImpl implements ProductESService {
 
     @Override
     public List<String> autocompleteSearch(String query) throws Exception {
+        // Prevent empty query
+        if (query == null || query.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Build match_phrase_prefix query
         MatchPhrasePrefixQueryBuilder matchPhrasePrefixQuery = QueryBuilders
                 .matchPhrasePrefixQuery("title", query);
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()
                 .query(matchPhrasePrefixQuery)
-                .size(10);
+                .size(50); // fetch a bit more, we'll trim ourselves
 
         SearchRequest searchRequest = new SearchRequest(INDEX)
                 .source(sourceBuilder);
 
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
-        Set<String> suggestions = new LinkedHashSet<>();
+        String lowerQuery = query.toLowerCase().trim();
+        String[] queryWords = lowerQuery.split("\\s+");
+        Set<String> resultSet = new LinkedHashSet<>();
 
         for (SearchHit hit : searchResponse.getHits().getHits()) {
             Map<String, Object> source = hit.getSourceAsMap();
             String title = (String) source.get("title");
-
             if (title == null) continue;
 
-            // Do the word-level filtering like before
-            String[] words = title.split("\\s+");
-            String lowerQuery = query.toLowerCase();
+            String lowerTitle = title.toLowerCase();
+            String[] words = lowerTitle.split("\\s+");
 
-            for (int i = 0; i < words.length; i++) {
-                if (words[i].toLowerCase().startsWith(lowerQuery)) {
-                    StringBuilder sb = new StringBuilder();
-                    for (int j = i; j < words.length; j++) {
-                        sb.append(words[j]).append(" ");
+            // ---- Sequence matching ----
+            int matchIndex = -1;
+            for (int i = 0; i <= words.length - queryWords.length; i++) {
+                boolean sequenceMatch = true;
+                for (int j = 0; j < queryWords.length; j++) {
+                    if (!words[i + j].startsWith(queryWords[j])) {
+                        sequenceMatch = false;
+                        break;
                     }
-                    suggestions.add(sb.toString().trim());
+                }
+                if (sequenceMatch) {
+                    matchIndex = i;
                     break;
                 }
             }
+            // ---- Fallback single-word match ----
+            if (matchIndex == -1) {
+                outer:
+                for (int i = 0; i < words.length; i++) {
+                    for (String qWord : queryWords) {
+                        if (words[i].startsWith(qWord)) {
+                            matchIndex = i;
+                            break outer;
+                        }
+                    }
+                }
+            }
+
+            // ---- Trim from matched index ----
+            String trimmed = matchIndex >= 0
+                    ? String.join(" ", Arrays.copyOfRange(words, matchIndex, words.length))
+                    : lowerTitle;
+
+            resultSet.add(trimmed);
         }
 
-        return suggestions.stream()
-                .map(String::toLowerCase)
+        return resultSet.stream()
                 .sorted(Comparator.comparingInt(String::length))
                 .limit(10)
                 .collect(Collectors.toList());

@@ -2,10 +2,7 @@ package com.ecommerce.service;
 
 import java.util.List;
 
-import com.ecommerce.dto.ProductDto;
-import com.ecommerce.dto.ProductMLDto;
-import com.ecommerce.dto.ReviewsDto;
-import com.ecommerce.dto.SearchDto;
+import com.ecommerce.dto.*;
 import org.springframework.data.domain.Page;
 
 import com.ecommerce.exception.ProductException;
@@ -39,5 +36,7 @@ public interface ProductService {
                                    Double rating, String sort, Integer pageNumber, Integer pageSize) throws ProductException;
 
     ReviewsDto getReviews(Long productId) throws ProductException;
+
+    List<SearchHistoryDto> fetchSearchAutocomplete(String query) throws Exception;
 
 }

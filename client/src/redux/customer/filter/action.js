@@ -23,7 +23,7 @@ const getFiltersRejected = (error) => ({
 export const getFilters = (query) => async (dispatch) => {
     dispatch(getFiltersPending());
     try {
-        const response = await axios.get(`/api/filters?query=${query}`);
+        const response = await axios.get(`/api/products/filters?query=${query}`);
         dispatch(getFiltersFulfilled(response.data));
     } catch (error) {
         dispatch(getFiltersRejected(error));

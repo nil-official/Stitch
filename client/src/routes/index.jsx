@@ -3,11 +3,11 @@ import UserRoutes from "./UserRoutes";
 import AdminRoutes from "./AdminRoutes";
 import ErrorPage from "../pages/ErrorPage";
 
-const AppRoutes = ({ isSearchOpen, setIsSearchOpen, searchInputRef }) => {
+const AppRoutes = () => {
     return (
         <>
             <PublicRoutes />
-            <UserRoutes isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} searchInputRef={searchInputRef} />
+            <UserRoutes />
             <AdminRoutes />
             <ErrorPage />
         </>

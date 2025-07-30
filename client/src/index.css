@@ -4,7 +4,7 @@
 
 
 input[type="checkbox"] {
-    @apply appearance-none w-4 h-4 border border-primary-300 rounded outline-none cursor-pointer relative transition-all duration-200 ease-in-out;
+    @apply appearance-none w-3 h-3 md:w-4 md:h-4 border border-primary-300 rounded outline-none cursor-pointer relative transition-all duration-200 ease-in-out;
 }
 
 input[type="checkbox"]:checked {
@@ -17,4 +17,35 @@ input[type="checkbox"]:checked::before {
 
 input[type="checkbox"]:disabled {
     @apply opacity-50 cursor-not-allowed;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { transform: translateY(0);}
+  to   { transform: translateY(100%); }
+}
+.animate-slideUp {
+  animation: slideUp 0.2s cubic-bezier(.44,.96,.5,1.01);
+}
+.animate-slideDown {
+  animation: slideDown 0.2s cubic-bezier(.44,.96,.5,1.01);
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slideOutLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.22s cubic-bezier(.44,.96,.5,1.01) forwards;
+}
+.animate-slideOutLeft {
+  animation: slideOutLeft 0.18s cubic-bezier(.44,.96,.5,1.01) forwards;
 }

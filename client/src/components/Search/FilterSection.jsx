@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import PriceSlider from "./PriceSlider";
@@ -31,9 +31,9 @@ const FilterSection = ({ filters, selectedFilters, onFilterChange }) => {
 
     return (
         Object.entries(filters).map(([category, values], index, array) => category === "price" ? (
-            <div key={category} className="mb-4 pb-4 border-b">
+            <div key={category} className="mb-2 pb-2 md:mb-4 md:pb-4 border-b">
                 {/* Price Filter */}
-                <h3 className="mb-2">Price</h3>
+                <h3 className="mb-2 text-sm md:text-base">Price</h3>
                 <PriceSlider
                     min={values.minPrice}
                     max={values.maxPrice}
@@ -46,24 +46,23 @@ const FilterSection = ({ filters, selectedFilters, onFilterChange }) => {
         ) : (
             <div
                 key={category}
-                className={index !== array.length - 1 ? "mb-4 pb-4 border-b" : ""}
+                className={index !== array.length - 1 ? "mb-2 pb-2 md:mb-4 md:pb-4 border-b" : ""}
             >
-                {/* Category Header with Toggle Button */}
                 <div
                     className="flex items-center justify-between cursor-pointer py-2"
                     onClick={() => toggleCategory(category)}
                 >
-                    <h3 className="">
+                    <h3 className="text-sm md:text-base">
                         {category.charAt(0).toUpperCase() + category.slice(1)}
                     </h3>
                     <FaChevronDown
-                        className={`text-gray-600 transition-transform ${openCategories[category] ? "rotate-180" : ""}`}
+                        className={`w-3 h-3 md:w-4 md:h-4 text-gray-700 transition-transform ${openCategories[category] ? "rotate-180" : ""}`}
                     />
                 </div>
 
                 {/* Category Options */}
                 {openCategories[category] && (
-                    <ul className="py-2 space-y-2">
+                    <ul className="py-1 md:py-2 space-y-2">
                         {values.map(({ name, count }) => {
                             // Formatting discount and rating categories
                             const isNumericCategory = category === "discount" || category === "rating";
@@ -84,8 +83,8 @@ const FilterSection = ({ filters, selectedFilters, onFilterChange }) => {
                             ) ?? false;
 
                             return (
-                                <li key={name} className="flex items-center">
-                                    <label className="flex gap-2 cursor-pointer">
+                                <li key={name} className="flex items-center text-xs md:text-sm">
+                                    <label className="flex gap-2 cursor-pointer items-center">
                                         <input
                                             type="checkbox"
                                             checked={isChecked}

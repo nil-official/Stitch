@@ -49,13 +49,10 @@ public class ProductMapper {
                     dto.setPrice(product.getPrice());
                     dto.setDiscountedPrice(product.getDiscountedPrice());
                     dto.setDiscountPercent(product.getDiscountPercent());
-                    dto.setQuantity(product.getQuantity());
                     dto.setBrand(product.getBrand());
-                    dto.setFeatured(product.isFeatured());
                     dto.setOnSale(product.isOnSale());
                     dto.setPreview(product.getPreview());
                     dto.setAverageRating(product.getAverageRating());
-                    dto.setRankScore(product.getRankScore());
                     return dto;
                 })
                 .collect(Collectors.toList());
