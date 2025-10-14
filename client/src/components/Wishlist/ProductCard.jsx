@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { removeFromWishlist } from '../../redux/customer/wishlist/action';
 import { FaStar } from 'react-icons/fa';
 import { PRODUCT, RECOMMENDED } from '../../assets/asset';
+import { getProductUrl } from '../../utils/productUtils';
 
 const ProductCard = ({ product }) => {
 
@@ -24,7 +25,7 @@ const ProductCard = ({ product }) => {
             >
                 <IoMdClose />
             </button>
-            <Link to={`/product/${product.id}`}>
+            <Link to={getProductUrl(product)}>
                 <div className="relative w-full aspect-[2/3] overflow-hidden rounded-lg">
                     {product.rankScore > 9.5 &&
                         <img
@@ -82,7 +83,7 @@ const ProductCard = ({ product }) => {
             </Link>
         </div>
         // <div className="mb-6">
-        //     <Link to={`/product/${product.id}`} className="text-gray-700 cursor-pointer block">
+        //     <Link to={getProductUrl(product)} className="text-gray-700 cursor-pointer block">
         //         <div className="relative group w-36 sm:w-40 md:w-48 lg:w-56">
         //             {/* Product image */}
         //             <div className="overflow-hidden h-48 sm:h-52 md:h-64 lg:h-72 flex items-center justify-center relative">

@@ -42,7 +42,7 @@ const UserRoutes = () => {
                 <Route path="/checkout/summary" element={<SummaryPage />} />
                 <Route path="/checkout/payment" element={<PaymentPage />} />
                 {/* Product */}
-                <Route path="/product/:id" element={<ProductPage />} />
+                <Route path="/product/:slug/p/:id" element={<ProductPage />} />
                 {/* Others */}
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/help" element={<HelpPage />} />

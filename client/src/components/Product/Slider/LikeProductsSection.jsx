@@ -3,8 +3,8 @@ import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/i
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import ProductCard from "./ProductCard";
-import axios from "../../utils/axiosConfig";
+import ProductCard from "../ProductCard";
+import axios from "../../../utils/axiosConfig";
 
 const SimilarProductsSection = ({ productId }) => {
     const [products, setProducts] = useState([]);
@@ -46,9 +46,9 @@ const SimilarProductsSection = ({ productId }) => {
 
     return (
         products.length > 0 && (
-            <div className="py-4 relative">
-                <div className="py-6">
-                    <p className="text-2xl text-gray-900 font-bold">Products You May Also Like</p>
+            <div className="py-0 px-4 md:p-4 relative">
+                <div className="md:py-4">
+                    <p className="text-lg md:text-xl lg:text-2xl text-gray-900 font-bold">Products You May Also Like</p>
                 </div>
 
                 <div className={`relative px-12 py-2 transition-opacity duration-500 ${loading ? "opacity-20" : "opacity-100"}`}>

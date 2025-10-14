@@ -13,6 +13,7 @@ export default {
         '4xl': '2200px',
       },
       fontSize: {
+        xxs: ['10px', '12px'],
         md: ["16px", "24px"],
       },
       colors: {

@@ -49,5 +49,5 @@ export const CHECKOUT_ROUTES = {
 
 export const PRODUCT_ROUTES = {
     ROOT: BASE_ROUTES.PRODUCT,
-    PRODUCT_DETAILS: (id = ':id') => `${BASE_ROUTES.PRODUCT}/${id}`,
+    DETAILS: (slug = ":slug", id = ":id") => `${BASE_ROUTES.PRODUCT}/${slug}/p/${id}`,
 };

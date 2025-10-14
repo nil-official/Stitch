@@ -4,18 +4,20 @@ import {
     GET_PRODUCT_PENDING,
     GET_PRODUCT_FULFILLED,
     GET_PRODUCT_REJECTED,
-    GET_SIMILAR_PRODUCTS_PENDING,
-    GET_SIMILAR_PRODUCTS_FULFILLED,
-    GET_SIMILAR_PRODUCTS_REJECTED,
-    GET_LIKE_PRODUCTS_PENDING,
-    GET_LIKE_PRODUCTS_FULFILLED,
-    GET_LIKE_PRODUCTS_REJECTED,
     UPDATE_PRODUCT_PENDING,
     UPDATE_PRODUCT_FULFILLED,
     UPDATE_PRODUCT_REJECTED,
     DELETE_PRODUCT_PENDING,
     DELETE_PRODUCT_FULFILLED,
     DELETE_PRODUCT_REJECTED,
+    GET_SIMILAR_PRODUCTS_PENDING,
+    GET_SIMILAR_PRODUCTS_FULFILLED,
+    GET_SIMILAR_PRODUCTS_REJECTED,
+    CLEAR_SIMILAR_PRODUCTS,
+    GET_LIKE_PRODUCTS_PENDING,
+    GET_LIKE_PRODUCTS_FULFILLED,
+    GET_LIKE_PRODUCTS_REJECTED,
+    CLEAR_LIKE_PRODUCTS,
 } from "./type";
 
 const getProductPending = () => ({
@@ -29,34 +31,6 @@ const getProductFulfilled = (product) => ({
 
 const getProductRejected = (error) => ({
     type: GET_PRODUCT_REJECTED,
-    error: error,
-});
-
-const getSimilarProductsPending = () => ({
-    type: GET_SIMILAR_PRODUCTS_PENDING,
-});
-
-const getSimilarProductsFulfilled = (products) => ({
-    type: GET_SIMILAR_PRODUCTS_FULFILLED,
-    payload: products,
-});
-
-const getSimilarProductsRejected = (error) => ({
-    type: GET_SIMILAR_PRODUCTS_REJECTED,
-    error: error,
-});
-
-const getLikeProductsPending = () => ({
-    type: GET_LIKE_PRODUCTS_PENDING,
-});
-
-const getLikeProductsFulfilled = (products) => ({
-    type: GET_LIKE_PRODUCTS_FULFILLED,
-    payload: products,
-});
-
-const getLikeProductsRejected = (error) => ({
-    type: GET_LIKE_PRODUCTS_REJECTED,
     error: error,
 });
 
@@ -88,6 +62,42 @@ const deleteProductRejected = (error) => ({
     error: error,
 });
 
+const getSimilarProductsPending = () => ({
+    type: GET_SIMILAR_PRODUCTS_PENDING,
+});
+
+const getSimilarProductsFulfilled = (products) => ({
+    type: GET_SIMILAR_PRODUCTS_FULFILLED,
+    payload: products,
+});
+
+const getSimilarProductsRejected = (error) => ({
+    type: GET_SIMILAR_PRODUCTS_REJECTED,
+    error: error,
+});
+
+export const clearSimilarProducts = () => ({
+    type: CLEAR_SIMILAR_PRODUCTS,
+});
+
+const getLikeProductsPending = () => ({
+    type: GET_LIKE_PRODUCTS_PENDING,
+});
+
+const getLikeProductsFulfilled = (products) => ({
+    type: GET_LIKE_PRODUCTS_FULFILLED,
+    payload: products,
+});
+
+const getLikeProductsRejected = (error) => ({
+    type: GET_LIKE_PRODUCTS_REJECTED,
+    error: error,
+});
+
+export const clearLikeProducts = () => ({
+    type: CLEAR_LIKE_PRODUCTS,
+});
+
 export const getProduct = (productId) => async (dispatch) => {
     dispatch(getProductPending());
     try {
@@ -104,7 +114,7 @@ export const getSimilarProducts = (productId, page, pageSize) => async (dispatch
     dispatch(getSimilarProductsPending());
     try {
         const response = await axios.get(`/api/products/similar/${productId}?pageNumber=${page}&pageSize=${pageSize}`);
-        dispatch(getSimilarProductsFulfilled(response.data.content));
+        dispatch(getSimilarProductsFulfilled(response.data));
     } catch (error) {
         dispatch(getSimilarProductsRejected(error.response.data.error));
         console.log("Failed to fetch similar products", error);
@@ -116,7 +126,7 @@ export const getLikeProducts = (productId, page, pageSize) => async (dispatch) =
     dispatch(getLikeProductsPending());
     try {
         const response = await axios.get(`/api/products/like/${productId}?pageNumber=${page}&pageSize=${pageSize}`);
-        dispatch(getLikeProductsFulfilled(response.data.content));
+        dispatch(getLikeProductsFulfilled(response.data));
     } catch (error) {
         dispatch(getLikeProductsRejected(error.response.data.error));
         console.log("Failed to fetch like products", error);

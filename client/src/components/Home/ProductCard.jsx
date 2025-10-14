@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Star, Zap, Sparkles, Award, TrendingUp } from 'lucide-react'
 import { FaStar } from 'react-icons/fa'
+import { getProductUrl } from '../../utils/productUtils'
 
 const ProductCard = ({ product, index, style }) => {
 
@@ -16,7 +17,7 @@ const ProductCard = ({ product, index, style }) => {
     }
 
     return (
-        <Link to={`/product/${product.id}`}>
+        <Link to={getProductUrl(product)}>
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 input[type="checkbox"] {
     @apply appearance-none w-3 h-3 md:w-4 md:h-4 border border-primary-300 rounded outline-none cursor-pointer relative transition-all duration-200 ease-in-out;
 }
@@ -48,4 +47,21 @@ input[type="checkbox"]:disabled {
 }
 .animate-slideOutLeft {
   animation: slideOutLeft 0.18s cubic-bezier(.44,.96,.5,1.01) forwards;
+}
+
+.swiper-pagination-bullet {
+  @apply bg-primary-300 opacity-70;
+}
+.swiper-pagination-bullet-active {
+  @apply bg-primary-900 opacity-100;
+}
+
+@layer utilities {
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }

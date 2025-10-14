@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { addDays, format } from 'date-fns';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import SizeDropdown from '../../components/Cart/SizeDropdown';
+import { getProductUrl } from '../../utils/productUtils';
 
 const CartItemList = ({
     cartItems,
@@ -54,7 +55,7 @@ const CartItemList = ({
                                 <div className='flex flex-grow gap-4'>
                                     {/* Product Image */}
                                     <div className="flex-shrink-0 h-36 md:h-56 rounded-md overflow-hidden">
-                                        <Link to={`/product/${item.product.id}`}>
+                                        <Link to={getProductUrl(item.product)}>
                                             <img
                                                 src={item.product.preview}
                                                 alt={item.product.title}
